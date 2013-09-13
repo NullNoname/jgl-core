@@ -6,15 +6,49 @@
 	<version>2.4.4-SNAPSHOT</version>
 	<name>jGL Unofficial</name>
 	<description>An unofficial fork of jGL, a 3D graphics library. It removes all AWT dependencies and most of GUI-related GLUT functions.</description>
+
 	<licenses>
 		<license>
 			<name>GNU Lesser General Public License (LGPL)</name>
 			<url>https://www.gnu.org/licenses/lgpl.html</url>
 		</license>
 	</licenses>
+
+	<developers>
+		<developer>
+			<name>NullNoname</name>
+			<url>https://github.com/NullNoname</url>
+		</developer>
+		<developer>
+			<name>Robin Bing-Yu Chen</name>
+			<url>http://graphics.im.ntu.edu.tw/~robin</url>
+		</developer>
+	</developers>
+
+	<scm>
+		<url>https://github.com/NullNoname/jgl-core</url>
+		<connection>scm:git:git://github.com/NullNoname/jgl-core.git</connection>
+		<developerConnection>scm:git:git@github.com:NullNoname/jgl-core.git</developerConnection>
+	</scm>
+
+	<issueManagement>
+		<url>https://github.com/NullNoname/jgl-core/issues</url>
+		<system>GitHub Issues</system>
+	</issueManagement>
+
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>GitHub ${project.artifactId} Repository</name>
+			<url>https://raw.github.com/NullNoname/${project.artifactId}/mvn-repo</url>
+		</repository>
+	</distributionManagement>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<github.global.server>github</github.global.server>
 	</properties>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -36,6 +70,40 @@
 						<goals>
 							<goal>jar</goal>
 						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>site-maven-plugin</artifactId>
+				<version>0.8</version>
+				<configuration>
+					<message>Maven artifacts for ${project.version}</message> <!-- git commit message -->
+					<noJekyll>true</noJekyll> <!-- disable webpage processing -->
+					<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url above -->
+					<branch>refs/heads/mvn-repo</branch> <!-- remote branch name -->
+					<includes>
+						<include>**/*</include>
+					</includes>
+					<merge>true</merge> <!-- Don't overwrite previous artifact -->
+					<repositoryName>jgl-core</repositoryName> <!-- github repo name -->
+					<repositoryOwner>NullNoname</repositoryOwner> <!-- github username  -->
+					<dryRun>true</dryRun>
+				</configuration>
+				<executions>
+					<!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
+					<execution>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<phase>deploy</phase>
 					</execution>
 				</executions>
 			</plugin>
