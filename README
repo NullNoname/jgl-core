@@ -1,0 +1,74 @@
+jGL Unofficial (jgl-core)
+
+Copyright (C) 2013 NullNoname
+Copyright (C) 1996-2006 Robin Bing-Yu Chen
+
+Original README file is available as "README.original" in the root directory.
+
+INTRODUCTION
+============
+jGL Unofficial (jgl-core) is an unofficial fork of jGL, a 3D graphics library
+that doesn't require video cards or native libraries.
+
+jGL is a 3D Graphics Library for Java* programming language with an API which
+is similar to that of OpenGL**. jGL has not supported all the OpenGL functions,
+but the usually used ones.
+
+This fork removes all AWT dependencies and most of GUI-related GLUT functions.
+This change makes it possible to use jGL under the places where AWT is missing
+such as text-consoles or Android***.
+
+This fork is compilable with 6u45 with Java 1.5 target.
+I think it's still compatible with real Java 1.5 SDKs,
+as this fork doesn't use any new features from Java 1.6.
+
+jGL Unofficial (jgl-core) is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public License as
+published by the Free Software Foundation.
+Please refer to the LICENSE file or the following site for licensing details.
+https://www.gnu.org/licenses/lgpl.html
+
+* Oracle and Java are registered trademarks of Oracle and/or its affiliates.
+  Other names may be trademarks of their respective owners.
+** OpenGL(R) is a registered trademark owned by Silicon Graphics, Inc.
+*** Android(TM) is a registered trademark of Google, Inc.
+
+MAIN CHANGES
+============
+*Package name changed from "jgl" to "com.github.nullnoname.jgl.core".
+ This is done because this fork is not API compatible with the original.
+
+*There are no GLCanvas, GLApplet, or jgl.glut.glut_menu in this fork.
+ They are removed because of heavy AWT dependencies.
+
+*GUI related functions are removed, mainly from GLUT.
+
+*GL.getImageBuffer() is added in order to access the screen buffer.
+ You can create MemoryImageSource by using it:
+     new MemoryImageSource(width, height, myGL.getImageBuffer(), 0, width);
+
+*The original jGL printed all error messages to System.out.
+ This fork adds a logger class (JGLLogger) and sends errors to it instead.
+ By default all error messages are sent to System.err, but you can change it
+ by writing your own JGLLogger implementation and pass it to GL constructor:
+     new GL(new YourJGLLogger());
+
+AUTHORS
+=======
+jGL Unofficial (jgl-core): NullNoname
+Original jGL Codes: Robin Bing-Yu Chen
+
+ORIGINAL jGL WEBSITE
+====================
+http://www.cmlab.csie.ntu.edu.tw/~robin/JavaGL/
+
+HOW TO COMPILE THE SOURCE CODES
+===============================
+Unlike original jGL it doesn't use Makefiles. This fork uses Maven instead.
+Setup JDK and Maven, then execute "mvn package".
+Alternatively, just import whole source into your IDE; it doesn't
+contain any third-party dependencies.
+
+------------------------------------------------------------------------
+Sep. 13, 2013 by NullNoname
+Nov. 26, 2006 by Robin Bing-Yu Chen at NTU......
