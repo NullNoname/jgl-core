@@ -17,9 +17,9 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context;
+package com.github.nullnoname.jgl.core.context;
 
-import jgl.GL;
+import java.io.Serializable;
 
 /**
  * gl_select is the selection class of JavaGL 2.1.
@@ -28,9 +28,10 @@ import jgl.GL;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_select {
+public class gl_select implements Serializable {
 
-    public int Buffer [];
+    private static final long serialVersionUID = -5115102002540963150L;
+	public int Buffer [];
     public int BufferSize = 0;	/* size of Buffer */
     public int BufferCount = 0;	/* number of values in Buffer */
     public int Hits = 0;	/* number of records in Buffer */
@@ -95,8 +96,8 @@ public class gl_select {
 	    /* HitMinZ and HitMaxZ are in [0,1].  Multiply these values by */
 	    /* Integer.MAX_VALUE and round to nearest unsigned integer. */
 
-	    zmin = (int)((float) Integer.MAX_VALUE * HitMinZ);
-	    zmax = (int)((float) Integer.MAX_VALUE * HitMaxZ);
+	    zmin = (int)(Integer.MAX_VALUE * HitMinZ);
+	    zmax = (int)(Integer.MAX_VALUE * HitMaxZ);
 
 	    Buffer [BufferCount++] = NameStackDepth;
 	    Buffer [BufferCount++] = zmin;

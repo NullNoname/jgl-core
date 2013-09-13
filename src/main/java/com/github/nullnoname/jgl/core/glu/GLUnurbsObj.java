@@ -17,10 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glu;
+package com.github.nullnoname.jgl.core.glu;
 
-import jgl.GL;
-import jgl.GLU;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.GL;
+import com.github.nullnoname.jgl.core.GLU;
 
 /**
  * GLUnurbsObj is NURBS object of the GLU class of JavaGL 2.1.
@@ -29,9 +31,10 @@ import jgl.GLU;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class GLUnurbsObj {
+public class GLUnurbsObj implements Serializable {
 
-    private GL  JavaGL;
+    private static final long serialVersionUID = -7915812439050909570L;
+	private GL  JavaGL;
     private GLU JavaGLU;
 
     public static final int GLU_NURBS_CURVE		= 0;
@@ -67,12 +70,11 @@ public class GLUnurbsObj {
 
 //    public nurbs_trim trim;
 
-    private void set_new_t_min_t_max (nurbs_knot geom_knot, 
+    private void set_new_t_min_t_max (nurbs_knot geom_knot,
 				      nurbs_knot color_knot,
 				      nurbs_knot normal_knot,
 				      nurbs_knot texture_knot,
 				      float max_min_knot, float min_max_knot) {
-	int t_min, t_max, cnt;
 
 	if (geom_knot.unified_nknots != 0) {
 	    geom_knot.set_new_min_max (max_min_knot, min_max_knot);
@@ -98,7 +100,6 @@ public class GLUnurbsObj {
 					    nurbs_knot texture_knot) {
 	int max_nknots;
 	float max_min_knot, min_max_knot;
-	int i;
 
 	max_nknots = geom_knot.nknots;
 	if (color_knot.unified_nknots  !=0) {max_nknots += color_knot.nknots;}
@@ -191,7 +192,7 @@ public class GLUnurbsObj {
 	nurbs_knot normal_knot  = new nurbs_knot ();
 	nurbs_knot texture_knot = new nurbs_knot ();
 
-	int err = curve.fill_knot (geom_knot,   color_knot,  
+	int err = curve.fill_knot (geom_knot,   color_knot,
 				   normal_knot, texture_knot);
 	if (err != GLU.GLU_NO_ERROR) { glu_error (err); return GLU.GLU_ERROR; }
 
@@ -298,12 +299,10 @@ public class GLUnurbsObj {
     }
 
     private void sampling_2d (nurbs_ct_curvs new_ctrl, int factors []) {
-	float ctrl [][];
 	int tmp_factor;
 	int i;
 
 	glu_set_sampling_matrices ();
-	ctrl = new_ctrl.geom.ctrl;
 	for (i = 0; i < new_ctrl.bezier_cnt; i++) {
 	    tmp_factor = calc_factor (new_ctrl.geom.ctrl,
 				      curve.geom.c.order,
@@ -475,8 +474,9 @@ public class GLUnurbsObj {
 
     public void glu_error (int err) {
 	error = err;
-	System.out.print ("NURBS error " + err + " ");
-	GLU.gluErrorString (err);
+	//System.out.print ("NURBS error " + err + " ");
+	//GLU.gluErrorString (err);
+	JavaGL.getLogger().logError("NURBS error " + err + " " + GLU.gluErrorString(err));
     }
 
     public void glu_load_sampling_matrices (float modelMatrix [],
@@ -729,8 +729,11 @@ public class GLUnurbsObj {
 	}
     }
 
+    /**
+     * Dummy constructor. Please call new GLUnurbsObj (yourGL, yourGLU).
+     */
     public GLUnurbsObj () {
-	System.out.println ("Please call new GLUnurbsObj (yourGL, yourGLU)");
+	//System.out.println ("Please call new GLUnurbsObj (yourGL, yourGLU)");
     }
 
     public GLUnurbsObj (GL myGL, GLU myGLU) {

@@ -17,10 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.gle.geometry;
+package com.github.nullnoname.jgl.core.gle.geometry;
 
-import jgl.gle.gle_context;
-import jgl.gle.gle_pointer;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.gle.gle_context;
+import com.github.nullnoname.jgl.core.gle.gle_pointer;
 
 /**
  * gle_phong_z_geo is the geometry class for phong shading with depth value of jGL 2.5.
@@ -29,9 +31,11 @@ import jgl.gle.gle_pointer;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gle_phong_z_geo extends gle_phong_geo {
+public class gle_phong_z_geo extends gle_phong_geo implements Serializable {
 
-    protected void draw_point (float p [], int i) {
+    private static final long serialVersionUID = 1291769371734143676L;
+
+	protected void draw_point (float p [], int i) {
 	CR.pixel.put_pixel ((int)(p[0]+(float)0.5), (int)(p[1]+(float)0.5), p[2],
 			    get_color(i));
     }

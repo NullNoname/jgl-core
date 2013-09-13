@@ -17,13 +17,15 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.render.pixel;
+package com.github.nullnoname.jgl.core.context.render.pixel;
 
-import jgl.context.gl_context;
-import jgl.context.gl_pointer;
-import jgl.context.gl_vertex;
+import java.io.Serializable;
 
-import jgl.context.clipping.gl_2d_clipping;
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_pointer;
+import com.github.nullnoname.jgl.core.context.gl_vertex;
+import com.github.nullnoname.jgl.core.context.clipping.gl_2d_clipping;
+
 
 /**
  * gl_stipple_line_pixel is the pixel class for stippled line of JavaGL 2.1.
@@ -32,9 +34,10 @@ import jgl.context.clipping.gl_2d_clipping;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_stipple_line_pixel extends gl_stipple_pixel {
+public class gl_stipple_line_pixel extends gl_stipple_pixel implements Serializable {
 
-    private gl_pointer CR;
+    private static final long serialVersionUID = 4438086469208715506L;
+	private gl_pointer CR;
     private gl_2d_clipping clip;
     private float width [];
     private int repeat;

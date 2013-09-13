@@ -17,15 +17,15 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib;
+package com.github.nullnoname.jgl.core.context.attrib;
 
-// import java.lang.System;
+import java.io.Serializable;
 
-import jgl.GL;
-// import jgl.context.gl_list_item;
-import jgl.context.gl_util;
-import jgl.context.gl_image;
-import jgl.context.attrib.texture.*;
+import com.github.nullnoname.jgl.core.GL;
+import com.github.nullnoname.jgl.core.context.gl_image;
+import com.github.nullnoname.jgl.core.context.gl_util;
+import com.github.nullnoname.jgl.core.context.attrib.texture.gl_texture_gen;
+import com.github.nullnoname.jgl.core.context.attrib.texture.gl_texture_obj;
 
 /**
  * gl_texture is the texturing class of jGL 2.4.
@@ -34,7 +34,7 @@ import jgl.context.attrib.texture.*;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_texture {
+public class gl_texture implements Serializable {
 
 /*
     public static final int TEXTURE_1D = 1;
@@ -47,7 +47,8 @@ public class gl_texture {
     public static final int T_BIT = 8;
 */
 
-    /** GL_TEXTURE_x: True if x-D texturing enabled (x is 1D, 2D, or 3D) */
+    private static final long serialVersionUID = -5815062215400657263L;
+	/** GL_TEXTURE_x: True if x-D texturing enabled (x is 1D, 2D, or 3D) */
     public boolean Enable1D = false;
     public boolean Enable2D = false;
     public boolean Enable3D = false;
@@ -95,7 +96,7 @@ public class gl_texture {
 	    case GL.GL_TEXTURE_3D: return (Enable3D);
 	} return false;
     }
-    
+
     public boolean tex_enable (int state) {
 	if ((state & 1)!=0) Enable1D = true; else Enable1D = false;
 	if ((state & 2)!=0) Enable2D = true; else Enable2D = false;
@@ -110,7 +111,7 @@ public class gl_texture {
 	    case GL.GL_TEXTURE_3D: Enable3D = state; break;
 	} return check_tex ();
     }
-    
+
     public int is_tex_gen_enabled () {
     	int GenEnabled = 0;
     	if (CurrentQ.Enable) GenEnabled = GenEnabled | 1;
@@ -119,7 +120,7 @@ public class gl_texture {
     	if (CurrentT.Enable) GenEnabled = GenEnabled | 8;
     	return GenEnabled;
     }
-    
+
     public boolean is_tex_gen_enabled (int cap) {
     	switch (cap) {
     	    case GL.GL_TEXTURE_GEN_Q: return (CurrentQ.Enable);
@@ -128,14 +129,14 @@ public class gl_texture {
     	    case GL.GL_TEXTURE_GEN_T: return (CurrentT.Enable);
 	} return false;
     }
-    
+
     public void tex_gen_enable (int state) {
 	if ((state & 1)!=0) CurrentQ.Enable=true; else CurrentQ.Enable=false;
 	if ((state & 2)!=0) CurrentR.Enable=true; else CurrentR.Enable=false;
 	if ((state & 4)!=0) CurrentS.Enable=true; else CurrentS.Enable=false;
 	if ((state & 8)!=0) CurrentT.Enable=true; else CurrentT.Enable=false;
     }
-    
+
     public void tex_gen_enable (int cap, boolean state) {
     	switch (cap) {
     	    case GL.GL_TEXTURE_GEN_Q: CurrentQ.Enable = state; break;
@@ -253,7 +254,7 @@ public class gl_texture {
 	    i[1] = (i[0] + 1) & (w - 1);
 	} else { // CurrentObj.WrapS == GL.GL_CLAMP
 	    i[0] = (int)Math.floor (u);
-	    if (i[0] < 0) i[0] = 0; 
+	    if (i[0] < 0) i[0] = 0;
 	    if (i[0] >= (w-1)) i[0] = w - 2;
 	    i[1] = i[0] + 1;
 	}
@@ -274,12 +275,12 @@ public class gl_texture {
 
 	int rgb [] = new int [3];
 
-	rgb[0]=(int)(((float)(img.ImageData[i[0]][0][0][0]&0x000000ff))*w000+
-		     ((float)(img.ImageData[i[1]][0][0][0]&0x000000ff))*w001);
-	rgb[1]=(int)(((float)(img.ImageData[i[0]][0][0][1]&0x000000ff))*w000+
-		     ((float)(img.ImageData[i[1]][0][0][1]&0x000000ff))*w001);
-	rgb[2]=(int)(((float)(img.ImageData[i[0]][0][0][2]&0x000000ff))*w000+
-		     ((float)(img.ImageData[i[1]][0][0][2]&0x000000ff))*w001);
+	rgb[0]=(int)((img.ImageData[i[0]][0][0][0]&0x000000ff)*w000+
+		     (img.ImageData[i[1]][0][0][0]&0x000000ff)*w001);
+	rgb[1]=(int)((img.ImageData[i[0]][0][0][1]&0x000000ff)*w000+
+		     (img.ImageData[i[1]][0][0][1]&0x000000ff)*w001);
+	rgb[2]=(int)((img.ImageData[i[0]][0][0][2]&0x000000ff)*w000+
+		     (img.ImageData[i[1]][0][0][2]&0x000000ff)*w001);
 
 	return gl_util.RGBtoI(rgb[0], rgb[1], rgb[2]);
     }
@@ -300,18 +301,18 @@ public class gl_texture {
 
 	int rgb [] = new int [3];
 
-	rgb[0]=(int)(((float)(img.ImageData[i[0]][j[0]][0][0]&0x000000ff))*w000+
-		     ((float)(img.ImageData[i[1]][j[0]][0][0]&0x000000ff))*w001+
-		     ((float)(img.ImageData[i[0]][j[1]][0][0]&0x000000ff))*w010+
-		     ((float)(img.ImageData[i[1]][j[1]][0][0]&0x000000ff))*w011);
-	rgb[1]=(int)(((float)(img.ImageData[i[0]][j[0]][0][1]&0x000000ff))*w000+
-		     ((float)(img.ImageData[i[1]][j[0]][0][1]&0x000000ff))*w001+
-		     ((float)(img.ImageData[i[0]][j[1]][0][1]&0x000000ff))*w010+
-		     ((float)(img.ImageData[i[1]][j[1]][0][1]&0x000000ff))*w011);
-	rgb[2]=(int)(((float)(img.ImageData[i[0]][j[0]][0][2]&0x000000ff))*w000+
-		     ((float)(img.ImageData[i[1]][j[0]][0][2]&0x000000ff))*w001+
-		     ((float)(img.ImageData[i[0]][j[1]][0][2]&0x000000ff))*w010+
-		     ((float)(img.ImageData[i[1]][j[1]][0][2]&0x000000ff))*w011);
+	rgb[0]=(int)((img.ImageData[i[0]][j[0]][0][0]&0x000000ff)*w000+
+		     (img.ImageData[i[1]][j[0]][0][0]&0x000000ff)*w001+
+		     (img.ImageData[i[0]][j[1]][0][0]&0x000000ff)*w010+
+		     (img.ImageData[i[1]][j[1]][0][0]&0x000000ff)*w011);
+	rgb[1]=(int)((img.ImageData[i[0]][j[0]][0][1]&0x000000ff)*w000+
+		     (img.ImageData[i[1]][j[0]][0][1]&0x000000ff)*w001+
+		     (img.ImageData[i[0]][j[1]][0][1]&0x000000ff)*w010+
+		     (img.ImageData[i[1]][j[1]][0][1]&0x000000ff)*w011);
+	rgb[2]=(int)((img.ImageData[i[0]][j[0]][0][2]&0x000000ff)*w000+
+		     (img.ImageData[i[1]][j[0]][0][2]&0x000000ff)*w001+
+		     (img.ImageData[i[0]][j[1]][0][2]&0x000000ff)*w010+
+		     (img.ImageData[i[1]][j[1]][0][2]&0x000000ff)*w011);
 
 	return gl_util.RGBtoI(rgb[0], rgb[1], rgb[2]);
     }
@@ -338,30 +339,30 @@ public class gl_texture {
 
 	int rgb [] = new int [3];
 
-	rgb[0]=(int)(((float)(img.ImageData[i[0]][j[0]][k[0]][0]&0x000000ff))*w000+
-		     ((float)(img.ImageData[i[1]][j[0]][k[0]][0]&0x000000ff))*w001+
-		     ((float)(img.ImageData[i[0]][j[1]][k[0]][0]&0x000000ff))*w010+
-		     ((float)(img.ImageData[i[1]][j[1]][k[0]][0]&0x000000ff))*w011+
-		     ((float)(img.ImageData[i[0]][j[0]][k[1]][0]&0x000000ff))*w100+
-		     ((float)(img.ImageData[i[1]][j[0]][k[1]][0]&0x000000ff))*w101+
-		     ((float)(img.ImageData[i[0]][j[1]][k[1]][0]&0x000000ff))*w110+
-		     ((float)(img.ImageData[i[1]][j[1]][k[1]][0]&0x000000ff))*w111);
-	rgb[1]=(int)(((float)(img.ImageData[i[0]][j[0]][k[0]][1]&0x000000ff))*w000+
-		     ((float)(img.ImageData[i[1]][j[0]][k[0]][1]&0x000000ff))*w001+
-		     ((float)(img.ImageData[i[0]][j[1]][k[0]][1]&0x000000ff))*w010+
-		     ((float)(img.ImageData[i[1]][j[1]][k[0]][1]&0x000000ff))*w011+
-		     ((float)(img.ImageData[i[0]][j[0]][k[1]][1]&0x000000ff))*w100+
-		     ((float)(img.ImageData[i[1]][j[0]][k[1]][1]&0x000000ff))*w101+
-		     ((float)(img.ImageData[i[0]][j[1]][k[1]][1]&0x000000ff))*w110+
-		     ((float)(img.ImageData[i[1]][j[1]][k[1]][1]&0x000000ff))*w111);
-	rgb[2]=(int)(((float)(img.ImageData[i[0]][j[0]][k[0]][2]&0x000000ff))*w000+
-		     ((float)(img.ImageData[i[1]][j[0]][k[0]][2]&0x000000ff))*w001+
-		     ((float)(img.ImageData[i[0]][j[1]][k[0]][2]&0x000000ff))*w010+
-		     ((float)(img.ImageData[i[1]][j[1]][k[0]][2]&0x000000ff))*w011+
-		     ((float)(img.ImageData[i[0]][j[0]][k[1]][2]&0x000000ff))*w100+
-		     ((float)(img.ImageData[i[1]][j[0]][k[1]][2]&0x000000ff))*w101+
-		     ((float)(img.ImageData[i[0]][j[1]][k[1]][2]&0x000000ff))*w110+
-		     ((float)(img.ImageData[i[1]][j[1]][k[1]][2]&0x000000ff))*w111);
+	rgb[0]=(int)((img.ImageData[i[0]][j[0]][k[0]][0]&0x000000ff)*w000+
+		     (img.ImageData[i[1]][j[0]][k[0]][0]&0x000000ff)*w001+
+		     (img.ImageData[i[0]][j[1]][k[0]][0]&0x000000ff)*w010+
+		     (img.ImageData[i[1]][j[1]][k[0]][0]&0x000000ff)*w011+
+		     (img.ImageData[i[0]][j[0]][k[1]][0]&0x000000ff)*w100+
+		     (img.ImageData[i[1]][j[0]][k[1]][0]&0x000000ff)*w101+
+		     (img.ImageData[i[0]][j[1]][k[1]][0]&0x000000ff)*w110+
+		     (img.ImageData[i[1]][j[1]][k[1]][0]&0x000000ff)*w111);
+	rgb[1]=(int)((img.ImageData[i[0]][j[0]][k[0]][1]&0x000000ff)*w000+
+		     (img.ImageData[i[1]][j[0]][k[0]][1]&0x000000ff)*w001+
+		     (img.ImageData[i[0]][j[1]][k[0]][1]&0x000000ff)*w010+
+		     (img.ImageData[i[1]][j[1]][k[0]][1]&0x000000ff)*w011+
+		     (img.ImageData[i[0]][j[0]][k[1]][1]&0x000000ff)*w100+
+		     (img.ImageData[i[1]][j[0]][k[1]][1]&0x000000ff)*w101+
+		     (img.ImageData[i[0]][j[1]][k[1]][1]&0x000000ff)*w110+
+		     (img.ImageData[i[1]][j[1]][k[1]][1]&0x000000ff)*w111);
+	rgb[2]=(int)((img.ImageData[i[0]][j[0]][k[0]][2]&0x000000ff)*w000+
+		     (img.ImageData[i[1]][j[0]][k[0]][2]&0x000000ff)*w001+
+		     (img.ImageData[i[0]][j[1]][k[0]][2]&0x000000ff)*w010+
+		     (img.ImageData[i[1]][j[1]][k[0]][2]&0x000000ff)*w011+
+		     (img.ImageData[i[0]][j[0]][k[1]][2]&0x000000ff)*w100+
+		     (img.ImageData[i[1]][j[0]][k[1]][2]&0x000000ff)*w101+
+		     (img.ImageData[i[0]][j[1]][k[1]][2]&0x000000ff)*w110+
+		     (img.ImageData[i[1]][j[1]][k[1]][2]&0x000000ff)*w111);
 
 	return gl_util.RGBtoI(rgb[0], rgb[1], rgb[2]);
     }
@@ -420,12 +421,12 @@ public class gl_texture {
 	rgb [1][1] = c2 & 0x0000ff00;
 	rgb [1][0] = c2 & 0x000000ff;
 
-	rgb [0][0] = (int)(((float)rgb[1][0])*((float)1.0-f)+
-	    		    ((float)rgb[0][0])*f);
-	rgb [0][1] = (int)(((float)rgb[1][1])*((float)1.0-f)+
-	    		   ((float)rgb[0][1])*f);
-	rgb [0][2] = (int)(((float)rgb[1][2])*((float)1.0-f)+
-	    		   ((float)rgb[0][2])*f);
+	rgb [0][0] = (int)(rgb[1][0]*((float)1.0-f)+
+	    		    rgb[0][0]*f);
+	rgb [0][1] = (int)(rgb[1][1]*((float)1.0-f)+
+	    		   rgb[0][1]*f);
+	rgb [0][2] = (int)(rgb[1][2]*((float)1.0-f)+
+	    		   rgb[0][2]*f);
 
 	return gl_util.RGBtoI(rgb[0][0], rgb[0][1], rgb[0][2]);
     }
@@ -533,10 +534,12 @@ public class gl_texture {
 		    if (Enable3D) return tex_mid_nearest_linear_3d (s, t, r, l);
 		    if (Enable2D) return tex_mid_nearest_linear_2d (s, t,    l);
 		    if (Enable1D) return tex_mid_nearest_linear_1d (s,       l);
+		    //$FALL-THROUGH$
 	        case GL.GL_LINEAR_MIPMAP_LINEAR:
 		    if (Enable3D) tex_mid_linear_linear_3d (s, t, r, l);
 		    if (Enable2D) tex_mid_linear_linear_2d (s, t,    l);
 		    if (Enable1D) tex_mid_linear_linear_1d (s,       l);
+		    //$FALL-THROUGH$
 	        default:
 	            return 0;
 	    }
@@ -564,8 +567,8 @@ public class gl_texture {
 	rho = Math.max (Math.max (r1, r2), r3) / w;
 
 	if (rho < 0) { rho = -rho; }
-	if (rho == 0) { return 0; } 
-	
+	if (rho == 0) { return 0; }
+
 	return ((float)(Math.log(rho)*1.442695)); // 1.442695=1/log2
     }
 

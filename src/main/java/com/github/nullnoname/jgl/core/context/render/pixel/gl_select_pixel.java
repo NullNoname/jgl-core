@@ -17,9 +17,11 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.render.pixel;
+package com.github.nullnoname.jgl.core.context.render.pixel;
 
-import jgl.context.gl_context;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
 
 /**
  * gl_select_pixel is the pixel rendering class for selection of JavaGL 2.1.
@@ -28,9 +30,11 @@ import jgl.context.gl_context;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_select_pixel extends gl_render_pixel {
+public class gl_select_pixel extends gl_render_pixel implements Serializable {
 
-    public void put_pixel (int x, int y, float z, int color) {
+    private static final long serialVersionUID = 8615795123284697989L;
+
+	public void put_pixel (int x, int y, float z, int color) {
 	CC.Select.update_hit_flag (z);
     }
 

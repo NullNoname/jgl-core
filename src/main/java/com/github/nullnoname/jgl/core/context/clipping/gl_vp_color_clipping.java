@@ -17,10 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.clipping;
+package com.github.nullnoname.jgl.core.context.clipping;
 
-import jgl.context.gl_context;
-import jgl.context.gl_vertex;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_vertex;
 
 /**
  * gl_vp_color_clipping is the clipping class for viewport with color of
@@ -30,9 +32,11 @@ import jgl.context.gl_vertex;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_vp_color_clipping extends gl_vp_clipping {
+public class gl_vp_color_clipping extends gl_vp_clipping implements Serializable {
 
-    protected gl_vertex inter_point_pos (gl_vertex v1, gl_vertex v2, int xy) {
+    private static final long serialVersionUID = -2192542783264423879L;
+
+	protected gl_vertex inter_point_pos (gl_vertex v1, gl_vertex v2, int xy) {
 	gl_vertex temp = super.inter_point_pos (v1, v2, xy);
 	temp.Color = inter_color (v1, v2);
 	return temp;

@@ -17,7 +17,9 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib.eval;
+package com.github.nullnoname.jgl.core.context.attrib.eval;
+
+import java.io.Serializable;
 
 /**
  * gl_eval_map1 is the evaluator 1D map class of JavaGL 2.1.
@@ -26,9 +28,11 @@ package jgl.context.attrib.eval;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_eval_map1 {
+public class gl_eval_map1 implements Serializable {
 
-    /** GL_ORDER: 1D map order */
+    private static final long serialVersionUID = 6691388742007159378L;
+
+	/** GL_ORDER: 1D map order */
     public int Order = 1;
 
     /** GL_COEFF: 1D control points */

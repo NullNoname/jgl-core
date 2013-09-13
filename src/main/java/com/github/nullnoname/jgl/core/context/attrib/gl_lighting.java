@@ -17,14 +17,14 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib;
+package com.github.nullnoname.jgl.core.context.attrib;
 
-import java.lang.System;
+import java.io.Serializable;
 
-import jgl.GL;
-
-import jgl.context.gl_util;
-import jgl.context.attrib.lighting.*;
+import com.github.nullnoname.jgl.core.GL;
+import com.github.nullnoname.jgl.core.context.gl_util;
+import com.github.nullnoname.jgl.core.context.attrib.lighting.gl_light;
+import com.github.nullnoname.jgl.core.context.attrib.lighting.gl_material;
 
 /**
  * gl_lighting is the lighting class of jGL 2.4.
@@ -33,9 +33,11 @@ import jgl.context.attrib.lighting.*;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_lighting {
+public class gl_lighting implements Serializable {
 
-    /** GL_SHADE_MODEL: glShadeModel() setting */
+    private static final long serialVersionUID = 7850091873171805806L;
+
+	/** GL_SHADE_MODEL: glShadeModel() setting */
     public int ShadeModel = GL.GL_SMOOTH;
 
     /** GL_LIGHTING: True is lighting is enabled, also in gl_enable */
@@ -124,7 +126,7 @@ public class gl_lighting {
     }
 
     public int color_vertex (float vertex [], float normal []) {
-    	float R, G, B, A;
+    	float R, G, B;
 	float norm[] = new float [3];
 	float ambient[] = new float [3];
 	float diffuse[] = new float [3];
@@ -150,8 +152,6 @@ public class gl_lighting {
 	    LightModelAmbient[1] * Material[side].Ambient[1];
 	B = Material[side].Emission[2] +
 	    LightModelAmbient[2] * Material[side].Ambient[2];
-	A = Material[side].Diffuse[0];
-
 	if (side == 0) { // shade frontside
 	    norm [0] = normal [0];
 	    norm [1] = normal [1];
@@ -210,7 +210,7 @@ public class gl_lighting {
 			v [1] = -l [1];
 			v [2] = -l [2];
 			dot = gl_util.dot33 (v, Light [i].SpotDirection);
-			if (dot <= 0 || 
+			if (dot <= 0 ||
 			    Math.acos (dot) * RAD2DEG > Light [i].SpotCutoff) {
 			    /* Outside of cone */
 			    spotlight_effect = 0;
@@ -218,7 +218,7 @@ public class gl_lighting {
 			    spotlight_effect = (float)Math.pow (dot, Light [i].SpotExponent);
 			}
 		    }
-		
+
 		    /* Diffuse term */
 		    diffuse [0] = l_dot_norm * Light [i].Diffuse [0] *
 				  Material [side].Diffuse [0];

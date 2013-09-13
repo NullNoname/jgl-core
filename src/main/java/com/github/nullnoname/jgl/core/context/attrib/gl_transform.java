@@ -17,12 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib;
+package com.github.nullnoname.jgl.core.context.attrib;
 
-import java.lang.System;
+import java.io.Serializable;
 
-import jgl.GL;
-// import jgl.context.gl_list_item;
+import com.github.nullnoname.jgl.core.GL;
+
 
 /**
  * gl_transform is the transformation class of jGL 2.4.
@@ -31,9 +31,11 @@ import jgl.GL;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_transform {
+public class gl_transform implements Serializable {
 
-    /** GL_MATRIX_MODE: Current matrix mode */
+    private static final long serialVersionUID = 577056710013333884L;
+
+	/** GL_MATRIX_MODE: Current matrix mode */
     public int MatrixMode = GL.GL_MODELVIEW;
 
     /** GL_NORMALIZE: Current normal normalization, also gl_enable */

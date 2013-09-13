@@ -17,7 +17,9 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glu;
+package com.github.nullnoname.jgl.core.glu;
+
+import java.io.Serializable;
 
 /**
  * trim_list is one of the GLU class of JavaGL 2.1.
@@ -26,11 +28,14 @@ package jgl.glu;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class trim_list {
+public class trim_list implements Serializable {
 
-    public int type;
-    public pwl_curve p_curve;
-    public curve n_curve;
+    private static final long serialVersionUID = -7629943877304230687L;
+	public int type;
+    //public pwl_curve p_curve;
+    public nurbs_pwl_curve p_curve;	// Renamed?
+    //public curve n_curve;
+    public nurbs_curve n_curve;	// Renamed?
     public trim_list next;
 
 }

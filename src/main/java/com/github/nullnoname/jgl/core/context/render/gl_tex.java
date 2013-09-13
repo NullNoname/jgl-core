@@ -17,10 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.render;
+package com.github.nullnoname.jgl.core.context.render;
 
-import jgl.context.gl_context;
-import jgl.context.gl_vertex;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_vertex;
 
 /**
  * gl_tex is the rendering class for texturing of jGL 2.4.
@@ -29,9 +31,10 @@ import jgl.context.gl_vertex;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_tex extends gl_depth {
+public class gl_tex extends gl_depth implements Serializable {
 
-    // Members for Line
+    private static final long serialVersionUID = -4129203482357331755L;
+	// Members for Line
     protected float LineW []   = new float [2];
     protected float LineST[][] = new float [2][3];
     protected float w, dwdx = 0, dwdy = 0;
@@ -65,17 +68,17 @@ public class gl_tex extends gl_depth {
     }
 
     protected void init_tex_dx (int dx) {
-	dwdx =  (LineW[1]    -  LineW[0])   /(float)dx;
-	dsdx = (LineST[1][0] - LineST[0][0])/(float)dx;
-	dtdx = (LineST[1][1] - LineST[0][1])/(float)dx;
-	drdx = (LineST[1][2] - LineST[0][2])/(float)dx;
+	dwdx =  (LineW[1]    -  LineW[0])   /dx;
+	dsdx = (LineST[1][0] - LineST[0][0])/dx;
+	dtdx = (LineST[1][1] - LineST[0][1])/dx;
+	drdx = (LineST[1][2] - LineST[0][2])/dx;
     }
 
     protected void init_tex_dy (int dy) {
-	dwdy =  (LineW[1]    -  LineW[0])   /(float)dy;
-	dsdy = (LineST[1][0] - LineST[0][0])/(float)dy;
-	dtdy = (LineST[1][1] - LineST[0][1])/(float)dy;
-	drdy = (LineST[1][2] - LineST[0][2])/(float)dy;
+	dwdy =  (LineW[1]    -  LineW[0])   /dy;
+	dsdy = (LineST[1][0] - LineST[0][0])/dy;
+	dtdy = (LineST[1][1] - LineST[0][1])/dy;
+	drdy = (LineST[1][2] - LineST[0][2])/dy;
     }
 
     protected void init_dx (int dx) {
@@ -184,13 +187,13 @@ public class gl_tex extends gl_depth {
     }
 
     protected void init_tex_other (boolean delta, int dy) {
-	dwdxy = dwdx * (float)dy + dwdy;
+	dwdxy = dwdx * dy + dwdy;
 	if (delta) { dwdyy = dwdxy - dwdx; } else { dwdyy = dwdxy + dwdx; }
-	dsdxy = dsdx * (float)dy + dsdy;
+	dsdxy = dsdx * dy + dsdy;
 	if (delta) { dsdyy = dsdxy - dsdx; } else { dsdyy = dsdxy + dsdx; }
-	dtdxy = dtdx * (float)dy + dtdy;
+	dtdxy = dtdx * dy + dtdy;
 	if (delta) { dtdyy = dtdxy - dtdx; } else { dtdyy = dtdxy + dtdx; }
-	drdxy = drdx * (float)dy + drdy;
+	drdxy = drdx * dy + drdy;
 	if (delta) { drdyy = drdxy - drdx; } else { drdyy = drdxy + drdx; }
     }
 
@@ -221,7 +224,7 @@ public class gl_tex extends gl_depth {
     }
 
     protected void draw_horizontal_line (int y) {
-	draw_horizontal_line (LeftPoint, RightPoint, y, 
+	draw_horizontal_line (LeftPoint, RightPoint, y,
 			      LeftPointW, LeftPointS, LeftPointT, LeftPointR);
     }
 

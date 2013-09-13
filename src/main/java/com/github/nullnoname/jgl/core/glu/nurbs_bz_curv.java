@@ -17,9 +17,11 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glu;
+package com.github.nullnoname.jgl.core.glu;
 
-import jgl.GL;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.GL;
 
 /**
  * nurbs_bz_curv is one of the GLU NURBS class of JavaGL 2.1.
@@ -28,11 +30,11 @@ import jgl.GL;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class nurbs_bz_curv {
+public class nurbs_bz_curv implements Serializable {
 
-    private GL JavaGL;
+    private static final long serialVersionUID = 1586612995432351774L;
+	private GL JavaGL;
     private int fac [];
-    private int cnt;
 
     public void map (int s) {
 	JavaGL.glMapGrid1f (fac[s], (float)0.0, (float)1.0);
@@ -41,11 +43,13 @@ public class nurbs_bz_curv {
 
     public void set_property (int factors [], int bezier_cnt){
 	fac = factors;
-	cnt = bezier_cnt;
     }
 
+    /**
+     * Dummy constructor. Please call new nurbs_bz_curv (yourGL).
+     */
     public nurbs_bz_curv () {
-	System.out.println ("Please call new nurbs_bz_curv (yourGL)");
+	//System.out.println ("Please call new nurbs_bz_curv (yourGL)");
     }
 
     public nurbs_bz_curv (GL myGL) {

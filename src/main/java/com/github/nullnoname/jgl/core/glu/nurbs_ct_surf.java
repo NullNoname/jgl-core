@@ -17,9 +17,11 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glu;
+package com.github.nullnoname.jgl.core.glu;
 
-import jgl.GL;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.GL;
 
 /**
  * nurbs_ct_surf is one of the GLU NURBS class of JavaGL 2.1.
@@ -28,9 +30,10 @@ import jgl.GL;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class nurbs_ct_surf {
+public class nurbs_ct_surf implements Serializable {
 
-    public float ctrl [][][] = null;
+    private static final long serialVersionUID = -5524834700286411856L;
+	public float ctrl [][][] = null;
     public int   s_stride;
     public int   t_stride;
     public float offsets [][][][][] = null;
@@ -40,7 +43,7 @@ public class nurbs_ct_surf {
     public void draw (GL JavaGL, nurbs_surface surf, int i, int j) {
 	JavaGL.glMap2f (surf.type, 0, 1, s_stride, surf.s.order,
 				   0, 1, t_stride, surf.t.order, offsets[i][j]);
-    } 
+    }
 
     public void augment (int s, int t, nurbs_surface surf) {
 	int i, j, k, l;

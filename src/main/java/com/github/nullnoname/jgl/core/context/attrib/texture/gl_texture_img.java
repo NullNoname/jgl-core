@@ -17,10 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib.texture;
+package com.github.nullnoname.jgl.core.context.attrib.texture;
 
-import jgl.context.gl_util;
-import jgl.context.gl_image;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_image;
+import com.github.nullnoname.jgl.core.context.gl_util;
 
 /**
  * gl_texture_img is the texturing x-D texture image at LOD i class of jGL 2.4.
@@ -29,9 +31,11 @@ import jgl.context.gl_image;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_texture_img {
+public class gl_texture_img implements Serializable {
 
-    /** GL_TEXTURE_WIDTH: x-D texture image i's width */
+    private static final long serialVersionUID = 5630721590183434825L;
+
+	/** GL_TEXTURE_WIDTH: x-D texture image i's width */
     public int Width = 0;
 
     /** GL_TEXTURE_HEIGHT: x-D texture image i's height */

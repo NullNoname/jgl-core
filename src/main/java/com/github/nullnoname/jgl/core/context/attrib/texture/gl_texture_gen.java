@@ -17,13 +17,13 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib.texture;
+package com.github.nullnoname.jgl.core.context.attrib.texture;
 
-import java.lang.Math;
-import java.lang.System;
+import java.io.Serializable;
 
-import jgl.GL;
-import jgl.context.gl_util;
+import com.github.nullnoname.jgl.core.GL;
+import com.github.nullnoname.jgl.core.context.gl_util;
+
 
 /**
  * gl_texture_gen is the texgen class of jGL 2.3.
@@ -32,9 +32,11 @@ import jgl.context.gl_util;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_texture_gen {
+public class gl_texture_gen implements Serializable {
 
-    /** GL_TEXTURE_GEN_x: Texgen enabled */
+    private static final long serialVersionUID = 514748639250629542L;
+
+	/** GL_TEXTURE_GEN_x: Texgen enabled */
     public boolean Enable = false;
 
     /** GL_EYE_LINEAR: Texgen plane equation coefficients */
@@ -53,7 +55,7 @@ public class gl_texture_gen {
 	    System.arraycopy (params, 0, EyeLinear, 0, 4);
 	}
     }
- 
+
     public float get_tex_gen_coord (float obj[], float eye[]) {
 	switch (Mode) {
 	    case GL.GL_OBJECT_LINEAR:
@@ -64,7 +66,7 @@ public class gl_texture_gen {
 		return 0;
 	}
     }
-  
+
     public float get_tex_gen_coord (float obj[], float eye[], float nor[]) {
 	switch (Mode) {
 	    case GL.GL_OBJECT_LINEAR:

@@ -17,15 +17,13 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib;
+package com.github.nullnoname.jgl.core.context.attrib;
 
-import java.lang.Object;
-import java.lang.System;
+import java.io.Serializable;
 
-import jgl.GL;
-import jgl.context.gl_context;
-// import jgl.context.gl_list_item;
-// import jgl.context.gl_util;
+import com.github.nullnoname.jgl.core.GL;
+import com.github.nullnoname.jgl.core.context.gl_context;
+
 
 /**
  * gl_colorbuffer is the color buffer class of jGL 2.4.
@@ -34,9 +32,11 @@ import jgl.context.gl_context;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_colorbuffer {
+public class gl_colorbuffer implements Serializable {
 
-    private gl_context CC;
+    private static final long serialVersionUID = 7865673565235439225L;
+
+	private gl_context CC;
 
     /** GL_DRAW_BUFFER: Buffers selected for drawing */
     public int DrawBuffer;
@@ -98,11 +98,11 @@ public class gl_colorbuffer {
 	ClearColor [1] = g;
 	ClearColor [2] = b;
 	ClearColor [3] = a;
-	IntClearColor = 0xff000000 | ((int)(r*(float)255.0)) << 16 | 
+	IntClearColor = 0xff000000 | ((int)(r*(float)255.0)) << 16 |
 				     ((int)(g*(float)255.0)) <<  8 |
 				     ((int)(b*(float)255.0));
     }
-    
+
     public void set_color_mask (boolean r, boolean g, boolean b, boolean a) {
 /*
 	RedMask = r;
@@ -126,7 +126,7 @@ public class gl_colorbuffer {
 	    Buffer [i] = IntClearColor;
 	}
     }
-    
+
     private void set_pixel (int x, int y, int i,
 			    byte pixels [][][], byte value) {
 	pixels[x][y][i] = value;
@@ -139,12 +139,12 @@ public class gl_colorbuffer {
 
     private void set_pixel (int x, int y, int i,
 			    int pixels [][][], byte value) {
-	pixels[x][y][i] = (int)(value & 0x000000ff);
+	pixels[x][y][i] = (value & 0x000000ff);
     }
 
     private void set_pixel (int x, int y, int i,
 			    float pixels [][][], byte value) {
-	pixels[x][y][i] = ((float)value)/255.0f;
+	pixels[x][y][i] = value/255.0f;
     }
 
     private void set_pixel (int x, int y, int i, int s,
@@ -154,7 +154,7 @@ public class gl_colorbuffer {
     	if (s == 32) set_pixel (x, y, i, (int  [][][])pixels, value);
     	if (s == 64) set_pixel (x, y, i, (float[][][])pixels, value);
     }
-    
+
     private byte get_pixel (int x, int y, int i, byte pixels [][][]) {
 	return pixels[x][y][i];
     }
@@ -178,16 +178,16 @@ public class gl_colorbuffer {
     	if (s == 64) return get_pixel (x, y, i, (float[][][])pixels);
 	return 0;
     }
-    
+
     private byte cal_lum (byte r, byte g, byte b) {
-    	return (byte)(((int)r+(int)g+(int)b)/3);
+    	return (byte)((r+g+b)/3);
     }
-    
+
     public void read_pixels (int x, int y, int width, int height,
 			     int format, int size, Object pixels) {
 /*
 	boolean need_scale = false;
-	
+
 	if ((p.Red.Scale   != 1) || (p.Red.Bias   != 0) ||
 	    (p.Green.Scale != 1) || (p.Green.Bias != 0) ||
 	    (p.Blue.Scale  != 1) || (p.Blue.Bias  != 0) ||
@@ -262,7 +262,7 @@ public class gl_colorbuffer {
 			     Object pixels) {
 /*
 	boolean need_scale = false;
-	
+
 	if ((p.Red.Scale   != 1) || (p.Red.Bias   != 0) ||
 	    (p.Green.Scale != 1) || (p.Green.Bias != 0) ||
 	    (p.Blue.Scale  != 1) || (p.Blue.Bias  != 0) ||
@@ -334,6 +334,8 @@ public class gl_colorbuffer {
     }
 
     public void copy_pixels (int x, int y, int width, int height) {
+// Unused?
+/*
 	int i, j, PosR = x+CC.Viewport.Width*y, PosW = 0;
 
 	for (i = 0; i < height; i++) {
@@ -343,6 +345,7 @@ public class gl_colorbuffer {
 		Buffer[PosW++] = Buffer[PosR++];
 	    }
 	}
+*/
     }
 
 /*
@@ -389,7 +392,7 @@ public class gl_colorbuffer {
 
     public gl_colorbuffer (gl_colorbuffer cc) {
     	this.CC            = cc.CC;
-    	
+
     	this.DrawBuffer    = cc.DrawBuffer;
 	this.ClearIndex    = cc.ClearIndex;
 	System.arraycopy(cc.ClearColor, 0, this.ClearColor, 0, 4);

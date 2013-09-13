@@ -17,18 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib;
+package com.github.nullnoname.jgl.core.context.attrib;
 
-import java.lang.Byte;
-import java.lang.Integer;
-import java.lang.Object;
-import java.lang.Short;
-// import java.lang.System;
+import java.io.Serializable;
 
-import jgl.GL;
-import jgl.context.gl_context;
-// import jgl.context.gl_list_item;
-// import jgl.context.gl_util;
+import com.github.nullnoname.jgl.core.GL;
+import com.github.nullnoname.jgl.core.context.gl_context;
 
 /**
  * gl_depthbuffer is the depth buffer class of jGL 2.4.
@@ -37,9 +31,11 @@ import jgl.context.gl_context;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_depthbuffer {
-	
-    private gl_context CC;
+public class gl_depthbuffer implements Serializable {
+
+    private static final long serialVersionUID = -6133658655801785173L;
+
+	private gl_context CC;
 
     /** GL_DEPTH_TEST: Depth buffer enabled */
     public boolean Enable = false;
@@ -79,17 +75,17 @@ public class gl_depthbuffer {
 	    Buffer [i] = Clear;
 	}
     }
-    
+
     private void set_pixel (int x, int y, byte pixels [][], float value) {
-	pixels[x][y] = (byte)(value*(float)Byte.MAX_VALUE);
+	pixels[x][y] = (byte)(value*Byte.MAX_VALUE);
     }
 
     private void set_pixel (int x, int y, short pixels [][], float value) {
-	pixels[x][y] = (short)(value*(float)Short.MAX_VALUE);
+	pixels[x][y] = (short)(value*Short.MAX_VALUE);
     }
 
     private void set_pixel (int x, int y, int pixels [][], float value) {
-	pixels[x][y] = (int)(value*(float)Integer.MAX_VALUE);
+	pixels[x][y] = (int)(value*Integer.MAX_VALUE);
     }
 
     private void set_pixel (int x, int y, float pixels [][], float value) {
@@ -177,7 +173,9 @@ public class gl_depthbuffer {
     }
 
     public void copy_pixels (int x, int y, int width, int height) {
-	int i, j, PosR = x+CC.Viewport.Width*y, PosW = 0;
+// Unused?
+/*
+    int i, j, PosR = x+CC.Viewport.Width*y, PosW = 0;
 
 	for (i = 0; i < height; i++) {
 	    PosR += CC.Viewport.Width-width;
@@ -186,6 +184,7 @@ public class gl_depthbuffer {
 		Buffer[PosW++] = Buffer[PosR++];
 	    }
 	}
+*/
     }
 
 /*

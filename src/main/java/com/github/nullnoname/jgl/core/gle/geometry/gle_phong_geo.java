@@ -17,14 +17,16 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.gle.geometry;
+package com.github.nullnoname.jgl.core.gle.geometry;
 
-import jgl.context.gl_vertex;
-import jgl.context.gl_polygon;
-import jgl.context.geometry.gl_geometry;
-import jgl.gle.gle_context;
-import jgl.gle.gle_pointer;
-import jgl.gle.gle_vertex;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_polygon;
+import com.github.nullnoname.jgl.core.context.gl_vertex;
+import com.github.nullnoname.jgl.core.context.geometry.gl_geometry;
+import com.github.nullnoname.jgl.core.gle.gle_context;
+import com.github.nullnoname.jgl.core.gle.gle_pointer;
+import com.github.nullnoname.jgl.core.gle.gle_vertex;
 
 /**
  * gle_phong_geo is the geometry class for phong shading of jGL 2.5.
@@ -33,9 +35,10 @@ import jgl.gle.gle_vertex;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gle_phong_geo extends gl_geometry {
+public class gle_phong_geo extends gl_geometry implements Serializable {
 
-    /** Data Members */
+    private static final long serialVersionUID = 8861023073497825381L;
+	/** Data Members */
     protected float Normal   [][];
     protected float TexCoord [][];
 
@@ -57,12 +60,15 @@ public class gle_phong_geo extends gl_geometry {
 	gle_temp[1].Normal   = Normal   [j];
 	gle_temp[0].TexCoord = TexCoord [i];
 	gle_temp[1].TexCoord = TexCoord [j];
-	return (gl_vertex[])gle_temp;
+	return gle_temp;
     }
 
-    private void draw_line (gl_vertex v[]) {
-	CR.render.draw_line ((gle_vertex)v[0], (gle_vertex)v[1]);
+    // Unused
+    /*
+	private void draw_line (gl_vertex v[]) {
+	CR.render.draw_line (v[0], v[1]);
     }
+	*/
 
     protected gl_polygon pack_polygon (int size) {
 	gl_polygon tpoly = super.pack_polygon (size);
@@ -76,9 +82,12 @@ public class gle_phong_geo extends gl_geometry {
 	return tpoly;
     }
 
-    private void draw_polygon (gl_polygon p) {
+    // Unused
+    /*
+	private void draw_polygon (gl_polygon p) {
 	CR.render.draw_polygon (p);
     }
+	*/
 
     protected void set_vertex (int i) {
 	super.set_vertex (i);

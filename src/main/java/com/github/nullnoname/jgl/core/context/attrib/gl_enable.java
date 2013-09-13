@@ -17,7 +17,9 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib;
+package com.github.nullnoname.jgl.core.context.attrib;
+
+import java.io.Serializable;
 
 /**
  * gl_enable is the enable class of JavaGL 2.1.
@@ -26,7 +28,9 @@ package jgl.context.attrib;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_enable {
+public class gl_enable implements Serializable {
+
+	private static final long serialVersionUID = -5890693243118484989L;
 
     /**
      *  State Variable             In Class

@@ -17,13 +17,15 @@
  * Lesser General Public License for more details.
  */
 
-package jgl;
+package com.github.nullnoname.jgl.core;
 
-import java.applet.Applet;
-import java.awt.Component;
+import java.io.Serializable;
 
-import jgl.glu.*;
-import jgl.glaux.*;
+import com.github.nullnoname.jgl.core.glaux.MODELPTR;
+import com.github.nullnoname.jgl.core.glaux.mat_t;
+import com.github.nullnoname.jgl.core.glaux.teapot;
+import com.github.nullnoname.jgl.core.glu.GLUquadricObj;
+
 
 /**
  * GLAUX is the aux class of JavaGL 2.1.
@@ -32,7 +34,8 @@ import jgl.glaux.*;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class GLAUX {
+public class GLAUX implements Serializable {
+	private static final long serialVersionUID = -6397707586952984728L;
 
     /**
      * Aux Functions
@@ -40,16 +43,16 @@ public class GLAUX {
      *     can be implemented, only implement some useful functions.
      */
 
-    /** Constants of Aux */
+	/** Constants of Aux */
     private static final int SPHEREWIRE      = 0;
     private static final int CUBEWIRE        = 1;
     private static final int BOXWIRE         = 2;
     private static final int TORUSWIRE       = 3;
     private static final int CYLINDERWIRE    = 4;
     private static final int ICOSAWIRE       = 5;
-    private static final int OCTAWIRE        = 6;
-    private static final int TETRAWIRE       = 7;
-    private static final int DODECAWIRE      = 8;
+    //private static final int OCTAWIRE        = 6;
+    //private static final int TETRAWIRE       = 7;
+    //private static final int DODECAWIRE      = 8;
     private static final int CONEWIRE        = 9;
 
     private static final int SPHERESOLID     = 10;
@@ -58,23 +61,15 @@ public class GLAUX {
     private static final int TORUSSOLID      = 13;
     private static final int CYLINDERSOLID   = 14;
     private static final int ICOSASOLID      = 15;
-    private static final int OCTASOLID       = 16;
-    private static final int TETRASOLID      = 17;
-    private static final int DODECASOLID     = 18;
+    //private static final int OCTASOLID       = 16;
+    //private static final int TETRASOLID      = 17;
+    //private static final int DODECASOLID     = 18;
     private static final int CONESOLID       = 19;
 
     /** Private Data Members */
     private GL JavaGL;
     private GLU JavaGLU;
-//    private Applet JavaApplet;
-//    private Component JavaComponent;
-
     private MODELPTR lists [] = new MODELPTR [25];
-
-    private int WindowX;
-    private int WindowY;
-    private int WindowWidth;
-    private int WindowHeight;
 
     private static final int STACKDEPTH = 10;
     private static final mat_t matstack [] = new mat_t [STACKDEPTH];
@@ -93,12 +88,16 @@ public class GLAUX {
     private static final int mattop = 0;
 
     /** Private Member Functions */
+    /*
     private void error (String s) {
 	// Cancel the "errfunc" in aux of OpenGL
 	System.out.println (s);
 	System.exit (1);
     }
+	*/
 
+    // Unused
+    /*
     private void diff3 (double p[], double q[], double diff[]) {
 	diff[0] = p[0] - q[0];
 	diff[1] = p[1] - q[1];
@@ -106,27 +105,30 @@ public class GLAUX {
     }
 
     private void crossprod (double v1[], double v2[], double prod[]) {
-	double p[] = new double [3];	/* in case prod == v1 or v2 */
+	double p[] = new double [3];	// in case prod == v1 or v2
 
 	p[0] = v1[1]*v2[2] - v2[1]*v1[2];
 	p[1] = v1[2]*v2[0] - v2[2]*v1[0];
 	p[2] = v1[0]*v2[1] - v2[0]*v1[1];
 	prod[0] = p[0]; prod[1] = p[1]; prod[2] = p[2];
-    } 
+    }
+	*/
 
-    private void normalize (double v[]) {
+	private void normalize (double v[]) {
 	double d;
 
 	d = Math.sqrt (v [0] * v [0] + v [1] * v [1] + v [2] * v [2]);
 	if (d == 0.0) {
-	    error ("normalize: zero length vector");
+	    //error ("normalize: zero length vector");
+	    JavaGL.getLogger().logError("normalize: zero length vector");
 	    v [0] = d = 1.0;
 	}
 	d = 1/d;
 	v[0] *= d; v[1] *= d; v[2] *= d;
     }
 
-    private void m_xformpt (double pin [], double pout [], 
+    @SuppressWarnings("unused")
+	private void m_xformpt (double pin [], double pout [],
 			    double nin [], double nout []) {
 	int i;
 	double ptemp [] = new double [3];
@@ -140,10 +142,11 @@ public class GLAUX {
 	    }
 	    return;
 	}
+	// The following codes are unused unless identitymat == false
 	for (i = 0; i < 3; i++) {
-	    ptemp [i] = pin [0] * m.mat [0][i] + 
+	    ptemp [i] = pin [0] * m.mat [0][i] +
 	    		pin [1] * m.mat [1][i] +
-			pin [2] * m.mat [2][i] + 
+			pin [2] * m.mat [2][i] +
 			m.mat[3][i];
 	    ntemp [i] = nin [0] * m.norm [0][i] +
                    	nin [1] * m.norm [1][i] +
@@ -156,7 +159,8 @@ public class GLAUX {
 	normalize(nout);
     }
 
-    private void m_xformptonly (double pin[], double pout[]) {
+    @SuppressWarnings("unused")
+	private void m_xformptonly (double pin[], double pout[]) {
 	int i;
 	double	ptemp[] = new double [3];
 	mat_t m = matstack [mattop];
@@ -167,6 +171,7 @@ public class GLAUX {
 	    }
 	    return;
 	}
+	// The following codes are unused unless identitymat == false
  	for (i = 0; i < 3; i++) {
 	    ptemp[i] = pin[0]*m.mat[0][i] + pin[1]*m.mat[1][i] +
 		       pin[2]*m.mat[2][i] + m.mat[3][i];
@@ -176,6 +181,8 @@ public class GLAUX {
 	}
     }
 
+    // Unused
+    /*
     private void recorditem (double n1 [], double n2 [], double n3 [],
 		double center [], double radius, int shadeType, int avnormal) {
 	double p1 [] = new double [3];
@@ -189,7 +196,7 @@ public class GLAUX {
 	int i;
 
 	for (i = 0; i < 3; i++) {
-	     p1[i] = n1[i]*radius + center[i]; 
+	     p1[i] = n1[i]*radius + center[i];
 	     p2[i] = n2[i]*radius + center[i];
 	     p3[i] = n3[i]*radius + center[i];
 	}
@@ -224,7 +231,7 @@ public class GLAUX {
 	JavaGL.glEnd();
     }
 
-    private void subdivide (int depth, double v0 [], double v1 [], double v2 [],
+	private void subdivide (int depth, double v0 [], double v1 [], double v2 [],
 		double p0 [], double radius, int shadeType, int avnormal) {
 	double w0 [] = new double [3];
 	double w1 [] = new double [3];
@@ -267,6 +274,7 @@ public class GLAUX {
 	    }
 	}
     }
+	*/
 
     /** Routines to build 3 dimensional solids, including:
      *
@@ -333,11 +341,11 @@ public class GLAUX {
 	double n3 [] = new double [3];
 
 	for (i = 0; i < rings; i++) {
-	    theta = (double)i * 2.0 * Math.PI / rings;
-	    theta1 = (double)(i + 1) * 2.0 * Math.PI / rings;
+	    theta = i * 2.0 * Math.PI / rings;
+	    theta1 = (i + 1) * 2.0 * Math.PI / rings;
 	    for (j = 0; j < nsides; j++) {
-		phi = (double)j * 2.0 * Math.PI / nsides;
-		phi1 = (double)(j + 1) * 2.0 * Math.PI / nsides;
+		phi = j * 2.0 * Math.PI / nsides;
+		phi1 = (j + 1) * 2.0 * Math.PI / nsides;
 
 		p0 [0] = Math.cos (theta) * (R + r * Math.cos (phi));
 		p0 [1] = -Math.sin (theta) * (R + r * Math.cos (phi));
@@ -462,26 +470,13 @@ public class GLAUX {
 
     /** void auxInitPosition (int x, int y, int width, int height) */
     public void auxInitPosition (int x, int y, int width, int height) {
-    	WindowX = x;		WindowY = y;
-	WindowWidth = width;	WindowHeight = height;
     }
 
-    /** GLenum auxInitWindow (char *title) */
-//    public void auxInitWindow (Applet o) {
-    public void auxInitWindow (Component o) {
-//	JavaApplet = o;
-//	JavaComponent = o;
-	// call resize to make the correct size
-	// WindowX and WindowY have no meanings in applet
-//	o.resize (WindowWidth, WindowHeight);
-	o.setSize (WindowWidth, WindowHeight);
-	JavaGL.glXMakeCurrent (o, WindowX, WindowY);
-	// reshape has not been used in Java2, and seems redundant here
-	// o.reshape (WindowX, WindowY, WindowWidth, WindowHeight);
-    }
-
-    public void auxInitWindow (Applet o) {
-	auxInitWindow ((Component)o);
+    /**
+     * GLenum auxInitWindow (char *title)
+     */
+    public void auxInitWindow (Object o) {
+    	// No-op for non-AWT version
     }
 
     /** Render wire frame or solid sphere.  If no display list with
@@ -494,7 +489,7 @@ public class GLAUX {
 	int displayList = findList (SPHEREWIRE, sizeArray, 1);
 
 	if (displayList == 0) {
-	    JavaGL.glNewList (makeModelPtr (SPHEREWIRE, sizeArray, 1), 
+	    JavaGL.glNewList (makeModelPtr (SPHEREWIRE, sizeArray, 1),
 	    		      GL.GL_COMPILE_AND_EXECUTE);
     	    quadObj = JavaGLU.gluNewQuadric ();
 	    JavaGLU.gluQuadricDrawStyle (quadObj, GLU.GLU_LINE);
@@ -533,10 +528,10 @@ public class GLAUX {
 	int displayList = findList (CUBEWIRE, sizeArray, 1);
 
 	if (displayList == 0) {
-	    JavaGL.glNewList (makeModelPtr (CUBEWIRE, sizeArray, 1), 
+	    JavaGL.glNewList (makeModelPtr (CUBEWIRE, sizeArray, 1),
 	    		      GL.GL_COMPILE_AND_EXECUTE);
-	    drawbox (-size/2.0, size/2.0, 
-		     -size/2.0, size/2.0, 
+	    drawbox (-size/2.0, size/2.0,
+		     -size/2.0, size/2.0,
 		     -size/2.0, size/2.0, GL.GL_LINE_LOOP);
 	    JavaGL.glEndList();
 	} else {
@@ -550,10 +545,10 @@ public class GLAUX {
 	int displayList = findList (CUBESOLID, sizeArray, 1);
 
 	if (displayList == 0) {
-	    JavaGL.glNewList (makeModelPtr (CUBESOLID, sizeArray, 1), 
+	    JavaGL.glNewList (makeModelPtr (CUBESOLID, sizeArray, 1),
 	    		      GL.GL_COMPILE_AND_EXECUTE);
-	    drawbox (-size/2.0, size/2.0, 
-		     -size/2.0, size/2.0, 
+	    drawbox (-size/2.0, size/2.0,
+		     -size/2.0, size/2.0,
 		     -size/2.0, size/2.0, GL.GL_QUADS);
 	    JavaGL.glEndList();
 	} else {
@@ -570,10 +565,10 @@ public class GLAUX {
 	int displayList = findList (BOXWIRE, sizeArray, 3);
 
 	if (displayList == 0) {
-	    JavaGL.glNewList (makeModelPtr (BOXWIRE, sizeArray, 3), 
+	    JavaGL.glNewList (makeModelPtr (BOXWIRE, sizeArray, 3),
 	    		      GL.GL_COMPILE_AND_EXECUTE);
-	    drawbox (-width/2.0, width/2.0, 
-		     -height/2.0, height/2.0, 
+	    drawbox (-width/2.0, width/2.0,
+		     -height/2.0, height/2.0,
 		     -depth/2.0, depth/2.0, GL.GL_LINE_LOOP);
 	    JavaGL.glEndList();
 	} else {
@@ -587,10 +582,10 @@ public class GLAUX {
 	int displayList = findList (BOXSOLID, sizeArray, 3);
 
 	if (displayList == 0) {
-	    JavaGL.glNewList (makeModelPtr (BOXSOLID, sizeArray, 3), 
+	    JavaGL.glNewList (makeModelPtr (BOXSOLID, sizeArray, 3),
 	    		      GL.GL_COMPILE_AND_EXECUTE);
-	    drawbox (-width/2.0, width/2.0, 
-		     -height/2.0, height/2.0, 
+	    drawbox (-width/2.0, width/2.0,
+		     -height/2.0, height/2.0,
 		     -depth/2.0, depth/2.0, GL.GL_QUADS);
 	    JavaGL.glEndList();
 	} else {
@@ -607,7 +602,7 @@ public class GLAUX {
 	int displayList = findList (TORUSWIRE, sizeArray, 2);
 
 	if (displayList == 0) {
-	    JavaGL.glNewList (makeModelPtr (TORUSWIRE, sizeArray, 2), 
+	    JavaGL.glNewList (makeModelPtr (TORUSWIRE, sizeArray, 2),
 	    		      GL.GL_COMPILE_AND_EXECUTE);
 	    doughnut (innerRadius, outerRadius, 5, 10, GL.GL_LINE_LOOP);
 	    JavaGL.glEndList();
@@ -622,7 +617,7 @@ public class GLAUX {
 	int displayList = findList (TORUSSOLID, sizeArray, 2);
 
 	if (displayList == 0) {
-	    JavaGL.glNewList (makeModelPtr (TORUSSOLID, sizeArray, 2), 
+	    JavaGL.glNewList (makeModelPtr (TORUSSOLID, sizeArray, 2),
 	    		      GL.GL_COMPILE_AND_EXECUTE);
 	    doughnut (innerRadius, outerRadius, 8, 15, GL.GL_QUADS);
 	    JavaGL.glEndList();
@@ -641,7 +636,7 @@ public class GLAUX {
 	int displayList = findList (CYLINDERWIRE, sizeArray, 2);
 
 	if (displayList == 0) {
-	    JavaGL.glNewList (makeModelPtr (CYLINDERWIRE, sizeArray, 2), 
+	    JavaGL.glNewList (makeModelPtr (CYLINDERWIRE, sizeArray, 2),
 	    		      GL.GL_COMPILE_AND_EXECUTE);
 	    JavaGL.glPushMatrix ();
             JavaGL.glRotatef ((float)90.0, (float)1.0, (float)0.0, (float)0.0);
@@ -663,7 +658,7 @@ public class GLAUX {
 	int displayList = findList (CYLINDERSOLID, sizeArray, 2);
 
 	if (displayList == 0) {
-	    JavaGL.glNewList (makeModelPtr (CYLINDERSOLID, sizeArray, 2), 
+	    JavaGL.glNewList (makeModelPtr (CYLINDERSOLID, sizeArray, 2),
 	    		      GL.GL_COMPILE_AND_EXECUTE);
 	    JavaGL.glPushMatrix ();
             JavaGL.glRotatef ((float)90.0, (float)1.0, (float)0.0, (float)0.0);
@@ -689,7 +684,7 @@ public class GLAUX {
 	double center [] = {0.0, 0.0, 0.0};
 
 	if (displayList == 0) {
-	    JavaGL.glNewList (makeModelPtr (ICOSAWIRE, sizeArray, 1), 
+	    JavaGL.glNewList (makeModelPtr (ICOSAWIRE, sizeArray, 1),
 	    		      GL.GL_COMPILE_AND_EXECUTE);
             icosahedron (center, radius, GL.GL_LINE_LOOP);
 	    JavaGL.glEndList();
@@ -705,7 +700,7 @@ public class GLAUX {
 	double center [] = {0.0, 0.0, 0.0};
 
 	if (displayList == 0) {
-	    JavaGL.glNewList (makeModelPtr (ICOSASOLID, sizeArray, 1), 
+	    JavaGL.glNewList (makeModelPtr (ICOSASOLID, sizeArray, 1),
 	    		      GL.GL_COMPILE_AND_EXECUTE);
             icosahedron (center, radius, GL.GL_TRIANGLES);
 	    JavaGL.glEndList();
@@ -722,7 +717,7 @@ public class GLAUX {
 	GLUquadricObj quadObj;
      	double sizeArray [] = {base, height};
 	int displayList = findList (CONEWIRE, sizeArray, 2);
-	
+
 	if (displayList == 0) {
 	    JavaGL.glNewList (makeModelPtr (CONEWIRE, sizeArray, 2),
 	    		      GL.GL_COMPILE_AND_EXECUTE);
@@ -740,7 +735,7 @@ public class GLAUX {
 	GLUquadricObj quadObj;
      	double sizeArray [] = {base, height};
 	int displayList = findList (CONESOLID, sizeArray, 2);
-	
+
 	if (displayList == 0) {
 	    JavaGL.glNewList (makeModelPtr (CONESOLID, sizeArray, 2),
 	    		      GL.GL_COMPILE_AND_EXECUTE);
@@ -764,8 +759,11 @@ public class GLAUX {
     	teapot.aux_solid_teapot (JavaGL, scale);
     }
 
+    /**
+     * Dummy constructor. Please call new GLAUX (yourGL).
+     */
     public GLAUX () {
-    	System.out.println ("Please call new GLAUX (yourGL)");
+    	//System.out.println ("Please call new GLAUX (yourGL)");
     }
 
     public GLAUX (GL myGL) {

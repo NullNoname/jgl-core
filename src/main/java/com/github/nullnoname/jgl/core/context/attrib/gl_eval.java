@@ -17,12 +17,14 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib;
+package com.github.nullnoname.jgl.core.context.attrib;
 
-import jgl.GL;
-import jgl.context.gl_util;
-// import jgl.context.gl_list_item;
-import jgl.context.attrib.eval.*;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.GL;
+import com.github.nullnoname.jgl.core.context.gl_util;
+import com.github.nullnoname.jgl.core.context.attrib.eval.gl_eval_map1;
+import com.github.nullnoname.jgl.core.context.attrib.eval.gl_eval_map2;
 
 /**
  * gl_eval is the evaluators state class of jGL 2.4.
@@ -31,9 +33,10 @@ import jgl.context.attrib.eval.*;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_eval {
+public class gl_eval implements Serializable {
 
-    /** GL_MAP1_x: 1D map enables: x is map type */
+    private static final long serialVersionUID = 4777774853691687618L;
+	/** GL_MAP1_x: 1D map enables: x is map type */
     public boolean Map1Vertex3Enable;
     public boolean Map1Vertex4Enable;
     public boolean Map1IndexEnable;
@@ -168,7 +171,7 @@ public class gl_eval {
      *   Bernstein polynomial of degree n (or order n+1)
      *
      *        n     (n)
-     *       B(u) = ( )*u^i*(1-u)^(n-i)    
+     *       B(u) = ( )*u^i*(1-u)^(n-i)
      *        i     (i)
      */
     private float [] bezier_curv (float p [][], float u, int dim, int odr) {
@@ -210,7 +213,7 @@ public class gl_eval {
      *       S(u,v) =  E   E  B(u)*B(v)*Pij
      *                i=0 j=0  i    j
      *
-     *   u and v are independent 
+     *   u and v are independent
      */
     private float [] bezier_surf (float p [][][], float u, float v, int dim,
 				  int uodr, int vodr) {
@@ -272,16 +275,16 @@ public class gl_eval {
      *           du   dv
      *
      *   since
-     *                 n  (n)   
+     *                 n  (n)
      *       S(u,v) =  E  ( )*u^i*(1-u)^(n-i)* C(v)i
-     *                i=0 (i) 
+     *                i=0 (i)
      *   so
      *       dS   n-1 (n-1)
      *       -- =  E  (   )*u^i*(1-u)^(n-i-1)*(-C(v)i + C(v)i+1)
      *       du   i=0 ( i )
      *
      *   then use Bezier curve function to solve this
-     *       
+     *
      *       n  <= n-1
      *       Pi <= -C(v)i + C(v)i+1
      */
@@ -349,7 +352,7 @@ public class gl_eval {
 		dv [k] /= dv [3];
 	    }
 	}
-	
+
 	float temp [] = gl_util.cross33 (du, dv);
 	gl_util.normalize (temp);
 	return temp;

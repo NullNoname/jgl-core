@@ -17,9 +17,11 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib.pixel;
+package com.github.nullnoname.jgl.core.context.attrib.pixel;
 
-import jgl.context.gl_util;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_util;
 
 /**
  * gl_pixel_transfer is the pixel transfer class of JavaGL 2.1.
@@ -28,21 +30,23 @@ import jgl.context.gl_util;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_pixel_transfer {
+public class gl_pixel_transfer implements Serializable {
 
-    /** GL_x_SCALE: Value of GL_x_SCALE */
+    private static final long serialVersionUID = 7529735086864172197L;
+
+	/** GL_x_SCALE: Value of GL_x_SCALE */
     public float Scale = 1;
 
     /** GL_x_BIAS: Value of GL_x_BIAS */
     public float Bias = 0;
-    
+
     public float apply_bias_scale (float value) {
     	float temp = value * Scale + Bias;
 	return gl_util.CLAMP (temp, 0.0f, 1.0f);
     }
-    
+
     public byte apply_bias_scale (byte value) {
-    	float temp = ((float)value/255.0f) * Scale + Bias;
+    	float temp = (value/255.0f) * Scale + Bias;
 	temp = gl_util.CLAMP (temp, 0.0f, 1.0f);
 	return (byte)(temp*255.0f);
     }

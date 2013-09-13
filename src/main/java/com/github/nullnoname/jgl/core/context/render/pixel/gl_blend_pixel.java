@@ -17,11 +17,13 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.render.pixel;
+package com.github.nullnoname.jgl.core.context.render.pixel;
 
-import jgl.GL;
-import jgl.context.gl_context;
-import jgl.context.gl_util;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.GL;
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_util;
 
 /**
  * gl_blend_pixel is the pixel blending class of jGL 2.4.
@@ -30,9 +32,11 @@ import jgl.context.gl_util;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_blend_pixel extends gl_render_pixel {
+public class gl_blend_pixel extends gl_render_pixel implements Serializable {
 
-    private void blend_pixel (float rst [], float tgt [], float src [], float dst [], int BlendFunc) {
+    private static final long serialVersionUID = 1410223804937934344L;
+
+	private void blend_pixel (float rst [], float tgt [], float src [], float dst [], int BlendFunc) {
 	float afa;
 
 	switch (BlendFunc) {

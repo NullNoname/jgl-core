@@ -17,10 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glu;
+package com.github.nullnoname.jgl.core.glu;
 
-import jgl.GL;
-import jgl.GLU;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.GL;
+import com.github.nullnoname.jgl.core.GLU;
 
 /**
  * nurbs_bz_surf is one of the GLU NURBS class of JavaGL 2.1.
@@ -29,9 +31,11 @@ import jgl.GLU;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class nurbs_bz_surf {
+public class nurbs_bz_surf implements Serializable {
 
-    private GL JavaGL;
+    private static final long serialVersionUID = -5093530550999969457L;
+
+	private GL JavaGL;
 
     private int mode;
 
@@ -106,7 +110,7 @@ public class nurbs_bz_surf {
     }
 
     private void tesselate_strip_t (int top_start, int top_end, int top_z,
-				    int bot_start, int bot_end, int bot_z, 
+				    int bot_start, int bot_end, int bot_z,
 				    int bot_domain) {
 	if(mode==GL.GL_FILL)
 	    tesselate_strip_t_fill(top_start,top_end,top_z,
@@ -115,7 +119,7 @@ public class nurbs_bz_surf {
 	    tesselate_strip_t_line(top_start,top_end,top_z,
 				   bot_start,bot_end,bot_z,bot_domain);
     }
-	
+
     private void tesselate_strip_s_fill (int top_start, int top_end, int top_z,
 					 int bot_start, int bot_end, int bot_z,
 					 float bot_domain) {
@@ -129,15 +133,15 @@ public class nurbs_bz_surf {
 	    if(bot_cnt!=0) tri_cnt=top_cnt/bot_cnt;
 	    else tri_cnt=Math.abs(top_cnt);
 	    JavaGL.glBegin(GL.GL_TRIANGLE_FAN);
-	    JavaGL.glEvalCoord2f((float)bot_start/bot_domain,
-				 (float)bot_z/bot_domain);
+	    JavaGL.glEvalCoord2f(bot_start/bot_domain,
+				 bot_z/bot_domain);
 	    for(k=0;k<=tri_cnt;k++ , top_start+=dir)
 		JavaGL.glEvalPoint2(top_start,top_z);
 	    if(bot_cnt!=0) {
 		bot_start+=dir;
 		top_start-=dir;
-		JavaGL.glEvalCoord2f((float)bot_start/bot_domain,
-				     (float)bot_z/bot_domain);
+		JavaGL.glEvalCoord2f(bot_start/bot_domain,
+				     bot_z/bot_domain);
 		}
 	    JavaGL.glEnd();
 	    top_cnt-=dir*tri_cnt;
@@ -159,20 +163,20 @@ public class nurbs_bz_surf {
 	    if(bot_cnt!=0) tri_cnt=top_cnt/bot_cnt;
 	    else tri_cnt=Math.abs(top_cnt);
 	    for(k=0;k<=tri_cnt;k++ , top_start+=dir) {
-		JavaGL.glEvalCoord2f((float)bot_start/bot_domain,
-				     (float)bot_z/bot_domain);
+		JavaGL.glEvalCoord2f(bot_start/bot_domain,
+				     bot_z/bot_domain);
 		JavaGL.glEvalPoint2(top_start,top_z);
 	    }
 	    if(bot_cnt!=0) {
-		JavaGL.glEvalCoord2f((float)bot_start/bot_domain,
-				     (float)bot_z/bot_domain);
+		JavaGL.glEvalCoord2f(bot_start/bot_domain,
+				     bot_z/bot_domain);
 		bot_start+=dir;
 		top_start-=dir;
-		JavaGL.glEvalCoord2f((float)bot_start/bot_domain,
-				     (float)bot_z/bot_domain);
+		JavaGL.glEvalCoord2f(bot_start/bot_domain,
+				     bot_z/bot_domain);
 		JavaGL.glEvalPoint2(top_start,top_z);
-		JavaGL.glEvalCoord2f((float)bot_start/bot_domain,
-				     (float)bot_z/bot_domain);
+		JavaGL.glEvalCoord2f(bot_start/bot_domain,
+				     bot_z/bot_domain);
 	    }
 	    top_cnt-=dir*tri_cnt;
 	    bot_cnt-=dir;
@@ -284,8 +288,8 @@ public class nurbs_bz_surf {
 		JavaGL.glMapGrid2f (rit, (float)0.0, (float)1.0,
 				    top, (float)0.0, (float)1.0);
 		JavaGL.glEvalMesh2 (mode, 1, rit, 1, top);
-		tesselate_strip_s (1, rit, 1, 1, let, 0, let); 
-		tesselate_bl_corn ((float)1.0/(float)let,(float)1.0/(float)bot);
+		tesselate_strip_s (1, rit, 1, 1, let, 0, let);
+		tesselate_bl_corn ((float)1.0/let,(float)1.0/bot);
 		tesselate_strip_t (top, 1, 1, bot, 1, 0, bot);
 	    } else {
 		if (let == rit) {
@@ -297,10 +301,10 @@ public class nurbs_bz_surf {
 		    JavaGL.glMapGrid2f (let, (float)0.0, (float)1.0,
 					top, (float)0.0, (float)1.0);
 		    JavaGL.glEvalMesh2 (mode, 1, rit, 0, top-1);
-		    tesselate_strip_t (top-1, 0, 1, bot-1, 0, 0, bot); 
-		    tesselate_br_corn (top-1, bot-1, (float)1.0/(float)rit,
-				                     (float)1.0/(float)bot);
-		    tesselate_strip_s (let, 1, top-1, rit, 1, rit, rit); 
+		    tesselate_strip_t (top-1, 0, 1, bot-1, 0, 0, bot);
+		    tesselate_br_corn (top-1, bot-1, (float)1.0/rit,
+				                     (float)1.0/bot);
+		    tesselate_strip_s (let, 1, top-1, rit, 1, rit, rit);
 		}
 	    }
 	} else {
@@ -328,8 +332,8 @@ public class nurbs_bz_surf {
 					bot, (float)0.0, (float)1.0);
 		    JavaGL.glEvalMesh2 (mode, 0, rit-1, 1, bot);
 		    tesselate_strip_s (0, rit-1, 1, 0, let-1, 0, let);
-		    tesselate_tl_corn (rit-1, let-1, (float)1.0/(float)let,
-						     (float)1.0/(float)top);
+		    tesselate_tl_corn (rit-1, let-1, (float)1.0/let,
+						     (float)1.0/top);
 		    tesselate_strip_t (1, bot, rit-1, 1, top, top, top);
 		} else {
 		    if (let == rit) {
@@ -343,8 +347,8 @@ public class nurbs_bz_surf {
 		        JavaGL.glEvalMesh2 (mode, 0, let-1, 0, bot-1);
 		        tesselate_strip_t (0, bot-1, let-1, 0, top-1, top, top);
 		    	tesselate_tr_corn (let-1, bot-1, rit, top,
-					   	(float)1.0/(float)rit,
-						(float)1.0/(float)top);
+					   	(float)1.0/rit,
+						(float)1.0/top);
 		    	tesselate_strip_s (let-1, 0, bot-1, rit-1, 0, rit, rit);
 		    }
 		}
@@ -363,8 +367,11 @@ public class nurbs_bz_surf {
 	t_cnt = t_bezier_cnt;
     }
 
+    /**
+     * Dummy constructor. Please call new nurbs_bz_surf (yourGL).
+     */
     public nurbs_bz_surf () {
-	System.out.println ("Please call new nurbs_bz_surf (yourGL)");
+	//System.out.println ("Please call new nurbs_bz_surf (yourGL)");
     }
 
     public nurbs_bz_surf (GL myGL) {

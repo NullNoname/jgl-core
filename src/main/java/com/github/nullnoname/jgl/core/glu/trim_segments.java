@@ -17,7 +17,9 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glu;
+package com.github.nullnoname.jgl.core.glu;
+
+import java.io.Serializable;
 
 /**
  * trim_segments is one of the GLU class of JavaGL 2.1.
@@ -26,9 +28,10 @@ package jgl.glu;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class trim_segments {
+public class trim_segments implements Serializable {
 
-    public float points [];
+    private static final long serialVersionUID = -7368191577445042534L;
+	public float points [];
     public int pt_cnt;
     public int seg_array_len;
     public trim_segments next;

@@ -17,7 +17,9 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib;
+package com.github.nullnoname.jgl.core.context.attrib;
+
+import java.io.Serializable;
 
 // import jgl.context.gl_list_item;
 
@@ -28,9 +30,10 @@ package jgl.context.attrib;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_viewport {
+public class gl_viewport implements Serializable {
 
-    /** GL_VIEWPORT: Viewport origin and extent */
+    private static final long serialVersionUID = 7371791917132019886L;
+	/** GL_VIEWPORT: Viewport origin and extent */
     /* position */
     public int X;
     public int Y;
@@ -135,7 +138,7 @@ public class gl_viewport {
 	this.Ty     = cc.Ty;
 	this.Tz     = cc.Tz;
     }
-    
+
     public gl_viewport () {};
 
 }

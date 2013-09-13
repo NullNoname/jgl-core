@@ -17,18 +17,14 @@
  * Lesser General Public License for more details.
  */
 
-package jgl;
+package com.github.nullnoname.jgl.core;
 
-import java.lang.Class;
-import java.lang.IllegalAccessException;
-import java.lang.Math;
-import java.lang.NoSuchMethodException;
-import java.lang.Object;
-import java.lang.String;
-import java.lang.System;
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 
-import jgl.glu.*;
+import com.github.nullnoname.jgl.core.glu.GLUnurbsObj;
+import com.github.nullnoname.jgl.core.glu.GLUquadricObj;
+
 
 /**
  * GLU is the glu class of jGL 2.4.
@@ -43,11 +39,12 @@ import jgl.glu.*;
  * in this format for the gluUnproject algoithum to work correctly.
  */
 
-public class GLU {
+public class GLU implements Serializable {
+	private static final long serialVersionUID = 6114556870480797322L;
 
     /** Constants of GLU */
 
-    /** Boolean */ 
+	/** Boolean */
     public static final boolean GLU_TRUE		= true;
     public static final boolean GLU_FALSE		= false;
 
@@ -144,7 +141,6 @@ public class GLU {
     public static final int GLU_NURBS_ERROR37		= 100287;
 
     /** Private Data Members */
-    private final boolean debug = true;
     private GL JavaGL;
 
     /** Private Member Functions */
@@ -159,8 +155,8 @@ public class GLU {
                     x = (i << 2) | k;
                     y = (k << 2) | j;
                     if (a [x] != 0 && b [y] != 0) {
-                        if (a [x] == 1) { temp [z] += b [y]; } 
-			else if (b [y] == 1) { temp [z] += a [x]; } 
+                        if (a [x] == 1) { temp [z] += b [y]; }
+			else if (b [y] == 1) { temp [z] += a [x]; }
 			else { temp [z] += a [x] * b [y]; }
                     }
                 }
@@ -177,8 +173,8 @@ public class GLU {
             for (j = 0; j < 4; j++) {
                 x = i << 2 | j;
                 if (a [x] != 0 && b [j] != 0) {
-                    if (a [x] == 1) { temp [i] += b [j]; } 
-		    else if (b [j] == 1) { temp [i] += a [x]; } 
+                    if (a [x] == 1) { temp [i] += b [j]; }
+		    else if (b [j] == 1) { temp [i] += a [x]; }
 		    else { temp [i] += a [x] * b [j]; }
                 }
             }
@@ -186,6 +182,8 @@ public class GLU {
         return temp;
     }
 
+    // Unused
+    /*
     private double det22 (double a, double b, double c, double d) {
         return (a * d - b * c);
     }
@@ -198,7 +196,7 @@ public class GLU {
                 c1 * det22 (a2, a3, b2, b3));
     }
 
-    private double det44 (double a1, double a2, double a3, double a4,
+	private double det44 (double a1, double a2, double a3, double a4,
                           double b1, double b2, double b3, double b4,
                           double c1, double c2, double c3, double c4,
                           double d1, double d2, double d3, double d4) {
@@ -208,7 +206,7 @@ public class GLU {
                 d1 * det33 (a2, a3, a4, b2, b3, b4, c2, c3, c4));
     }
 
-    private double [] adjoint44 (double a []) {
+	private double [] adjoint44 (double a []) {
         double m [] = new double [16];
         m[ 0] =  det33 (a[ 5],a[ 6],a[ 7],a[ 9],a[10],a[11],a[13],a[14],a[15]);
         m[ 1] = -det33 (a[ 4],a[ 6],a[ 7],a[ 8],a[10],a[11],a[12],a[14],a[15]);
@@ -227,6 +225,7 @@ public class GLU {
         m[15] =  det33 (a[ 0],a[ 1],a[ 2],a[ 4],a[ 5],a[ 6],a[ 8],a[ 9],a[10]);
         return m;
     }
+	*/
 
     /**
      * return the inverse of a 4x4 matrix.
@@ -289,8 +288,8 @@ public class GLU {
 
     /** GLvoid gluOrtho2D (GLdouble left, GLdouble right, GLdouble bottom, GLdouble top) */
     public void gluOrtho2D (double left, double right, double bottom, double top) {
-    	JavaGL.glOrtho ((float)left, (float)right, 
-			(float)bottom, (float)top, 
+    	JavaGL.glOrtho ((float)left, (float)right,
+			(float)bottom, (float)top,
 			(float)-1.0, (float)1.0);
     }
 
@@ -304,8 +303,8 @@ public class GLU {
 	xmin = ymin * aspect;
 	xmax = ymax * aspect;
 
-	JavaGL.glFrustum ((float)xmin, (float)xmax, 
-			  (float)ymin, (float)ymax, 
+	JavaGL.glFrustum ((float)xmin, (float)xmax,
+			  (float)ymin, (float)ymax,
 			  (float)zNear, (float)zFar);
     }
 
@@ -315,10 +314,10 @@ public class GLU {
 	float sx, sy;
 	float tx, ty;
 
-	sx=(float)((double)viewport[2]/width);
-	sy=(float)((double)viewport[3]/height);
-	tx=(float)(((double)viewport[2]+2.0*((double)viewport[0]-x))/width);
-	ty=(float)(((double)viewport[3]+2.0*((double)viewport[1]-y))/height);
+	sx=(float)(viewport[2]/width);
+	sy=(float)(viewport[3]/height);
+	tx=(float)((viewport[2]+2.0*(viewport[0]-x))/width);
+	ty=(float)((viewport[3]+2.0*(viewport[1]-y))/height);
 
 	m [0] = sx;
 	m [5] = sy;
@@ -454,7 +453,7 @@ public class GLU {
 	m[ 4] = x[1]; m[ 5] = y[1]; m[ 6] = z[1];
 	m[ 8] = x[2]; m[ 9] = y[2]; m[10] = z[2];
 	m[15] = 1.0;
-	
+
 	JavaGL.glMultMatrixd (m);
 
 	/* Translate Eye to Origin */
@@ -463,6 +462,7 @@ public class GLU {
 
     /** const GLubyte* gluErrorString (GLenum errorCode) */
     public static String gluErrorString (int errorCode) {
+    /*
 	String tess_error [] = {
 		"missing gluEndPolygon",
 		"missing gluBeginPolygon",
@@ -473,7 +473,7 @@ public class GLU {
 		"colinear vertices",
 		"intersecting edges",
 		"not coplanar contours"};
-
+	*/
 	String nurbs_error [] = {
 		"spline order un-supported",
 		"too few knots",
@@ -555,17 +555,21 @@ public class GLU {
      */
 
     private void quadric_error (GLUquadricObj qobj, int error, String msg) {
-	/* Call the error call back function if any */
-	if (qobj.ErrorFunc != null) {
-	    Object[] arguments = new Object[] { new Integer(error) };
-	    try {
-		qobj.ErrorFunc.invoke(JavaGL.glJGetComponent(), arguments);
-	    } catch (IllegalAccessException e) {
-		System.out.println("IllegalAccessException while GLUquadricObj.ErrorFunc");
-	    } catch (InvocationTargetException e) {
-		System.out.println("InvocationTargetException while GLUquadricObj.ErrorFunc");
-	    }
-	}
+    	JavaGL.getLogger().logError("quadric_error: " + gluErrorString(error) + ", " + msg);
+
+	    /* Call the error call back function if any */
+    	if (JavaGL.glJGetComponent() == null) {
+    		JavaGL.getLogger().logError("quadric_error: Callback class is null");
+    	} else if (qobj.ErrorFunc != null) {
+		    Object[] arguments = new Object[] { new Integer(error) };
+		    try {
+			qobj.ErrorFunc.invoke(JavaGL.glJGetComponent(), arguments);
+		    } catch (IllegalAccessException e) {
+			JavaGL.getLogger().logError("IllegalAccessException while GLUquadricObj.ErrorFunc", e);
+		    } catch (InvocationTargetException e) {
+			JavaGL.getLogger().logError("InvocationTargetException while GLUquadricObj.ErrorFunc", e);
+		    }
+		}
     }
 
     /** GLUquadricObj* gluNewQuadric (GLvoid) */
@@ -589,7 +593,7 @@ public class GLU {
 
     /** GLvoid gluQuadricDrawStyle (GLUquadricObj *quadObject, GLenum drawStyle) */
     public void gluQuadricDrawStyle (GLUquadricObj quadObject, int drawStyle) {
-    	if (drawStyle == GLU_FILL || drawStyle == GLU_LINE || 
+    	if (drawStyle == GLU_FILL || drawStyle == GLU_LINE ||
 	    drawStyle == GLU_SILHOUETTE || drawStyle == GLU_POINT) {
 	    quadObject.DrawStyle = drawStyle;
 	} else {
@@ -608,12 +612,14 @@ public class GLU {
 
     /** GLvoid gluQuadricCallback (GLUquadricObj *qobj, GLenum which, void (GLCALLBACK * fn) ()) */
     public void gluQuadricCallback (GLUquadricObj qobj, int which, String fn) {
-	if (qobj != null && which == GLU_ERROR) {
-	    Class[] parameterTypes = new Class[] { int.class };
+    if (JavaGL.glJGetComponent() == null) {
+    	JavaGL.getLogger().logError("gluQuadricCallback: Callback class is null");
+    } else if (qobj != null && which == GLU_ERROR) {
+	    Class<?>[] parameterTypes = new Class<?>[] { int.class };
 	    try {
 		qobj.ErrorFunc = JavaGL.glJGetComponent().getClass().getMethod(fn, parameterTypes);
 	    } catch (NoSuchMethodException e) {
-		System.out.println ("No method named "+fn);
+		JavaGL.getLogger().logError("No method named "+fn, e);
 	    }
 	}
     }
@@ -645,17 +651,17 @@ public class GLU {
 	if (qobj.Orientation==GLU_INSIDE) { nsign = (float)-1.0; }
 	else { nsign = (float)1.0; }
 
-	da = 2.0 * Math.PI / (double)slices;
-	dr = (topRadius-baseRadius) / (double)stacks;
-	dz = height / (double)stacks;
+	da = 2.0 * Math.PI / slices;
+	dr = (topRadius-baseRadius) / stacks;
+	dz = height / stacks;
 	/* Z component of normal vectors */
 	nz = (float)((baseRadius-topRadius) / height);
 
 	if (qobj.DrawStyle == GLU_POINT) {
 	    JavaGL.glBegin (GL.GL_POINTS);
 	    for (i = 0; i < slices; i++) {
-		x = (float)(Math.cos ((double)i * da));
-		y = (float)(Math.sin ((double)i * da));
+		x = (float)(Math.cos (i * da));
+		y = (float)(Math.sin (i * da));
 		JavaGL.glNormal3f (x * nsign, y * nsign, nz * nsign);
 
 		z = (float)0.0;
@@ -675,8 +681,8 @@ public class GLU {
 		for (j = 0; j <= stacks; j++) {
 		    JavaGL.glBegin (GL.GL_LINE_LOOP);
 		    for (i = 0; i < slices; i++) {
-			x = (float)(Math.cos ((double)i * da));
-			y = (float)(Math.sin ((double)i * da));
+			x = (float)(Math.cos (i * da));
+			y = (float)(Math.sin (i * da));
 			JavaGL.glNormal3f (x * nsign, y * nsign, nz * nsign);
 		    	JavaGL.glVertex3f (x * (float)r, y * (float)r, z);
 		    }
@@ -689,16 +695,16 @@ public class GLU {
 		if (baseRadius != 0.0) {
 		    JavaGL.glBegin (GL.GL_LINE_LOOP);
 		    for (i = 0;i < slices; i++) {
-			x = (float)(Math.cos ((double)i * da));
-			y = (float)(Math.sin ((double)i * da));
+			x = (float)(Math.cos (i * da));
+			y = (float)(Math.sin (i * da));
 			JavaGL.glNormal3f (x * nsign, y * nsign, nz * nsign);
 			JavaGL.glVertex3f (x * (float)baseRadius, y * (float)baseRadius, (float)0.0);
 		    }
 		    JavaGL.glEnd ();
 		    JavaGL.glBegin (GL.GL_LINE_LOOP);
 		    for (i = 0; i < slices; i++) {
-			x = (float)(Math.cos ((double)i * da));
-			y = (float)(Math.sin ((double)i * da));
+			x = (float)(Math.cos (i * da));
+			y = (float)(Math.sin (i * da));
 			JavaGL.glNormal3f (x * nsign, y * nsign, nz * nsign);
 			JavaGL.glVertex3f (x * (float)topRadius, y * (float)topRadius, (float)height);
 		    }
@@ -708,8 +714,8 @@ public class GLU {
 	    /* draw length lines */
 	    JavaGL.glBegin (GL.GL_LINES);
 	    for (i = 0; i < slices; i++) {
-	    	x = (float)(Math.cos ((double)i * da));
-	    	y = (float)(Math.sin ((double)i * da));
+	    	x = (float)(Math.cos (i * da));
+	    	y = (float)(Math.sin (i * da));
 	    	JavaGL.glNormal3f (x * nsign, y * nsign, nz * nsign);
 	    	JavaGL.glVertex3f (x * (float)baseRadius, y * (float)baseRadius, (float)0.0);
 	    	JavaGL.glVertex3f (x * (float)topRadius, y * (float)topRadius, (float)height);
@@ -717,10 +723,10 @@ public class GLU {
 	    JavaGL.glEnd();
         } else if (qobj.DrawStyle==GLU_FILL) {
 	    for (i = 0; i < slices; i++) {
-	    	float x1 = (float)(Math.cos ((double)i * da));
-	    	float y1 = (float)(Math.sin ((double)i * da));
-	    	float x2 = (float)(Math.cos ((double)(i + 1) * da));
-	    	float y2 = (float)(Math.sin ((double)(i + 1) * da));
+	    	float x1 = (float)(Math.cos (i * da));
+	    	float y1 = (float)(Math.sin (i * da));
+	    	float x2 = (float)(Math.cos ((i + 1) * da));
+	    	float y2 = (float)(Math.sin ((i + 1) * da));
 		z = (float)0.0;
 		r = baseRadius;
 		JavaGL.glBegin (GL.GL_QUAD_STRIP);
@@ -758,13 +764,13 @@ public class GLU {
 	boolean normals;
 	float nsign;
 
-	if (qobj.Normals == GLU_NONE) { normals = false; } 
+	if (qobj.Normals == GLU_NONE) { normals = false; }
 	else { normals = true; }
 	if (qobj.Orientation == GLU_INSIDE) { nsign = (float)-1.0; }
 	else { nsign = (float)1.0; }
 
-	drho = (float)Math.PI / (float)stacks;
-	dtheta = (float)2.0 * (float)Math.PI  / (float)slices;
+	drho = (float)Math.PI / stacks;
+	dtheta = (float)2.0 * (float)Math.PI  / slices;
 
 	if (qobj.DrawStyle == GLU_FILL) {
 	    /* draw +Z end as a triangle fan */
@@ -773,12 +779,12 @@ public class GLU {
 	    JavaGL.glVertex3f ((float)0.0, (float)0.0, nsign * (float)radius);
 	    for (j = 0; j <= slices; j++) {
 	    	if (j == slices) { theta = (float)0.0; }
-	    	else { theta = (float)j * dtheta; }
+	    	else { theta = j * dtheta; }
 	    	x = (float)(Math.cos (theta) * Math.sin (drho));
 	    	y = (float)(Math.sin (theta) * Math.sin (drho));
 	    	z = nsign * (float)Math.cos (drho);
-	    	if (normals) { 
-		    JavaGL.glNormal3f (x * (float)nsign, y * (float)nsign, z * (float)nsign); }
+	    	if (normals) {
+		    JavaGL.glNormal3f (x * nsign, y * nsign, z * nsign); }
 	    	JavaGL.glVertex3f (x * (float)radius, y * (float)radius, z * (float)radius);
 	    }
 	    JavaGL.glEnd();
@@ -789,18 +795,18 @@ public class GLU {
 		JavaGL.glBegin (GL.GL_QUAD_STRIP);
 		for (j = 0; j <= slices; j++) {
 	    	    if (j == slices) { theta = (float)0.0; }
-	    	    else { theta = (float)j * dtheta; }
+	    	    else { theta = j * dtheta; }
 	    	    x = (float)(Math.cos (theta) * Math.sin (rho));
 	    	    y = (float)(Math.sin (theta) * Math.sin (rho));
 	    	    z = nsign * (float)Math.cos (rho);
-		    if (normals) { 
-		    	JavaGL.glNormal3f (x * (float)nsign, y * (float)nsign, z * (float)nsign); }
+		    if (normals) {
+		    	JavaGL.glNormal3f (x * nsign, y * nsign, z * nsign); }
 	    	    JavaGL.glVertex3f (x * (float)radius, y * (float)radius, z * (float)radius);
 	    	    x = (float)(Math.cos (theta) * Math.sin (rho + drho));
 	    	    y = (float)(Math.sin (theta) * Math.sin (rho + drho));
 	    	    z = nsign * (float)Math.cos (rho + drho);
-		    if (normals) { 
-		    	JavaGL.glNormal3f (x * (float)nsign, y * (float)nsign, z * (float)nsign); }
+		    if (normals) {
+		    	JavaGL.glNormal3f (x * nsign, y * nsign, z * nsign); }
 	    	    JavaGL.glVertex3f (x * (float)radius, y * (float)radius, z * (float)radius);
 		}
 		JavaGL.glEnd();
@@ -813,27 +819,27 @@ public class GLU {
 	    rho = (float)Math.PI - drho;
 	    for (j = slices; j >= 0; j--) {
 	    	if (j == slices) { theta = (float)0.0; }
-	    	else { theta = (float)j * dtheta; }
+	    	else { theta = j * dtheta; }
 	    	x = (float)(Math.cos (theta) * Math.sin (rho));
 	    	y = (float)(Math.sin (theta) * Math.sin (rho));
 	    	z = nsign * (float)Math.cos (rho);
-	    	if (normals) { 
-		    JavaGL.glNormal3f (x * (float)nsign, y * (float)nsign, z * (float)nsign); }
+	    	if (normals) {
+		    JavaGL.glNormal3f (x * nsign, y * nsign, z * nsign); }
 	    	JavaGL.glVertex3f (x * (float)radius, y * (float)radius, z * (float)radius);
 	    }
 	    JavaGL.glEnd();
 	} else if (qobj.DrawStyle == GLU_LINE || qobj.DrawStyle == GLU_SILHOUETTE) {
 	    /* draw stack lines */
 	    for (i = 1; i < stacks - 1; i++) {
-		rho = (float)i * drho;
+		rho = i * drho;
 		JavaGL.glBegin (GL.GL_LINE_LOOP);
 	        for (j = 0; j < slices; j++) {
-	    	    theta = (float)j * dtheta;
+	    	    theta = j * dtheta;
 	    	    x = (float)(Math.cos (theta) * Math.sin (rho));
 	    	    y = (float)(Math.sin (theta) * Math.sin (rho));
 	    	    z = (float)Math.cos (rho);
-	    	    if (normals) { 
-		    	JavaGL.glNormal3f (x * (float)nsign, y * (float)nsign, z * (float)nsign); }
+	    	    if (normals) {
+		    	JavaGL.glNormal3f (x * nsign, y * nsign, z * nsign); }
 	    	    JavaGL.glVertex3f (x * (float)radius, y * (float)radius, z * (float)radius);
            	}
 		JavaGL.glEnd();
@@ -841,15 +847,15 @@ public class GLU {
 
 	    /* draw slice lines */
 	    for (j = 0; j < slices; j++) {
-	    	theta = (float)j * dtheta;
+	    	theta = j * dtheta;
 		JavaGL.glBegin (GL.GL_LINE_STRIP);
 		for (i = 0; i <= stacks; i++) {
-		    rho = (float)i * drho;
+		    rho = i * drho;
 	    	    x = (float)(Math.cos (theta) * Math.sin (rho));
 	    	    y = (float)(Math.sin (theta) * Math.sin (rho));
 	    	    z = (float)Math.cos (rho);
-	    	    if (normals) { 
-		    	JavaGL.glNormal3f (x * (float)nsign, y * (float)nsign, z * (float)nsign); }
+	    	    if (normals) {
+		    	JavaGL.glNormal3f (x * nsign, y * nsign, z * nsign); }
 	    	    JavaGL.glVertex3f (x * (float)radius, y * (float)radius, z * (float)radius);
 		}
 		JavaGL.glEnd();
@@ -864,14 +870,14 @@ public class GLU {
 
 	    /* loop over stacks */
 	    for (i = 1; i < stacks - 1; i++) {
-		rho = (float)i * drho; 
+		rho = i * drho;
 		for (j = 0; j < slices; j++) {
-		    theta = (float)j * dtheta;
+		    theta = j * dtheta;
 	    	    x = (float)(Math.cos (theta) * Math.sin (rho));
 	    	    y = (float)(Math.sin (theta) * Math.sin (rho));
 	    	    z = (float)Math.cos (rho);
-	    	    if (normals) { 
-		    	JavaGL.glNormal3f (x * (float)nsign, y * (float)nsign, z * (float)nsign); }
+	    	    if (normals) {
+		    	JavaGL.glNormal3f (x * nsign, y * nsign, z * nsign); }
 	    	    JavaGL.glVertex3f (x * (float)radius, y * (float)radius, z * (float)radius);
 		}
 	    }
@@ -893,8 +899,8 @@ public class GLU {
 	    }
 	}
 
-	da = (float)2.0 * (float)Math.PI  / (float)slices;
-	dr = (float)(outerRadius - innerRadius) / (float) loops;
+	da = (float)2.0 * (float)Math.PI  / slices;
+	dr = (float)(outerRadius - innerRadius) / loops;
 
 	switch (qobj.DrawStyle) {
 	    case GLU_FILL:
@@ -1023,8 +1029,8 @@ public class GLU {
 	    int loop, slice;
 	    double radius, delta_radius;
 	    double angle, delta_angle;
-	    delta_radius = (outerRadius - innerRadius) / (double)(loops - 1);
-	    delta_angle = ((sweepAngle) / (double)(slices - 1))*(Math.PI/180.0);
+	    delta_radius = (outerRadius - innerRadius) / (loops - 1);
+	    delta_angle = ((sweepAngle) / (slices - 1))*(Math.PI/180.0);
 	    JavaGL.glBegin (GL.GL_POINTS);
 	    radius = innerRadius;
 	    for (loop = 0; loop < loops; loop++) {
@@ -1040,8 +1046,8 @@ public class GLU {
 	    int loop, slice;
 	    double radius, delta_radius;
 	    double angle, delta_angle;
-	    delta_radius = (outerRadius - innerRadius) / (double)loops;
-	    delta_angle = (sweepAngle / (double)slices)*(Math.PI/180.0);
+	    delta_radius = (outerRadius - innerRadius) / loops;
+	    delta_angle = (sweepAngle / slices)*(Math.PI/180.0);
 	    /* draw rings */
 	    radius = innerRadius;
 	    for (loop = 0; loop < loops; loop++) {
@@ -1069,7 +1075,7 @@ public class GLU {
 	} else if (qobj.DrawStyle == GLU_SILHOUETTE) {
 	    int slice;
 	    double angle, delta_angle;
-	    delta_angle = (sweepAngle / (double)slices)*(Math.PI/180.0);
+	    delta_angle = (sweepAngle / slices)*(Math.PI/180.0);
 	    /* draw outer ring */
 	    JavaGL.glBegin (GL.GL_LINE_STRIP);
 	    angle = startAngle*Math.PI/180.0;
@@ -1106,8 +1112,8 @@ public class GLU {
 	    int loop, slice;
 	    double radius, delta_radius;
 	    double angle, delta_angle;
-	    delta_radius = (outerRadius - innerRadius) / (double)loops;
-	    delta_angle = (sweepAngle / (double)slices)*(Math.PI/180.0);
+	    delta_radius = (outerRadius - innerRadius) / loops;
+	    delta_angle = (sweepAngle / slices)*(Math.PI/180.0);
 	    radius = innerRadius;
 	    for (loop = 0; loop < loops; loop++) {
 		JavaGL.glBegin (GL.GL_QUAD_STRIP);
@@ -1243,7 +1249,7 @@ public class GLU {
 			       int order, int type) {
 	nobj.glu_nurbs_curve (knot_count, knot, stride, ctlarray, order, type);
     }
- 
+
     /** GLvoid gluBeginSurface (GLUnurbsObj *nobj) */
     public void gluBeginSurface (GLUnurbsObj nobj) {
 	nobj.glu_begin_surface ();
@@ -1271,8 +1277,11 @@ public class GLU {
 				type);
     }
 
+    /**
+     * Dummy constructor. Please call new GLU (yourGL).
+     */
     public GLU () {
-    	System.out.println ("Please call new GLU (yourGL)");
+    	//System.out.println ("Please call new GLU (yourGL)");
     }
 
     public GLU (GL myGL) {

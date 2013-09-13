@@ -17,15 +17,15 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context;
+package com.github.nullnoname.jgl.core.context;
 
-import java.lang.Object;
-import java.lang.System;
+import java.io.Serializable;
 
-import jgl.GL;
-import jgl.context.attrib.gl_eval;
-import jgl.context.attrib.eval.gl_eval_map1;
-import jgl.context.attrib.eval.gl_eval_map2;
+import com.github.nullnoname.jgl.core.GL;
+import com.github.nullnoname.jgl.core.context.attrib.gl_eval;
+import com.github.nullnoname.jgl.core.context.attrib.eval.gl_eval_map1;
+import com.github.nullnoname.jgl.core.context.attrib.eval.gl_eval_map2;
+
 
 /**
  * gl_object is the super class of context and list of jGL 2.4.
@@ -34,9 +34,11 @@ import jgl.context.attrib.eval.gl_eval_map2;
  * @author 	Robin Bing-Yu Chen
  */
 
-public abstract class gl_object {
+public abstract class gl_object implements Serializable {
 
-    protected final boolean debug = true;
+    private static final long serialVersionUID = -3384056869989457365L;
+
+	protected final boolean debug = true;
 
     public static final float IDENTITY [] = { 1, 0, 0, 0,
     					      0, 1, 0, 0,
@@ -52,7 +54,7 @@ public abstract class gl_object {
     public int ErrorValue;
 
     public gl_eval Eval;
-    
+
     /** Protected Member Functions */
     protected float[] get_rotate (float angle, float x, float y, float z) {
 	float a [] = new float [16];
@@ -159,7 +161,7 @@ public abstract class gl_object {
 	    q = Eval.gl_eval_coord_1 (map, 3, u);
 	    gl_normal (q[0], q[1], q[2]);
 	}
-	
+
 	if (Eval.Map1TexCoord4Enable) {
 	    map = Eval.Map1TexCoord4;
 	    q = Eval.gl_eval_coord_1 (map, 4, u);
@@ -192,7 +194,7 @@ public abstract class gl_object {
     public void gl_eval_coord_2 (float u, float v) {
 	gl_eval_map2 map;
 	float q [], n[];
-	
+
 	if (Eval.Map2Color4Enable) {
 	    map = Eval.Map2Color4;
 	    q = Eval.gl_eval_coord_2 (map, 4, u, v);
@@ -213,7 +215,7 @@ public abstract class gl_object {
 		gl_normal (q[0], q[1], q[2]);
 	    }
 	}
-	
+
 	if (Eval.Map2TexCoord4Enable) {
 	    map = Eval.Map2TexCoord4;
 	    q = Eval.gl_eval_coord_2 (map, 4, u, v);
@@ -255,7 +257,7 @@ public abstract class gl_object {
 	float u1 = Eval.MapGrid1u1;
 	float u2 = Eval.MapGrid1u2;
 	int   nu = Eval.MapGrid1un;
-	float du = (u2 - u1) / (float)nu;
+	float du = (u2 - u1) / nu;
 	int i;
 
 	switch (mode) {
@@ -282,8 +284,8 @@ public abstract class gl_object {
 	float v2 = Eval.MapGrid2v2;
 	int   nu = Eval.MapGrid2un;
 	int   nv = Eval.MapGrid2vn;
-	float du = (u2 - u1) / (float)nu;
-	float dv = (v2 - v1) / (float)nv;
+	float du = (u2 - u1) / nu;
+	float dv = (v2 - v1) / nv;
 	int i, j;
 	float tu, tv, tv1;
 

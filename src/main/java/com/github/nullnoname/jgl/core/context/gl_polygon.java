@@ -17,7 +17,9 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context;
+package com.github.nullnoname.jgl.core.context;
+
+import java.io.Serializable;
 
 /**
  * gl_polygon is the Polygon class of JavaGL 1.1.
@@ -26,9 +28,10 @@ package jgl.context;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_polygon {
+public class gl_polygon implements Serializable {
 
-    public int n;			/* n Corner Polygon */
+    private static final long serialVersionUID = 3833889357541615961L;
+	public int n;			/* n Corner Polygon */
     public gl_vertex Polygon [];	/* Vertex Array */
 
 }

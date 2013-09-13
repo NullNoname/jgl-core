@@ -17,10 +17,13 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib;
+package com.github.nullnoname.jgl.core.context.attrib;
 
-import jgl.GL;
-import jgl.context.attrib.pixel.*;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.GL;
+import com.github.nullnoname.jgl.core.context.attrib.pixel.gl_pixel_pack;
+import com.github.nullnoname.jgl.core.context.attrib.pixel.gl_pixel_transfer;
 
 /**
  * gl_pixel is the pixels class of jGL 2.4.
@@ -29,9 +32,11 @@ import jgl.context.attrib.pixel.*;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_pixel {
+public class gl_pixel implements Serializable {
 
-    /** GL_MAP_COLOR: True if colors are mapped */
+    private static final long serialVersionUID = 5401114727700295313L;
+
+	/** GL_MAP_COLOR: True if colors are mapped */
     public boolean MapColor = false;
 
     /** GL_MAP_STENCIL: True if stencil values are mapped */
@@ -84,14 +89,14 @@ public class gl_pixel {
 //    public gl_pixel_map ItoA = new gl_pixel_map ();
 
     /** GL_PIXEL_MAP_R_TO_R: Pixel map from R to R */
-//    public gl_pixel_map RtoR = new gl_pixel_map ();         
-                                                            
+//    public gl_pixel_map RtoR = new gl_pixel_map ();
+
     /** GL_PIXEL_MAP_G_TO_G: Pixel map from G to G */
-//    public gl_pixel_map GtoG = new gl_pixel_map ();         
-                                                            
+//    public gl_pixel_map GtoG = new gl_pixel_map ();
+
     /** GL_PIXEL_MAP_B_TO_B: Pixel map from B to B */
-//    public gl_pixel_map BtoB = new gl_pixel_map ();         
-                                                            
+//    public gl_pixel_map BtoB = new gl_pixel_map ();
+
     /** GL_PIXEL_MAP_A_TO_A: Pixel map from A to A */
 //    public gl_pixel_map AtoA = new gl_pixel_map ();
 

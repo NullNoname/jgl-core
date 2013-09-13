@@ -17,9 +17,11 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glu;
+package com.github.nullnoname.jgl.core.glu;
 
-import jgl.GLU;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.GLU;
 
 /**
  * nurbs_obj is one of the GLU NURBS class of JavaGL 2.1.
@@ -28,9 +30,10 @@ import jgl.GLU;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class nurbs_obj {
+public class nurbs_obj implements Serializable {
 
-    public int   knot_count;
+    private static final long serialVersionUID = 913685022109863796L;
+	public int   knot_count;
     public float knot [];
     public int   stride;
     public int   order;

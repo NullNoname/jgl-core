@@ -17,11 +17,13 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.render;
+package com.github.nullnoname.jgl.core.context.render;
 
-import jgl.context.gl_context;
-import jgl.context.gl_vertex;
-import jgl.context.gl_polygon;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_polygon;
+import com.github.nullnoname.jgl.core.context.gl_vertex;
 
 /**
  * gl_select_render is the rendering class for selection of JavaGL 2.1.
@@ -30,9 +32,11 @@ import jgl.context.gl_polygon;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_select_render extends gl_render {
+public class gl_select_render extends gl_render implements Serializable {
 
-    public void draw_line (gl_vertex v1, gl_vertex v2) {
+    private static final long serialVersionUID = 589247079438495933L;
+
+	public void draw_line (gl_vertex v1, gl_vertex v2) {
 	CC.Select.update_hit_flag (v1.Vertex[2]);
         CC.Select.update_hit_flag (v2.Vertex[2]);
     }

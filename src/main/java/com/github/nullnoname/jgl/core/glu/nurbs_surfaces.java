@@ -17,9 +17,11 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glu;
+package com.github.nullnoname.jgl.core.glu;
 
-import jgl.GLU;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.GLU;
 
 /**
  * nurbs_surfaces is one of the GLU NURBS class of JavaGL 2.1.
@@ -28,9 +30,10 @@ import jgl.GLU;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class nurbs_surfaces {
+public class nurbs_surfaces implements Serializable {
 
-    public nurbs_surface geom    = new nurbs_surface ();
+    private static final long serialVersionUID = 17527333322987048L;
+	public nurbs_surface geom    = new nurbs_surface ();
     public nurbs_surface color   = new nurbs_surface ();
     public nurbs_surface normal  = new nurbs_surface ();
     public nurbs_surface texture = new nurbs_surface ();

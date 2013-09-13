@@ -17,10 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.geometry;
+package com.github.nullnoname.jgl.core.context.geometry;
 
-import jgl.context.gl_context;
-import jgl.context.gl_pointer;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_pointer;
 
 /**
  * gl_depth_geo is the geometry class with depth value of JavaGL 2.1.
@@ -29,10 +31,12 @@ import jgl.context.gl_pointer;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_depth_geo extends gl_geometry {
+public class gl_depth_geo extends gl_geometry implements Serializable {
 
-    protected void draw_point (float p [], int i) {
-	System.out.println("DRAW POINT");
+    private static final long serialVersionUID = 1255009186098816409L;
+
+	protected void draw_point (float p [], int i) {
+	//System.out.println("DRAW POINT");
 	CR.pixel.put_pixel ((int)(p[0]+(float)0.5), (int)(p[1]+(float)0.5), p[2],
 			    CC.ColorTransformation ());
     }

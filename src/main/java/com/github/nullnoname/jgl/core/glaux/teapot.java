@@ -17,9 +17,9 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glaux;
+package com.github.nullnoname.jgl.core.glaux;
 
-import jgl.GL;
+import com.github.nullnoname.jgl.core.GL;
 
 /**
  * teapot is the teapot class of jGL 2.4.
@@ -122,7 +122,7 @@ public class teapot {
 	    }
 	    JavaGL.glMap2f (GL.GL_MAP2_TEXTURE_COORD_2, 0, 1, 2, 2, 0, 1, 4, 2, tex);
 	    JavaGL.glMap2f (GL.GL_MAP2_VERTEX_3, 0, 1, 3, 4, 0, 1, 12, 4, p);
-	    JavaGL.glEnable (GL.GL_MAP2_VERTEX_3); 
+	    JavaGL.glEnable (GL.GL_MAP2_VERTEX_3);
 	    JavaGL.glEnable (GL.GL_MAP2_TEXTURE_COORD_2);
 	    JavaGL.glMapGrid2f (grid, 0.0f, 1.0f, grid, 0.0f, 1.0f);
 	    JavaGL.glEvalMesh2 (type, 0, grid, 0, grid);
@@ -138,7 +138,7 @@ public class teapot {
 	JavaGL.glDisable (GL.GL_MAP2_VERTEX_3);
 	JavaGL.glDisable (GL.GL_MAP2_TEXTURE_COORD_2);
 	JavaGL.glPopMatrix ();
-	
+
 //	JavaGL.glPushAttrib ();
     }
 

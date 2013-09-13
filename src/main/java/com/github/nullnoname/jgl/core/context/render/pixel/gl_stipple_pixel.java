@@ -17,9 +17,11 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.render.pixel;
+package com.github.nullnoname.jgl.core.context.render.pixel;
 
-import jgl.context.gl_context;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
 
 /**
  * gl_stipple_pixel is pixel class for stipple of JavaGL 2.1.
@@ -28,9 +30,11 @@ import jgl.context.gl_context;
  * @author 	Robin Bing-Yu Chen
  */
 
-public abstract class gl_stipple_pixel extends gl_render_pixel {
+public abstract class gl_stipple_pixel extends gl_render_pixel implements Serializable {
 
-    /** Put a pixel for stippled polygon */
+    private static final long serialVersionUID = 212830621510350719L;
+
+	/** Put a pixel for stippled polygon */
     public void put_pixel_by_index (int index, int color) {
 	int y = index / CC.Viewport.Width;
 	int x = index - CC.Viewport.Width * y;

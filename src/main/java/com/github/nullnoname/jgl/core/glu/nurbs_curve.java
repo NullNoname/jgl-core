@@ -17,10 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glu;
+package com.github.nullnoname.jgl.core.glu;
 
-import jgl.GL;
-import jgl.GLU;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.GL;
+import com.github.nullnoname.jgl.core.GLU;
 
 /**
  * nurbs_curve is one of the GLU NURBS class of JavaGL 2.1.
@@ -29,9 +31,10 @@ import jgl.GLU;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class nurbs_curve extends nurbs_nurbs {
+public class nurbs_curve extends nurbs_nurbs implements Serializable {
 
-    public float     ctrlarray [][];
+    private static final long serialVersionUID = -1637307449713070822L;
+	public float     ctrlarray [][];
     public nurbs_obj c = new nurbs_obj ();
 
     private void set_dim () {
@@ -62,7 +65,7 @@ public class nurbs_curve extends nurbs_nurbs {
     }
 
     public void fill (int knot_count, float knot [],
-		      int stride, 
+		      int stride,
 		      float surctrlarray [][],
 		      int order, int surtype) {
 	c.fill (knot_count, knot, stride, order);

@@ -17,7 +17,9 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glu;
+package com.github.nullnoname.jgl.core.glu;
+
+import java.io.Serializable;
 
 /**
  * nurbs_pwl_curve is one of the GLU NURBS class of JavaGL 2.1.
@@ -26,11 +28,12 @@ package jgl.glu;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class nurbs_pwl_curve extends nurbs_nurbs {
+public class nurbs_pwl_curve extends nurbs_nurbs implements Serializable {
 
-    public float ctrlarray [][];
+    private static final long serialVersionUID = -238377962780240720L;
+	public float ctrlarray [][];
     public int   pt_count;
-    public int   stride;  
+    public int   stride;
 
 }
 

@@ -17,10 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.geometry;
+package com.github.nullnoname.jgl.core.context.geometry;
 
-import jgl.context.gl_context;
-import jgl.context.gl_pointer;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_pointer;
 
 /**
  * gl_smooth_z_geo is geometry class for smooth shading with depth of JavaGL 2.1.
@@ -29,9 +31,11 @@ import jgl.context.gl_pointer;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_smooth_z_geo extends gl_smooth_geo {
+public class gl_smooth_z_geo extends gl_smooth_geo implements Serializable {
 
-    protected void draw_point (float p [], int i) {
+    private static final long serialVersionUID = -515232396254910546L;
+
+	protected void draw_point (float p [], int i) {
 	CR.pixel.put_pixel ((int)(p[0]+(float)0.5), (int)(p[1]+(float)0.5), p[2],
 			    VertexColor [i]);
     }

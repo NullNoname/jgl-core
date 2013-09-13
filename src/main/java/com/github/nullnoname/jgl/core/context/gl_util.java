@@ -17,9 +17,10 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context;
+package com.github.nullnoname.jgl.core.context;
 
-import java.lang.System;
+import java.io.Serializable;
+
 
 /**
  * gl_util is the utility class of jGL 2.4.
@@ -28,9 +29,11 @@ import java.lang.System;
  * @author 	Robin Bing-Yu Chen
  */
 
-public final class gl_util {
+public final class gl_util implements Serializable {
 
-    private static void showMatrix (float m [], int size) {
+    private static final long serialVersionUID = 2273500911043257299L;
+
+	private static void showMatrix (float m [], int size) {
 	for (int i = 0; i < size; i++) { System.out.print (m [i] + " "); }
 	System.out.println ();
     }
@@ -170,7 +173,7 @@ public final class gl_util {
     public static float dot33 (float a [], float b []) {
 	return (a[0] * b[0] + a[1] * b[1] + a[2] * b[2]);
     }
-    
+
     public static float dot44 (float a[], float b[]) {
 	return (a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3]);
     }
@@ -223,7 +226,7 @@ public final class gl_util {
     }
 
     public static float interpolate (int i, int n, float u1, float u2) {
-        float du = (u2 - u1) / (float)n;
+        float du = (u2 - u1) / n;
         return interpolate (i, n, u1, u2, du);
     }
 
@@ -232,7 +235,7 @@ public final class gl_util {
 	if (x > max) return max;
 	return x;
     }
-    
+
     public static short CLAMP (short x, short min, short max) {
     	if (x < min) return min;
 	if (x > max) return max;
@@ -250,7 +253,7 @@ public final class gl_util {
 	if (x > max) return max;
 	return x;
     }
-    
+
     public static float CLAMP (float x, double min, double max) {
     	if (x < min) return (float)min;
 	if (x > max) return (float)max;
@@ -263,13 +266,13 @@ public final class gl_util {
 	if (x > max) return (float)max;
 	return (float)x;
     }
-    
+
     public static int   BtoI (byte  x) { return      (x & 0xff); }
     public static int   StoI (short x) { return      (x & 0xffff); }
     public static int   FtoI (float x) { return (int)(x * 255.0f); }
-    public static float BtoF (byte  x) { return (float)(x & 0xff) / 255.0f; }
-    public static float ItoF (int   x) { return (float) x         / 255.0f; }
-    
+    public static float BtoF (byte  x) { return (x & 0xff) / 255.0f; }
+    public static float ItoF (int   x) { return x         / 255.0f; }
+
     public static int ItoR (int x) { return  ((x & 0x00ff0000) >> 16); }
     public static int ItoG (int x) { return  ((x & 0x0000ff00) >>  8); }
     public static int ItoB (int x) { return   (x & 0x000000ff);        }
@@ -286,7 +289,7 @@ public final class gl_util {
     public static int RGBAtoI (float r, float g, float b, float a) {
 	return RGBAtoI (FtoI(r), FtoI(g), FtoI(b), FtoI(a));
     }
-    
+
     public static int RGBtoI (byte r, byte g, byte b) {
 	return (0xff000000 | ((r & 0xff) << 16) | ((g & 0xff) << 8) | b);
     }
@@ -307,7 +310,7 @@ public final class gl_util {
 	rgb [3] = ((i & 0xff000000) >> 24) & 0x000000ff;
 	return rgb;
     }
-    
+
     public static float[] ItoRGBAf (int i) {
 	float rgb[] = new float [4];
 	rgb [0] = ItoF( (i & 0x00ff0000) >> 16);
@@ -316,7 +319,7 @@ public final class gl_util {
 	rgb [3] = ItoF(((i & 0xff000000) >> 24) & 0x000000ff);
 	return rgb;
     }
-    
+
     public static int[] ItoRGB (int i) {
 	int rgb[] = new int [3];
 	rgb [0] = (i & 0x00ff0000) >> 16;
@@ -324,7 +327,7 @@ public final class gl_util {
 	rgb [2] = (i & 0x000000ff);
 	return rgb;
     }
-    
+
     public static float[] ItoRGBf (int i) {
 	float rgb[] = new float [3];
 	rgb [0] = ItoF((i & 0x00ff0000) >> 16);
@@ -332,5 +335,5 @@ public final class gl_util {
 	rgb [2] = ItoF((i & 0x000000ff));
 	return rgb;
     }
-    
+
 }

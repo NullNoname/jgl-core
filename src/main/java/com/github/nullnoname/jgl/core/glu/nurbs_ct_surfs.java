@@ -17,9 +17,11 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glu;
+package com.github.nullnoname.jgl.core.glu;
 
-import jgl.GL;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.GL;
 
 /**
  * nurbs_ct_surfs is one of the GLU NURBS class of JavaGL 2.1.
@@ -28,9 +30,10 @@ import jgl.GL;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class nurbs_ct_surfs {
+public class nurbs_ct_surfs implements Serializable {
 
-    public nurbs_ct_surf geom    = new nurbs_ct_surf ();
+    private static final long serialVersionUID = 906058687935811404L;
+	public nurbs_ct_surf geom    = new nurbs_ct_surf ();
     public nurbs_ct_surf color   = new nurbs_ct_surf ();
     public nurbs_ct_surf normal  = new nurbs_ct_surf ();
     public nurbs_ct_surf texture = new nurbs_ct_surf ();

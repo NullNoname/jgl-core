@@ -17,11 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.gle.render;
+package com.github.nullnoname.jgl.core.gle.render;
 
-import jgl.context.gl_vertex;
-import jgl.gle.gle_context;
-import jgl.gle.gle_vertex;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_vertex;
+import com.github.nullnoname.jgl.core.gle.gle_context;
 
 /**
  * gle_phong_z is the rendering class for phong shading with depth of jGL 2.5.
@@ -30,9 +31,11 @@ import jgl.gle.gle_vertex;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gle_phong_z extends gle_phong {
+public class gle_phong_z extends gle_phong implements Serializable {
 
-    protected void init (gl_vertex v1, gl_vertex v2) {
+    private static final long serialVersionUID = 7522099753331805885L;
+
+	protected void init (gl_vertex v1, gl_vertex v2) {
 	super.init (v1, v2);
 	init_z (v1, v2);
     }

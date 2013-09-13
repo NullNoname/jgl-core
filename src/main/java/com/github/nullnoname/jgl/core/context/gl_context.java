@@ -17,19 +17,27 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context;
+package com.github.nullnoname.jgl.core.context;
 
-import java.lang.Object;
-import java.lang.System;
+import java.io.Serializable;
 import java.util.Stack;
 import java.util.Vector;
 
-import jgl.GL;
+import com.github.nullnoname.jgl.core.GL;
+import com.github.nullnoname.jgl.core.context.attrib.gl_colorbuffer;
+import com.github.nullnoname.jgl.core.context.attrib.gl_current;
+import com.github.nullnoname.jgl.core.context.attrib.gl_depthbuffer;
+import com.github.nullnoname.jgl.core.context.attrib.gl_eval;
+import com.github.nullnoname.jgl.core.context.attrib.gl_lighting;
+import com.github.nullnoname.jgl.core.context.attrib.gl_pixel;
+import com.github.nullnoname.jgl.core.context.attrib.gl_raster;
+import com.github.nullnoname.jgl.core.context.attrib.gl_stencilbuffer;
+import com.github.nullnoname.jgl.core.context.attrib.gl_texture;
+import com.github.nullnoname.jgl.core.context.attrib.gl_transform;
+import com.github.nullnoname.jgl.core.context.attrib.gl_viewport;
+import com.github.nullnoname.jgl.core.context.attrib.texture.gl_texture_obj;
 
-import jgl.context.attrib.*;
-import jgl.context.attrib.eval.gl_eval_map1;
-import jgl.context.attrib.eval.gl_eval_map2;
-import jgl.context.attrib.texture.gl_texture_obj;
+
 
 /**
  * gl_context is the context class of jGL 2.4.
@@ -38,9 +46,10 @@ import jgl.context.attrib.texture.gl_texture_obj;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_context extends gl_object {
+public class gl_context extends gl_object implements Serializable {
 
-    /** Constant of Context of JavaGL */
+    private static final long serialVersionUID = 3504189063807677515L;
+	/** Constant of Context of JavaGL */
 //    public static final int   MAX_MODELVIEW_STACK_DEPTH	= 32;
 //    public static final int   MAX_PROJECTION_STACK_DEPTH	= 32;
 //    public static final int   MAX_TEXTURE_STACK_DEPTH		= 8;
@@ -233,7 +242,7 @@ public class gl_context extends gl_object {
     	if (RenderMode != GL.GL_RENDER) { return; }
 	DepthBuffer.clear_buffer (Viewport.Size);
     }
-    
+
     public void gl_clear_color_buffer () {
     	if (RenderMode != GL.GL_RENDER) { return; }
 	ColorBuffer.clear_buffer (Viewport.Size);
@@ -253,7 +262,7 @@ public class gl_context extends gl_object {
 	ColorBuffer.BlendSrc = sfactor;
 	ColorBuffer.BlendDst = dfactor;
     }
-    
+
     public void gl_cull_face (int mode) {
 	Raster.CullFaceMode = mode;
     }
@@ -296,8 +305,7 @@ public class gl_context extends gl_object {
     }
 
     public void gl_enable (int cap, boolean state) {
-    	int i;
-	switch (cap) {
+    	switch (cap) {
 	    case GL.GL_ALPHA_TEST:
 		ColorBuffer.AlphaEnable = state;
 		break;
@@ -658,39 +666,39 @@ public class gl_context extends gl_object {
 
 	if ((mask & GL.GL_ACCUM_BUFFER_BIT) != 0) {}
 	if ((mask & GL.GL_COLOR_BUFFER_BIT) != 0) {
-	    AttribItem = new gl_list_item (GL.GL_COLOR_BUFFER_BIT);    
+	    AttribItem = new gl_list_item (GL.GL_COLOR_BUFFER_BIT);
 //	    ColorBuffer.push_attrib (AttribItem);
-	    AttribItem.ObjPtr = (Object)ColorBuffer;
+	    AttribItem.ObjPtr = ColorBuffer;
 	    ColorBuffer = new gl_colorbuffer (ColorBuffer);
 	    AttribStack.push (AttribItem);
 	    mask_number++;
 	}
 	if ((mask & GL.GL_CURRENT_BIT) > 0) {
-	    AttribItem = new gl_list_item (GL.GL_CURRENT_BIT);    
+	    AttribItem = new gl_list_item (GL.GL_CURRENT_BIT);
 //	    Current.push_attrib (AttribItem);
-	    AttribItem.ObjPtr = (Object)Current;
+	    AttribItem.ObjPtr = Current;
 	    Current = new gl_current (Current);
 	    AttribStack.push (AttribItem);
 	    mask_number++;
 	}
 	if ((mask & GL.GL_DEPTH_BUFFER_BIT) != 0) {
-	    AttribItem = new gl_list_item (GL.GL_DEPTH_BUFFER_BIT);    
+	    AttribItem = new gl_list_item (GL.GL_DEPTH_BUFFER_BIT);
 //	    DepthBuffer.push_attrib (AttribItem);
-	    AttribItem.ObjPtr = (Object)DepthBuffer;
+	    AttribItem.ObjPtr = DepthBuffer;
 	    DepthBuffer = new gl_depthbuffer (DepthBuffer);
 	    AttribStack.push (AttribItem);
 	    mask_number++;
 	}
 	if ((mask & GL.GL_ENABLE_BIT) != 0) {
-	    AttribItem = new gl_list_item (GL.GL_ENABLE_BIT);    
+	    AttribItem = new gl_list_item (GL.GL_ENABLE_BIT);
 	    gl_enable_push_attrib (AttribItem);
 	    AttribStack.push (AttribItem);
 	    mask_number++;
 	}
 	if ((mask & GL.GL_EVAL_BIT) != 0) {
-	    AttribItem = new gl_list_item (GL.GL_EVAL_BIT);    
+	    AttribItem = new gl_list_item (GL.GL_EVAL_BIT);
 //	    Eval.push_attrib (AttribItem);
-	    AttribItem.ObjPtr = (Object)Eval;
+	    AttribItem.ObjPtr = Eval;
 	    Eval = new gl_eval (Eval);
 	    AttribStack.push (AttribItem);
 	    mask_number++;
@@ -698,82 +706,82 @@ public class gl_context extends gl_object {
 	if ((mask & GL.GL_FOG_BIT) != 0) {}
 	if ((mask & GL.GL_HINT_BIT) != 0) {}
 	if ((mask & GL.GL_LIGHTING_BIT) != 0) {
-	    AttribItem = new gl_list_item (GL.GL_LIGHTING_BIT);    
+	    AttribItem = new gl_list_item (GL.GL_LIGHTING_BIT);
 //	    Lighting.push_attrib (AttribItem);
-	    AttribItem.ObjPtr = (Object)Lighting;
+	    AttribItem.ObjPtr = Lighting;
 	    Lighting = new gl_lighting (Lighting);
 	    AttribStack.push (AttribItem);
 	    mask_number++;
 	}
 	if ((mask & GL.GL_LINE_BIT) != 0) {
-	    AttribItem = new gl_list_item (GL.GL_LINE_BIT);    
+	    AttribItem = new gl_list_item (GL.GL_LINE_BIT);
 	    Raster.push_line_attrib (AttribItem);
 	    AttribStack.push (AttribItem);
 	    mask_number++;
 	}
 	if ((mask & GL.GL_LIST_BIT) != 0) {
-	    AttribItem = new gl_list_item (GL.GL_LIST_BIT);    
+	    AttribItem = new gl_list_item (GL.GL_LIST_BIT);
 	    AttribItem.IntPtr = new int [1];
 	    AttribItem.IntPtr [0] = ListBase;
 	    AttribStack.push (AttribItem);
 	    mask_number++;
 	}
 	if ((mask & GL.GL_PIXEL_MODE_BIT) != 0) {
-	    AttribItem = new gl_list_item (GL.GL_PIXEL_MODE_BIT);    
+	    AttribItem = new gl_list_item (GL.GL_PIXEL_MODE_BIT);
 //	    Pixel.push_attrib (AttribItem);
 	    AttribStack.push (AttribItem);
 	    mask_number++;
 	}
 	if ((mask & GL.GL_POINT_BIT) != 0) {
-	    AttribItem = new gl_list_item (GL.GL_POINT_BIT);    
+	    AttribItem = new gl_list_item (GL.GL_POINT_BIT);
 	    Raster.push_point_attrib (AttribItem);
 	    AttribStack.push (AttribItem);
 	    mask_number++;
 	}
 	if ((mask & GL.GL_POLYGON_BIT) != 0) {
-	    AttribItem = new gl_list_item (GL.GL_POLYGON_BIT);    
+	    AttribItem = new gl_list_item (GL.GL_POLYGON_BIT);
 	    Raster.push_polygon_attrib (AttribItem);
 	    AttribStack.push (AttribItem);
 	    mask_number++;
 	}
 	if ((mask & GL.GL_POLYGON_STIPPLE_BIT) != 0) {
-	    AttribItem = new gl_list_item (GL.GL_POLYGON_STIPPLE_BIT);    
+	    AttribItem = new gl_list_item (GL.GL_POLYGON_STIPPLE_BIT);
 	    Raster.push_polygon_stipple_attrib (AttribItem);
 	    AttribStack.push (AttribItem);
 	    mask_number++;
 	}
 	if ((mask & GL.GL_SCISSOR_BIT) != 0) {}
 	if ((mask & GL.GL_STENCIL_BUFFER_BIT) != 0) {
-	    AttribItem = new gl_list_item (GL.GL_STENCIL_BUFFER_BIT);    
+	    AttribItem = new gl_list_item (GL.GL_STENCIL_BUFFER_BIT);
 //	    DepthBuffer.push_attrib (AttribItem);
-	    AttribItem.ObjPtr = (Object)StencilBuffer;
+	    AttribItem.ObjPtr = StencilBuffer;
 	    StencilBuffer = new gl_stencilbuffer (StencilBuffer);
 	    AttribStack.push (AttribItem);
 	    mask_number++;
 	}
 	if ((mask & GL.GL_TEXTURE_BIT) != 0) {
-	    AttribItem = new gl_list_item (GL.GL_TEXTURE_BIT);    
+	    AttribItem = new gl_list_item (GL.GL_TEXTURE_BIT);
 //	    Texture.push_attrib (AttribItem);
 	    AttribStack.push (AttribItem);
 	    mask_number++;
 	}
 	if ((mask & GL.GL_TRANSFORM_BIT) != 0) {
-	    AttribItem = new gl_list_item (GL.GL_TRANSFORM_BIT);    
+	    AttribItem = new gl_list_item (GL.GL_TRANSFORM_BIT);
 //	    Transform.push_attrib (AttribItem);
-	    AttribItem.ObjPtr = (Object)Transform;
+	    AttribItem.ObjPtr = Transform;
 	    Transform = new gl_transform (Transform);
 	    AttribStack.push (AttribItem);
 	    mask_number++;
 	}
 	if ((mask & GL.GL_VIEWPORT_BIT) != 0) {
-	    AttribItem = new gl_list_item (GL.GL_VIEWPORT_BIT);    
+	    AttribItem = new gl_list_item (GL.GL_VIEWPORT_BIT);
 //	    Viewport.push_attrib (AttribItem);
-	    AttribItem.ObjPtr = (Object)Viewport;
+	    AttribItem.ObjPtr = Viewport;
 	    Viewport = new gl_viewport (Viewport);
 	    AttribStack.push (AttribItem);
 	    mask_number++;
 	}
-	AttribItem = new gl_list_item (mask_number);    
+	AttribItem = new gl_list_item (mask_number);
 	AttribStack.push (AttribItem);
     }
 
@@ -781,10 +789,10 @@ public class gl_context extends gl_object {
 	gl_list_item AttribItem;
 	int i, mask_number;
 
-	AttribItem = (gl_list_item) AttribStack.pop ();
+	AttribItem = AttribStack.pop ();
 	mask_number = AttribItem.NodeKind;
 	for (i = 0; i < mask_number; i++) {
-	    AttribItem = (gl_list_item) AttribStack.pop ();
+	    AttribItem = AttribStack.pop ();
 	    switch (AttribItem.NodeKind) {
 		case GL.GL_ACCUM_BUFFER_BIT:
 		    break;
@@ -898,7 +906,7 @@ public class gl_context extends gl_object {
     public void gl_depth_func (int func) {
 	DepthBuffer.Func = func;
     }
-    
+
     public void gl_depth_mask (boolean flag) {
 	DepthBuffer.Mask = flag;
     }
@@ -931,7 +939,7 @@ public class gl_context extends gl_object {
 	ColorBuffer.set_buffer (Viewport.Size);
 	DepthBuffer.set_buffer (Viewport.Size);
 	StencilBuffer.set_buffer (Viewport.Size);
-	DepthBuffer.clear_buffer (Viewport.Size); 
+	DepthBuffer.clear_buffer (Viewport.Size);
     }
 
     public void gl_push_matrix () {
@@ -955,14 +963,14 @@ public class gl_context extends gl_object {
     public void gl_pop_matrix () {
     	switch (Transform.MatrixMode) {
 	    case GL.GL_MODELVIEW:
-	    	ModelViewMatrix = (float[]) ModelViewStack.pop ();
+	    	ModelViewMatrix = ModelViewStack.pop ();
 		ModelViewInvValid = false;
 	    	break;
 	    case GL.GL_PROJECTION:
-	    	ProjectionMatrix = (float[])ProjectionStack.pop ();
+	    	ProjectionMatrix = ProjectionStack.pop ();
 	    	break;
 	    case GL.GL_TEXTURE:
-	    	TextureMatrix = (float[])TextureStack.pop ();
+	    	TextureMatrix = TextureStack.pop ();
 	    	break;
 	}
     }
@@ -1012,7 +1020,7 @@ public class gl_context extends gl_object {
     }
 
     public boolean gl_is_list (int list) {
-	if (ListGroup.size () <= list) { return false; } 
+	if (ListGroup.size () <= list) { return false; }
     	Object temp = ListGroup.elementAt (list);
 	if (temp==null) { return false; }
 	return true;
@@ -1053,11 +1061,11 @@ public class gl_context extends gl_object {
     }
 
     public void gl_call_list (int list) {
-	((gl_list)(ListGroup.elementAt (list))).gl_exec_list (this);
+	(ListGroup.elementAt (list)).gl_exec_list (this);
     }
 
     public void gl_call_offset (int offset) {
-    	((gl_list)(ListGroup.elementAt (ListBase + offset))).gl_exec_list(this);
+    	(ListGroup.elementAt (ListBase + offset)).gl_exec_list(this);
     }
 
     public void gl_list_base (int base) {
@@ -1106,7 +1114,7 @@ public class gl_context extends gl_object {
 
     public void gl_raster_pos (float x, float y, float z, float w) {
     }
-    
+
     public void gl_shade_model (int mode) {
     	Lighting.ShadeModel = mode;
 	CR.gl_smooth (Lighting.ShadeModel == GL.GL_SMOOTH);
@@ -1208,7 +1216,7 @@ public class gl_context extends gl_object {
     public void gl_copy_depth_pixels (int x, int y, int width, int height) {
 	DepthBuffer.copy_pixels (x, y, width, height);
     }
-    
+
     public void gl_stencil_func (int func, int ref, int mask) {
 	StencilBuffer.Func = func;
 	StencilBuffer.Ref = ref;
@@ -1304,7 +1312,7 @@ public class gl_context extends gl_object {
 
     public void gl_bind_texture (int target, int texture) {
 	if (texture >= TexList.size ()) return;
-	gl_texture_obj tex_obj = (gl_texture_obj)TexList.elementAt (texture);
+	gl_texture_obj tex_obj = TexList.elementAt (texture);
 	if (tex_obj == null) return;
 	Texture.bind_texture (target, tex_obj);
     }
@@ -1344,7 +1352,7 @@ public class gl_context extends gl_object {
 
     public int gl_map_1 (int target, float u1, float u2, int stride,
 			 int order, float points [][]) {
-	return Eval.set_map_1 (target, u1, u2, stride, order, points); 
+	return Eval.set_map_1 (target, u1, u2, stride, order, points);
     }
 
     public int gl_map_2 (int target,
@@ -1377,7 +1385,7 @@ public class gl_context extends gl_object {
 	    q = Eval.gl_eval_coord_1 (map, 3, u);
 	    gl_normal (q[0], q[1], q[2]);
 	}
-	
+
 	if (Eval.Map1TexCoord4Enable) {
 	    map = Eval.Map1TexCoord4;
 	    q = Eval.gl_eval_coord_1 (map, 4, u);
@@ -1431,7 +1439,7 @@ public class gl_context extends gl_object {
 		gl_normal (q[0], q[1], q[2]);
 	    }
 	}
-	
+
 	if (Eval.Map2TexCoord4Enable) {
 	    map = Eval.Map2TexCoord4;
 	    q = Eval.gl_eval_coord_2 (map, 4, u, v);
@@ -1622,7 +1630,7 @@ public class gl_context extends gl_object {
 
     public void gl_pass_through (float token) {
 	if (RenderMode == GL.GL_FEEDBACK) {
-	    Feedback.write_feedback_token ((float)GL.GL_PASS_THROUGH_TOKEN);
+	    Feedback.write_feedback_token (GL.GL_PASS_THROUGH_TOKEN);
 	    Feedback.write_feedback_token (token);
 	}
     }
@@ -1646,7 +1654,7 @@ public class gl_context extends gl_object {
 	    gl_error (GL.GL_STACK_OVERFLOW, "glPushName");
 	}
     }
-    
+
     public void gl_pop_name () {
 	if (!Select.pop_name ()) {
 	    gl_error (GL.GL_STACK_UNDERFLOW, "glPopName");

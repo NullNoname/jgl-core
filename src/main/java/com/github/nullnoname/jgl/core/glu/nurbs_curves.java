@@ -17,9 +17,11 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glu;
+package com.github.nullnoname.jgl.core.glu;
 
-import jgl.GLU;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.GLU;
 
 /**
  * nurbs_curves is one of the GLU NURBS class of JavaGL 2.1.
@@ -28,14 +30,15 @@ import jgl.GLU;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class nurbs_curves {
+public class nurbs_curves implements Serializable {
 
-    public nurbs_curve geom    = new nurbs_curve ();
+    private static final long serialVersionUID = 1422921784438618347L;
+	public nurbs_curve geom    = new nurbs_curve ();
     public nurbs_curve color   = new nurbs_curve ();
     public nurbs_curve normal  = new nurbs_curve ();
     public nurbs_curve texture = new nurbs_curve ();
 
-    public int fill_knot (nurbs_knot geom_knot,   nurbs_knot color_knot,  
+    public int fill_knot (nurbs_knot geom_knot,   nurbs_knot color_knot,
 			  nurbs_knot normal_knot, nurbs_knot texture_knot){
 	int err;
 

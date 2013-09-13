@@ -17,9 +17,11 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.render.pixel;
+package com.github.nullnoname.jgl.core.context.render.pixel;
 
-import jgl.context.gl_context;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
 
 /**
  * gl_render_point is the point rendering class of JavaGL 2.1.
@@ -28,9 +30,11 @@ import jgl.context.gl_context;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_render_point extends gl_render_pixel {
+public class gl_render_point extends gl_render_pixel implements Serializable {
 
-    /** Calculate the point size for GL_POINTS, return a bounding box of it */
+    private static final long serialVersionUID = -6477934355148674219L;
+
+	/** Calculate the point size for GL_POINTS, return a bounding box of it */
     private int [] cal_point_size (int x, int y) {
     	int [] xy = new int [4];	/* 0,1 for x, 2,3 for y */
     	int size = (int)(CC.Raster.PointSize + (float)0.5);

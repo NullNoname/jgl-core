@@ -17,20 +17,17 @@
  * Lesser General Public License for more details.
  */
 
-package jgl;
+package com.github.nullnoname.jgl.core;
 
-import java.applet.Applet;
-// import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.ImageObserver;
-import java.awt.image.MemoryImageSource;
-import java.lang.Object;
-import java.lang.System;
+import java.io.Serializable;
 
-import jgl.context.*;
-import jgl.context.attrib.gl_pixel;
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_list;
+import com.github.nullnoname.jgl.core.context.gl_object;
+import com.github.nullnoname.jgl.core.context.gl_util;
+import com.github.nullnoname.jgl.core.logging.JGLLogger;
+import com.github.nullnoname.jgl.core.logging.JGLSysErrLogger;
+
 
 /**
  * GL is the main class of jGL 2.4.
@@ -39,9 +36,10 @@ import jgl.context.attrib.gl_pixel;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class GL {
+public class GL implements Serializable {
+	private static final long serialVersionUID = -1266806521204810407L;
 
-    /* Constant of jGL */
+	/* Constant of jGL */
     /* Null values */
     public static final int None				= 0;
 
@@ -51,7 +49,7 @@ public class GL {
 
     /* Data types */
     public static final int GL_BYTE				= 0x1400;
-    public static final int GL_UNSIGNED_BYTE			= 0x1401; 
+    public static final int GL_UNSIGNED_BYTE			= 0x1401;
     public static final int GL_SHORT				= 0x1402;
     public static final int GL_UNSIGNED_SHORT			= 0x1403;
     public static final int GL_INT				= 0x1404;
@@ -189,12 +187,12 @@ public class GL {
     public static final int GL_LOAD				= 0x0101;
     public static final int GL_MULT				= 0x0103;
     public static final int GL_RETURN				= 0x0102;
-    
+
     /* Alpha testing */
     public static final int GL_ALPHA_TEST			= 0x0BC0;
     public static final int GL_ALPHA_TEST_REF			= 0x0BC2;
     public static final int GL_ALPHA_TEST_FUNC			= 0x0BC1;
-    
+
     /* Blending */
     public static final int GL_BLEND				= 0x0BE2;
     public static final int GL_BLEND_SRC			= 0x0BE1;
@@ -210,12 +208,12 @@ public class GL {
     public static final int GL_DST_ALPHA			= 0x0304;
     public static final int GL_ONE_MINUS_DST_ALPHA		= 0x0305;
     public static final int GL_SRC_ALPHA_SATURATE		= 0x0308;
-    
+
     /* Render Mode */
     public static final int GL_FEEDBACK				= 0x1C01;
     public static final int GL_RENDER				= 0x1C00;
     public static final int GL_SELECT				= 0x1C02;
-    
+
     /* Feedback */
     public static final int GL_2D				= 0x0600;
     public static final int GL_3D				= 0x0601;
@@ -230,7 +228,7 @@ public class GL {
     public static final int GL_DRAW_PIXEL_TOKEN			= 0x0705;
     public static final int GL_COPY_PIXEL_TOKEN			= 0x0706;
     public static final int GL_PASS_THROUGH_TOKEN		= 0x0700;
-    
+
     /* Fog */
     public static final int GL_FOG				= 0x0B60;
     public static final int GL_FOG_MODE				= 0x0B65;
@@ -242,7 +240,7 @@ public class GL {
     public static final int GL_LINEAR				= 0x2601;
     public static final int GL_EXP				= 0x0800;
     public static final int GL_EXP2				= 0x0801;
-    
+
     /* Logic Ops */
     public static final int GL_LOGIC_OP				= 0x0BF1;
     public static final int GL_LOGIC_OP_MODE			= 0x0BF0;
@@ -262,7 +260,7 @@ public class GL {
     public static final int GL_AND_INVERTED			= 0x1504;
     public static final int GL_OR_REVERSE			= 0x150B;
     public static final int GL_OR_INVERTED			= 0x150D;
-    
+
     /* Stencil */
     public static final int GL_STENCIL_TEST			= 0x0B90;
     public static final int GL_STENCIL_WRITEMASK		= 0x0B98;
@@ -279,7 +277,7 @@ public class GL {
     public static final int GL_REPLACE				= 0x1E01;
     public static final int GL_INCR				= 0x1E02;
     public static final int GL_DECR				= 0x1E03;
-    
+
     /* Buffers; Pixel Drawing/Reading */
     public static final int GL_NONE				= 0;
     public static final int GL_LEFT				= 0x0406;
@@ -320,7 +318,7 @@ public class GL {
     public static final int GL_DITHER				= 0x0BD0;
     public static final int GL_RGB				= 0x1907;
     public static final int GL_RGBA				= 0x1908;
-    
+
     /* Implementation limits */
     public static final int GL_MAX_MODELVIEW_STACK_DEPTH	= 0x0D36;
     public static final int GL_MAX_PROJECTION_STACK_DEPTH	= 0x0D38;
@@ -335,7 +333,7 @@ public class GL {
     public static final int GL_MAX_EVAL_ORDER			= 0x0D30;
     public static final int GL_MAX_TEXTURE_SIZE			= 0x0D33;
     public static final int GL_MAX_3D_TEXTURE_SIZE		= 0x8073;
-    
+
     /* Gets */
     public static final int GL_ATTRIB_STACK_DEPTH		= 0x0BB0;
     public static final int GL_COLOR_CLEAR_VALUE		= 0x0C22;
@@ -363,7 +361,7 @@ public class GL {
     public static final int GL_TEXTURE_MATRIX			= 0x0BA8;
     public static final int GL_TEXTURE_STACK_DEPTH		= 0x0BA5;
     public static final int GL_VIEWPORT				= 0x0BA2;
-    
+
     /* Evaluators */
     public static final int GL_AUTO_NORMAL			= 0x0D80;
     public static final int GL_MAP1_COLOR_4			= 0x0D90;
@@ -391,7 +389,7 @@ public class GL {
     public static final int GL_COEFF				= 0x0A00;
     public static final int GL_DOMAIN				= 0x0A02;
     public static final int GL_ORDER				= 0x0A01;
-    
+
     /* Hints */
     public static final int GL_FOG_HINT				= 0x0C54;
     public static final int GL_LINE_SMOOTH_HINT			= 0x0C52;
@@ -401,11 +399,11 @@ public class GL {
     public static final int GL_DONT_CARE			= 0x1100;
     public static final int GL_FASTEST				= 0x1101;
     public static final int GL_NICEST				= 0x1102;
-    
+
     /* Scissor box */
     public static final int GL_SCISSOR_TEST			= 0x0C11;
     public static final int GL_SCISSOR_BOX			= 0x0C10;
-    
+
     /* Pixel Mode / Transfer */
     public static final int GL_MAP_COLOR			= 0x0D10;
     public static final int GL_MAP_STENCIL			= 0x0D11;
@@ -459,7 +457,7 @@ public class GL {
     public static final int GL_UNPACK_SWAP_BYTES		= 0x0CF0;
     public static final int GL_ZOOM_X				= 0x0D16;
     public static final int GL_ZOOM_Y				= 0x0D17;
-    
+
     /* Texture mapping */
     public static final int GL_TEXTURE_ENV			= 0x2300;
     public static final int GL_TEXTURE_ENV_MODE			= 0x2200;
@@ -501,13 +499,13 @@ public class GL {
     public static final int GL_T				= 0x2001;
     public static final int GL_R				= 0x2002;
     public static final int GL_Q				= 0x2003;
-    
+
     /* Utility */
     public static final int GL_VENDOR				= 0x1F00;
     public static final int GL_RENDERER				= 0x1F01;
     public static final int GL_VERSION				= 0x1F02;
     public static final int GL_EXTENSIONS			= 0x1F03;
-    
+
     /* Errors */
     /**
      * <i>enum</i> argument out of range.
@@ -538,12 +536,12 @@ public class GL {
      * Not enough memory left to execute command.
      */
     public static final int GL_OUT_OF_MEMORY			= 0x0505;
-    
+
     /**
      * The specified table is too large.
      */
     public static final int GL_TABLE_TOO_LARGE			= 0x0506;
-    
+
     /* Extensions */
     public static final int GL_CONSTANT_COLOR_EXT		= 0x8001;
     public static final int GL_ONE_MINUS_CONSTANT_COLOR_EXT	= 0x8002;
@@ -620,13 +618,12 @@ public class GL {
 
     /* Private Data Member */
     protected gl_context Context = new gl_context ();
-    protected gl_object CC = (gl_object)Context;
+    protected gl_object CC = Context;
     protected gl_list List;
-    protected Component JavaComponent;
-    protected Image JavaImage;
-//    protected MemoryImageSource JavaImageSource;
+    protected Object JavaComponent;
     protected int StartX = 0;
     protected int StartY = 0;
+    protected JGLLogger logger;
 
     /**
      *
@@ -810,25 +807,25 @@ public class GL {
     	switch (type) {
 	    case GL_BYTE:
 	    case GL_UNSIGNED_BYTE:
-	    	return (int)lists [n];
+	    	return lists [n];
 	    case GL_SHORT:
 	    case GL_UNSIGNED_SHORT:
 	    case GL_2_BYTES:
-	    	return (int)((lists [n << 1]) << 8 | 
+	    	return ((lists [n << 1]) << 8 |
 			     (lists [(n << 1) | 1]));
 	    case GL_3_BYTES:
-	    	return (int)((lists [(n << 1) + n]) << 16 | 
+	    	return ((lists [(n << 1) + n]) << 16 |
 			     (lists [(n << 1) + n + 1]) << 8 |
 			     (lists [(n << 1) + n + 2]));
 	    case GL_INT:
 	    case GL_UNSIGNED_INT:
 	    case GL_4_BYTES:
-	    	return (int)((lists [n << 2]) << 24 | 
+	    	return ((lists [n << 2]) << 24 |
 			     (lists [(n << 2) | 1]) << 16 |
 			     (lists [(n << 2) | 2]) << 8 |
 			     (lists [(n << 2) | 3]));
 	    case GL_FLOAT:
-	    	return (int)((lists [n << 2]) * 16777216.0f + 
+	    	return (int)((lists [n << 2]) * 16777216.0f +
 			     (lists [(n << 2) | 1]) * 65536.0f  +
 			     (lists [(n << 2) | 2]) * 256.0f +
 			     (lists [(n << 2) | 3]));
@@ -851,9 +848,9 @@ public class GL {
      * @param       alpha the alpha component.
      * @see         #glClear(int)
      */
-    /* GLvoid glClearColor (GLclampf red, GLclampf green, 
+    /* GLvoid glClearColor (GLclampf red, GLclampf green,
 			    GLclampf blue, GLclampf alpha) */
-    public void glClearColor (float red, float green, 
+    public void glClearColor (float red, float green,
 			      float blue, float alpha) {
     	if (CC.Mode != None) {
 	    CC.gl_error (GL_INVALID_OPERATION, "glClearColor");
@@ -930,7 +927,7 @@ public class GL {
 		return false;
 	}
     }
-    
+
     /** GLvoid glBlendFunc (GLenum sfactor, GLenum dfactor) */
     public void glBlendFunc (int sfactor, int dfactor) {
     	if (CC.Mode != None) {
@@ -962,7 +959,7 @@ public class GL {
 	}
 	CC.gl_cull_face (mode);
     }
-    
+
     /** GLvoid glFrontFace (GLenum mode) */
     public void glFrontFace(int mode) {
     	if (CC.Mode != None) {
@@ -975,7 +972,7 @@ public class GL {
 	}
 	CC.gl_front_face (mode);
     }
-    
+
     /**
      * Sets the width in pixels for rendered points.
      * <i>size</i> must be greater than 0.0 and by default is 1.0.
@@ -1055,7 +1052,7 @@ public class GL {
     /**
      * Defines the current stipple pattern for filled polygons.
      * The argument <i>mask</i> is a 32x32 bitmap that's interpreted as
-     * a mask of 0s and 1s. Where a 1 appears, the corresponding pixel 
+     * a mask of 0s and 1s. Where a 1 appears, the corresponding pixel
      * in the polygon is drawn, and where a 0 appears, nothing is drawn.
      * @param       mask the mask bitmap.
      * @see         #GL_POLYGON_STIPPLE
@@ -1111,7 +1108,7 @@ public class GL {
     public boolean glIsEnabled (int cap) {
 	if (CC.Mode != None) {
 	    CC.gl_error (GL_INVALID_OPERATION, "glIsEnabled");
-	    return false; 
+	    return false;
 	}
 	switch (cap) {
 	    case GL_ALPHA_TEST:
@@ -1183,7 +1180,7 @@ public class GL {
     public void glGetBooleanv (int pname, boolean params []) {
 	if (CC.Mode != None) {
 	    CC.gl_error (GL_INVALID_OPERATION, "glGetBooleanv");
-	    return; 
+	    return;
 	}
 	switch (pname) {
 	    case GL_CURRENT_RASTER_POSITION_VALID:
@@ -1242,7 +1239,7 @@ public class GL {
     	int i;
 	if (CC.Mode != None) {
 	    CC.gl_error (GL_INVALID_OPERATION, "glGetdoublev");
-	    return; 
+	    return;
 	}
 	switch (pname) {
 	    case GL_CURRENT_COLOR:
@@ -1308,7 +1305,7 @@ public class GL {
     	int i;
 	if (CC.Mode != None) {
 	    CC.gl_error (GL_INVALID_OPERATION, "glGetFloatv");
-	    return; 
+	    return;
 	}
 	switch (pname) {
 	    case GL_CURRENT_COLOR:
@@ -1421,18 +1418,18 @@ public class GL {
 	    case GL_STEREO:
 	    	break;
 	    case GL_POINT_SIZE_RANGE:
-		params [0] = Context.MIN_POINT_SIZE;
-		params [0] = Context.MAX_POINT_SIZE;
+		params [0] = gl_context.MIN_POINT_SIZE;
+		params [0] = gl_context.MAX_POINT_SIZE;
 		break;
 	    case GL_POINT_SIZE_GRANULARITY:
-		params [0] = Context.POINT_SIZE_GRANULARITY;
+		params [0] = gl_context.POINT_SIZE_GRANULARITY;
 	    	break;
 	    case GL_LINE_WIDTH_RANGE:
-		params [0] = Context.MIN_LINE_SIZE;
-		params [0] = Context.MAX_LINE_SIZE;
+		params [0] = gl_context.MIN_LINE_SIZE;
+		params [0] = gl_context.MAX_LINE_SIZE;
 		break;
 	    case GL_LINE_WIDTH_GRANULARITY:
-		params [0] = Context.LINE_WIDTH_GRANULARITY;
+		params [0] = gl_context.LINE_WIDTH_GRANULARITY;
 	    	break;
 	    default:
 		CC.gl_error (GL_INVALID_ENUM, "glGetFloatv(pname)");
@@ -1443,7 +1440,7 @@ public class GL {
     public void glGetIntegerv (int pname, int params []) {
 	if (CC.Mode != None) {
 	    CC.gl_error (GL_INVALID_OPERATION, "glGetIntegerv");
-	    return; 
+	    return;
 	}
 	switch (pname) {
 	    case GL_CURRENT_COLOR:
@@ -1602,10 +1599,10 @@ public class GL {
 	    case GL_FOG_HINT:
 	    	break;
 	    case GL_MAX_LIGHTS:
-		params [0] = Context.MAX_LIGHTS;
+		params [0] = gl_context.MAX_LIGHTS;
 		break;
 	    case GL_MAX_CLIP_PLANES:
-		params [0] = Context.MAX_CLIP_PLANES;
+		params [0] = gl_context.MAX_CLIP_PLANES;
 		break;
 	    case GL_MAX_MODELVIEW_STACK_DEPTH:
 	    case GL_MAX_PROJECTION_STACK_DEPTH:
@@ -1615,20 +1612,20 @@ public class GL {
 	    case GL_SUBPIXEL_BITS:
 	    	break;
 	    case GL_MAX_TEXTURE_SIZE:
-	    	params [0] = Context.MAX_TEXTURE_SIZE;
+	    	params [0] = gl_context.MAX_TEXTURE_SIZE;
 	    	break;
 	    case GL_MAX_3D_TEXTURE_SIZE:
-	    	params [0] = Context.MAX_3D_TEXTURE_SIZE;
+	    	params [0] = gl_context.MAX_3D_TEXTURE_SIZE;
 	    	break;
 	    case GL_MAX_PIXEL_MAP_TABLE:
 		break;
 	    case GL_MAX_NAME_STACK_DEPTH:
-		params [0] = Context.MAX_NAME_STACK_DEPTH;
+		params [0] = gl_context.MAX_NAME_STACK_DEPTH;
 		break;
 	    case GL_MAX_LIST_NESTING:
 		break;
 	    case GL_MAX_EVAL_ORDER:
-		params [0] = Context.MAX_EVAL_ORDER;
+		params [0] = gl_context.MAX_EVAL_ORDER;
 		break;
 	    case GL_MAX_VIEWPORT_DIMS:
 	    case GL_MAX_ATTRIB_STACK_DEPTH:
@@ -1666,7 +1663,7 @@ public class GL {
     public void glPushAttrib (int mask) {
 	if (CC.Mode != None) {
 	    CC.gl_error (GL_INVALID_OPERATION, "glPushAttrib");
-	    return; 
+	    return;
 	}
 	Context.gl_push_attrib (mask);
     }
@@ -1675,7 +1672,7 @@ public class GL {
     public void glPopAttrib () {
 	if (CC.Mode != None) {
 	    CC.gl_error (GL_INVALID_OPERATION, "glPopAttrib");
-	    return; 
+	    return;
 	}
 	Context.gl_pop_attrib ();
     }
@@ -1684,7 +1681,7 @@ public class GL {
     public int glRenderMode (int mode) {
 	if (CC.Mode != None) {
 	    CC.gl_error (GL_INVALID_OPERATION, "glRenderMode");
-	    return -1; 
+	    return -1;
 	}
 
 	switch (mode) {
@@ -1707,7 +1704,7 @@ public class GL {
 	String extensions = new String ("no supported extensions now");
 	if (CC.Mode != None) {
 	    CC.gl_error (GL_INVALID_OPERATION, "glGetString");
-	    return null; 
+	    return null;
 	}
     	switch (name) {
 	    case GL_VENDOR:
@@ -1720,20 +1717,14 @@ public class GL {
 	    	return extensions;
 	    default:
 	        CC.gl_error (GL_INVALID_ENUM, "glGetString(name)");
-	        return null; 
+	        return null;
 	}
     }
 
     /** GLvoid glFlush (GLvoid) */
     public void glFlush () {
     	if (Context.RenderMode != GL_RENDER) { return; }
-//	JavaImage = JavaApplet.createImage(new MemoryImageSource
-	JavaImage = JavaComponent.createImage(new MemoryImageSource
-			(Context.Viewport.Width, Context.Viewport.Height,
-			 Context.ColorBuffer.Buffer, 0,
-			 Context.Viewport.Width));
-//	System.out.println ("create Java Image");
-//	JavaImageSource.newPixels();
+    	// No-op in non-AWT version
     }
 
     /**
@@ -1764,7 +1755,7 @@ public class GL {
 	}
 	switch (func) {
 	    case GL_NEVER:
-            case GL_LESS: 
+            case GL_LESS:
             case GL_GEQUAL:
             case GL_LEQUAL:
             case GL_GREATER:
@@ -1793,7 +1784,7 @@ public class GL {
 	    CC.gl_error (GL_INVALID_OPERATION, "glDepthRange");
 	    return;
 	}
-	CC.gl_depth_range (gl_util.CLAMP (near_val, 0.0, 1.0), 
+	CC.gl_depth_range (gl_util.CLAMP (near_val, 0.0, 1.0),
 			   gl_util.CLAMP (far_val, 0.0, 1.0));
     }
 
@@ -1839,8 +1830,8 @@ public class GL {
 	CC.gl_mult_matrix (m);
     }
 
-    /** GLvoid glFrustum (GLdouble left, GLdouble right, 
-    			  GLdouble bottom, GLdouble top, 
+    /** GLvoid glFrustum (GLdouble left, GLdouble right,
+    			  GLdouble bottom, GLdouble top,
 			  GLdouble near_val, GLdouble far_val) */
     public void glFrustum (double left, double right,
     			   double bottom, double top,
@@ -1852,7 +1843,7 @@ public class GL {
 	}
 	if (near_val <= 0 || far_val <= 0) {
 	    CC.gl_error (GL_INVALID_VALUE, "glFrustum(near or far)");
-	} 
+	}
 	m [0] = (float) ((2.0 * near_val) / (right - left));
 	m [5] = (float) ((2.0 * near_val) / (top - bottom));
 	m [8] = (float) ((right + left) / (right - left));
@@ -2095,7 +2086,7 @@ public class GL {
 
     /** GLvoid glCallLists (sizei n, GLenum type, const GLvoid *lists) */
     public void glCallLists (int n, int type, byte lists []) {
-    	int i, list;
+    	int i;
 
 	for (i = 0; i < n; i++) {
 	    CC.gl_call_offset (translate_id (i, type, lists));
@@ -2132,9 +2123,9 @@ public class GL {
 	    	break;
             default:
 		CC.gl_error(GL.GL_INVALID_ENUM, "glBegin(mode)");
-            } 
+            }
     }
-    
+
     /** GLvoid glEnd (GLvoid) */
     public void glEnd () {
     	if (CC.Mode == None) {
@@ -2467,12 +2458,12 @@ public class GL {
 
     /** GLvoid glIndexs (GLshort c) */
     public void glIndexs (short c) {
-	CC.gl_index ((int)(c & 0xffff));
+	CC.gl_index ((c & 0xffff));
     }
 
     /** GLvoid glIndexub (GLubyte c) */
     public void glIndexub (byte c) {
-	CC.gl_index ((int)(c & 0xff));
+	CC.gl_index ((c & 0xff));
     }
 
     /** GLvoid glIndexdv (GLdouble *c) */
@@ -2492,12 +2483,12 @@ public class GL {
 
     /** GLvoid glIndexsv (GLshort *c) */
     public void glIndexsv (short c []) {
-	CC.gl_index ((int)(c[0] & 0xffff));
+	CC.gl_index ((c[0] & 0xffff));
     }
 
     /** GLvoid glIndexubv (GLubyte *c) */
     public void glIndexubv (byte c []) {
-	CC.gl_index ((int)(c[0] & 0xff));
+	CC.gl_index ((c[0] & 0xff));
     }
 
     /** GLvoid glColor3b (GLbyte red, GLbyte green, GLbyte blue) */
@@ -2531,7 +2522,7 @@ public class GL {
 		     gl_util.ItoF (gl_util.CLAMP (blue, 0, 255)),
 		     1.0f);
     }
-    
+
     /** GLvoid glColor3s (GLshort red, GLshort green, GLshort blue) */
     public void glColor3s (short red, short green, short blue) {
 	CC.gl_color (gl_util.ItoF (gl_util.CLAMP (red, 0, 255)),
@@ -2539,22 +2530,22 @@ public class GL {
 		     gl_util.ItoF (gl_util.CLAMP (blue, 0, 255)),
 		     1.0f);
     }
-    
+
     /** GLvoid glColor3ub (GLubyte red, GLubyte green, GLubyte blue) */
     public void glColor3ub (byte red, byte green, byte blue) {
 	glColor3b (red, green, blue);
     }
-    
+
     /** GLvoid glColor3ui (GLuint red, GLuint green, GLuint blue) */
     public void glColor3ui (int red, int green, int blue) {
 	glColor3i (red, green, blue);
     }
-    
+
     /** GLvoid glColor3us (GLushort red, GLushort green, GLushort blue) */
     public void glColor3us (short red, short green, short blue) {
 	glColor3s (red, green, blue);
     }
-    
+
     /** GLvoid glColor4b (GLbyte red, GLbyte green, GLbyte blue, GLbyte alpha) */
     public void glColor4b (byte red, byte green, byte blue, byte alpha) {
 	CC.gl_color (gl_util.BtoF (red),
@@ -2594,22 +2585,22 @@ public class GL {
 		     gl_util.ItoF (gl_util.CLAMP (blue, 0, 255)),
 		     gl_util.ItoF (gl_util.CLAMP (alpha, 0, 255)));
     }
-    
+
     /** GLvoid glColor4ub (GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) */
     public void glColor4ub (byte red, byte green, byte blue, byte alpha) {
 	glColor4b (red, green, blue, alpha);
     }
-    
+
     /** GLvoid glColor4ui (GLuint red, GLuint green, GLuint blue, GLuint alpha) */
     public void glColor4ui (int red, int green, int blue, int alpha) {
 	glColor4i (red, green, blue, alpha);
     }
-    
+
     /** GLvoid glColor4us (GLushort red, GLushort green, GLushort blue, GLushort alpha) */
     public void glColor4us (short red, short green, short blue, short alpha) {
 	glColor4s (red, green, blue, alpha);
     }
-    
+
     /** GLvoid glColor3bv (GLbyte *v) */
     public void glColor3bv (byte v []) {
 	glColor3b (v[0], v[1], v[2]);
@@ -2619,32 +2610,32 @@ public class GL {
     public void glColor3dv (double v []) {
 	glColor3d (v[0], v[1], v[2]);
     }
- 
+
     /** GLvoid glColor3fv (GLfloat *v) */
     public void glColor3fv (float v []) {
 	glColor3f (v[0], v[1], v[2]);
     }
- 
+
     /** GLvoid glColor3iv (GLint *v) */
     public void glColor3iv (int v []) {
 	glColor3i (v[0], v[1], v[2]);
     }
-    
+
     /** GLvoid glColor3sv (GLshort *v) */
     public void glColor3sv (short v []) {
 	glColor3s (v[0], v[1], v[2]);
     }
-    
+
     /** GLvoid glColor3ubv (GLubyte *v) */
     public void glColor3ubv (byte v []) {
 	glColor3b (v[0], v[1], v[2]);
     }
-    
+
     /** GLvoid glColor3uiv (GLuint *v) */
     public void glColor3uiv (int v []) {
 	glColor3i (v[0], v[1], v[2]);
     }
-    
+
     /** GLvoid glColor3usv (GLushort *v) */
     public void glColor3usv (short v []) {
 	glColor3s (v[0], v[1], v[2]);
@@ -2659,7 +2650,7 @@ public class GL {
     public void glColor4dv (double v []) {
 	glColor4d (v[0], v[1], v[2], v[3]);
     }
- 
+
     /** GLvoid glColor4fv (GLfloat *v) */
     public void glColor4fv (float v []) {
 	glColor4f (v[0], v[1], v[2], v[3]);
@@ -2669,22 +2660,22 @@ public class GL {
     public void glColor4iv (int v []) {
 	glColor4i (v[0], v[1], v[2], v[3]);
     }
-    
+
     /** GLvoid glColor4sv (GLshort *v) */
     public void glColor4sv (short v []) {
 	glColor4s (v[0], v[1], v[2], v[3]);
     }
-    
+
     /** GLvoid glColor4ubv (GLubyte *v) */
     public void glColor4ubv (byte v []) {
 	glColor4b (v[0], v[1], v[2], v[3]);
     }
-    
+
     /** GLvoid glColor4uiv (GLuint *v) */
     public void glColor4uiv (int v []) {
 	glColor4i (v[0], v[1], v[2], v[3]);
     }
-    
+
     /** GLvoid glColor4usv (GLushort *v) */
     public void glColor4usv (short v []) {
 	glColor4s (v[0], v[1], v[2], v[3]);
@@ -3105,7 +3096,7 @@ public class GL {
 		CC.gl_error (GL_INVALID_ENUM, "glLighti(pname)");
 	}
     }
- 
+
     /** GLvoid glLightfv (GLenum light, GLenum pname, const GLfloat *params) */
     public void glLightfv (int light, int pname, float params []) {
     	float temp [];
@@ -3316,7 +3307,7 @@ public class GL {
 		CC.gl_error (GL_INVALID_ENUM, "glLightModelf(pname)");
 	}
     }
-    
+
     public void glLightModelf (int pname, boolean param) {
     	// used for some boolean parameters
     	if (param) glLightModelf (pname, 1.0f);
@@ -3810,7 +3801,7 @@ public class GL {
 	    case GL_RED_SCALE:
 	    case GL_RED_BIAS:
 	    case GL_GREEN_SCALE:
-	    case GL_GREEN_BIAS: 
+	    case GL_GREEN_BIAS:
 	    case GL_BLUE_SCALE:
 	    case GL_BLUE_BIAS:
 	    case GL_ALPHA_SCALE:
@@ -3838,14 +3829,14 @@ public class GL {
 	    case GL_RED_SCALE:
 	    case GL_RED_BIAS:
 	    case GL_GREEN_SCALE:
-	    case GL_GREEN_BIAS: 
+	    case GL_GREEN_BIAS:
 	    case GL_BLUE_SCALE:
 	    case GL_BLUE_BIAS:
 	    case GL_ALPHA_SCALE:
 	    case GL_ALPHA_BIAS:
 	    case GL_DEPTH_SCALE:
 	    case GL_DEPTH_BIAS:
-		CC.gl_pixel_transfer (pname, (float)param);
+		CC.gl_pixel_transfer (pname, param);
 		break;
 	    default:
 		CC.gl_error (GL_INVALID_ENUM, "glPixelTransferi(pname)");
@@ -3972,7 +3963,7 @@ public class GL {
 	}
 	switch (func) {
 	    case GL_NEVER:
-            case GL_LESS: 
+            case GL_LESS:
             case GL_GEQUAL:
             case GL_LEQUAL:
             case GL_GREATER:
@@ -3994,7 +3985,7 @@ public class GL {
 	}
 	CC.gl_stencil_mask (mask);
     }
-    
+
     private boolean check_stencil_op (int op) {
 	switch (op) {
 	    case GL_KEEP:
@@ -4008,7 +3999,7 @@ public class GL {
 		return false;
 	}
     }
-    
+
     /** GLvoid glStencilOp (GLenum fail, GLenum zfail, GLenum zpass); */
     public void glStencilOp (int fail, int zfail, int zpass) {
     	if (CC.Mode != None) {
@@ -4256,10 +4247,10 @@ public class GL {
 		if ((coord == GL_S) || (coord == GL_T) ||
 		    (coord == GL_R) || (coord == GL_Q)) {
 		    float fparams [] = new float [4];
-		    fparams[0] = (float)params[0];
-		    fparams[1] = (float)params[1];
-		    fparams[2] = (float)params[2];
-		    fparams[3] = (float)params[3];
+		    fparams[0] = params[0];
+		    fparams[1] = params[1];
+		    fparams[2] = params[2];
+		    fparams[3] = params[3];
 		    CC.gl_tex_gen_f (coord, pname, fparams);
 		} else {
 		    CC.gl_error (GL_INVALID_ENUM, "glTexGeniv(coord)");
@@ -4276,16 +4267,16 @@ public class GL {
 	    case GL_TEXTURE_GEN_MODE:
 		switch (coord) {
 		    case GL_S:
-			params[0] = (int)Context.Texture.CurrentS.Mode;
+			params[0] = Context.Texture.CurrentS.Mode;
 			break;
 		    case GL_T:
-			params[0] = (int)Context.Texture.CurrentT.Mode;
+			params[0] = Context.Texture.CurrentT.Mode;
 			break;
 		    case GL_R:
-			params[0] = (int)Context.Texture.CurrentR.Mode;
+			params[0] = Context.Texture.CurrentR.Mode;
 			break;
 		    case GL_Q:
-			params[0] = (int)Context.Texture.CurrentQ.Mode;
+			params[0] = Context.Texture.CurrentQ.Mode;
 			break;
 		    default:
 			CC.gl_error (GL_INVALID_ENUM, "glGetTexGendv(coord)");
@@ -4294,28 +4285,28 @@ public class GL {
 	    case GL_OBJECT_PLANE:
 		switch (coord) {
 		    case GL_S:
-			params[0] = (float)Context.Texture.CurrentS.ObjectLinear[0];
-			params[1] = (float)Context.Texture.CurrentS.ObjectLinear[1];
-			params[2] = (float)Context.Texture.CurrentS.ObjectLinear[2];
-			params[3] = (float)Context.Texture.CurrentS.ObjectLinear[3];
+			params[0] = Context.Texture.CurrentS.ObjectLinear[0];
+			params[1] = Context.Texture.CurrentS.ObjectLinear[1];
+			params[2] = Context.Texture.CurrentS.ObjectLinear[2];
+			params[3] = Context.Texture.CurrentS.ObjectLinear[3];
 			break;
 		    case GL_T:
-			params[0] = (float)Context.Texture.CurrentT.ObjectLinear[0];
-			params[1] = (float)Context.Texture.CurrentT.ObjectLinear[1];
-			params[2] = (float)Context.Texture.CurrentT.ObjectLinear[2];
-			params[3] = (float)Context.Texture.CurrentT.ObjectLinear[3];
+			params[0] = Context.Texture.CurrentT.ObjectLinear[0];
+			params[1] = Context.Texture.CurrentT.ObjectLinear[1];
+			params[2] = Context.Texture.CurrentT.ObjectLinear[2];
+			params[3] = Context.Texture.CurrentT.ObjectLinear[3];
 			break;
 		    case GL_R:
-			params[0] = (float)Context.Texture.CurrentR.ObjectLinear[0];
-			params[1] = (float)Context.Texture.CurrentR.ObjectLinear[1];
-			params[2] = (float)Context.Texture.CurrentR.ObjectLinear[2];
-			params[3] = (float)Context.Texture.CurrentR.ObjectLinear[3];
+			params[0] = Context.Texture.CurrentR.ObjectLinear[0];
+			params[1] = Context.Texture.CurrentR.ObjectLinear[1];
+			params[2] = Context.Texture.CurrentR.ObjectLinear[2];
+			params[3] = Context.Texture.CurrentR.ObjectLinear[3];
 			break;
 		    case GL_Q:
-			params[0] = (float)Context.Texture.CurrentQ.ObjectLinear[0];
-			params[1] = (float)Context.Texture.CurrentQ.ObjectLinear[1];
-			params[2] = (float)Context.Texture.CurrentQ.ObjectLinear[2];
-			params[3] = (float)Context.Texture.CurrentQ.ObjectLinear[3];
+			params[0] = Context.Texture.CurrentQ.ObjectLinear[0];
+			params[1] = Context.Texture.CurrentQ.ObjectLinear[1];
+			params[2] = Context.Texture.CurrentQ.ObjectLinear[2];
+			params[3] = Context.Texture.CurrentQ.ObjectLinear[3];
 			break;
 		    default:
 			CC.gl_error (GL_INVALID_ENUM, "glGetTexGendv(coord)");
@@ -4324,28 +4315,28 @@ public class GL {
 	    case GL_EYE_PLANE:
 		switch (coord) {
 		    case GL_S:
-			params[0] = (float)Context.Texture.CurrentS.EyeLinear[0];
-			params[1] = (float)Context.Texture.CurrentS.EyeLinear[1];
-			params[2] = (float)Context.Texture.CurrentS.EyeLinear[2];
-			params[3] = (float)Context.Texture.CurrentS.EyeLinear[3];
+			params[0] = Context.Texture.CurrentS.EyeLinear[0];
+			params[1] = Context.Texture.CurrentS.EyeLinear[1];
+			params[2] = Context.Texture.CurrentS.EyeLinear[2];
+			params[3] = Context.Texture.CurrentS.EyeLinear[3];
 			break;
 		    case GL_T:
-			params[0] = (float)Context.Texture.CurrentT.EyeLinear[0];
-			params[1] = (float)Context.Texture.CurrentT.EyeLinear[1];
-			params[2] = (float)Context.Texture.CurrentT.EyeLinear[2];
-			params[3] = (float)Context.Texture.CurrentT.EyeLinear[3];
+			params[0] = Context.Texture.CurrentT.EyeLinear[0];
+			params[1] = Context.Texture.CurrentT.EyeLinear[1];
+			params[2] = Context.Texture.CurrentT.EyeLinear[2];
+			params[3] = Context.Texture.CurrentT.EyeLinear[3];
 			break;
 		    case GL_R:
-			params[0] = (float)Context.Texture.CurrentR.EyeLinear[0];
-			params[1] = (float)Context.Texture.CurrentR.EyeLinear[1];
-			params[2] = (float)Context.Texture.CurrentR.EyeLinear[2];
-			params[3] = (float)Context.Texture.CurrentR.EyeLinear[3];
+			params[0] = Context.Texture.CurrentR.EyeLinear[0];
+			params[1] = Context.Texture.CurrentR.EyeLinear[1];
+			params[2] = Context.Texture.CurrentR.EyeLinear[2];
+			params[3] = Context.Texture.CurrentR.EyeLinear[3];
 			break;
 		    case GL_Q:
-			params[0] = (float)Context.Texture.CurrentQ.EyeLinear[0];
-			params[1] = (float)Context.Texture.CurrentQ.EyeLinear[1];
-			params[2] = (float)Context.Texture.CurrentQ.EyeLinear[2];
-			params[3] = (float)Context.Texture.CurrentQ.EyeLinear[3];
+			params[0] = Context.Texture.CurrentQ.EyeLinear[0];
+			params[1] = Context.Texture.CurrentQ.EyeLinear[1];
+			params[2] = Context.Texture.CurrentQ.EyeLinear[2];
+			params[3] = Context.Texture.CurrentQ.EyeLinear[3];
 			break;
 		    default:
 			CC.gl_error (GL_INVALID_ENUM, "glGetTexGendv(coord)");
@@ -4362,16 +4353,16 @@ public class GL {
 	    case GL_TEXTURE_GEN_MODE:
 		switch (coord) {
 		    case GL_S:
-			params[0] = (int)Context.Texture.CurrentS.Mode;
+			params[0] = Context.Texture.CurrentS.Mode;
 			break;
 		    case GL_T:
-			params[0] = (int)Context.Texture.CurrentT.Mode;
+			params[0] = Context.Texture.CurrentT.Mode;
 			break;
 		    case GL_R:
-			params[0] = (int)Context.Texture.CurrentR.Mode;
+			params[0] = Context.Texture.CurrentR.Mode;
 			break;
 		    case GL_Q:
-			params[0] = (int)Context.Texture.CurrentQ.Mode;
+			params[0] = Context.Texture.CurrentQ.Mode;
 			break;
 		    default:
 			CC.gl_error (GL_INVALID_ENUM, "glGetTexGenfv(coord)");
@@ -4576,7 +4567,7 @@ public class GL {
 	    CC.gl_error (GL_INVALID_ENUM, "glTexEnvf(pname)");
 	}
     }
-    
+
     /** GLvoid glTexEnvfv (GLenum target, GLenum pname, const GLfloat *params); */
     public void glTexEnvfv (int target, int pname, float params []) {
     	if (CC.Mode != None) {
@@ -4611,7 +4602,7 @@ public class GL {
 		CC.gl_error (GL_INVALID_ENUM, "glTexEnvfv(pname)");
 	}
     }
-    
+
     /** GLvoid glTexEnviv (GLenum target, GLenum pname, const GLint *params); */
     public void glTexEnviv (int target, int pname, int params []) {
     	if (CC.Mode != None) {
@@ -4645,7 +4636,7 @@ public class GL {
 		CC.gl_error (GL_INVALID_ENUM, "glTexEnviv(pname)");
 	}
     }
-    
+
     /** GLvoid glGetTexEnviv (GLenum target, GLenum pname, GLint *params); */
     public void glGetTexEnviv (int target, int pname, int params []) {
 	if (target != GL_TEXTURE_ENV) {
@@ -4675,7 +4666,7 @@ public class GL {
 	}
 	switch (pname) {
 	    case GL_TEXTURE_ENV_MODE:
-		params[0] = (float)Context.Texture.EnvMode;
+		params[0] = Context.Texture.EnvMode;
 	        break;
 	    case GL_TEXTURE_ENV_COLOR:
 		params[0] = Context.Texture.EnvColor[0];
@@ -4736,7 +4727,7 @@ public class GL {
     /** GLvoid glTexParameteri (GLenum target, GLenum pname, GLint param) */
     public void glTexParameteri (int target, int pname, int param) {
         float params [] = new float [1];
-	params [0] = (float)param;
+	params [0] = param;
     	if (target == GL_TEXTURE_1D || target == GL_TEXTURE_2D || target == GL_TEXTURE_3D) {
 	    switch (pname) {
 	    	case GL_TEXTURE_MIN_FILTER:
@@ -4828,7 +4819,7 @@ public class GL {
     public void glTexParameteriv (int target, int pname, int params []) {
     	int iparam = params [0];
     	float fparams [] = new float [1];
-	fparams [0] = (float)params [0];
+	fparams [0] = params [0];
     	if (target == GL_TEXTURE_1D || target == GL_TEXTURE_2D || target == GL_TEXTURE_3D) {
 	    switch (pname) {
 	    	case GL_TEXTURE_MIN_FILTER:
@@ -4880,25 +4871,25 @@ public class GL {
 	    case GL_TEXTURE_1D:
 		switch (pname) {
 		    case GL_TEXTURE_MAG_FILTER:
-			params[0] = (float)Context.Texture.Current1D.MagFilter;
+			params[0] = Context.Texture.Current1D.MagFilter;
 			break;
 		    case GL_TEXTURE_MIN_FILTER:
-			params[0] = (float)Context.Texture.Current1D.MinFilter;
+			params[0] = Context.Texture.Current1D.MinFilter;
 			break;
 		    case GL_TEXTURE_WRAP_S:
-			params[0] = (float)Context.Texture.Current1D.WrapS;
+			params[0] = Context.Texture.Current1D.WrapS;
 			break;
 		    case GL_TEXTURE_WRAP_T:
-			params[0] = (float)Context.Texture.Current1D.WrapT;
+			params[0] = Context.Texture.Current1D.WrapT;
 			break;
 		    case GL_TEXTURE_WRAP_R:
-			params[0] = (float)Context.Texture.Current1D.WrapR;
+			params[0] = Context.Texture.Current1D.WrapR;
 			break;
 		    case GL_TEXTURE_BORDER_COLOR:
-			params[0] = ((float)Context.Texture.Current1D.BorderColor[0])/(255.0f);
-			params[1] = ((float)Context.Texture.Current1D.BorderColor[1])/(255.0f);
-			params[2] = ((float)Context.Texture.Current1D.BorderColor[2])/(255.0f);
-			params[3] = ((float)Context.Texture.Current1D.BorderColor[3])/(255.0f);
+			params[0] = Context.Texture.Current1D.BorderColor[0]/(255.0f);
+			params[1] = Context.Texture.Current1D.BorderColor[1]/(255.0f);
+			params[2] = Context.Texture.Current1D.BorderColor[2]/(255.0f);
+			params[3] = Context.Texture.Current1D.BorderColor[3]/(255.0f);
 		    	break;
 		    default:
 		    	CC.gl_error (GL_INVALID_ENUM, "glGetTexParameterfv(pname)");
@@ -4907,25 +4898,25 @@ public class GL {
 	    case GL_TEXTURE_2D:
 		switch (pname) {
 		    case GL_TEXTURE_MAG_FILTER:
-			params[0] = (float)Context.Texture.Current2D.MagFilter;
+			params[0] = Context.Texture.Current2D.MagFilter;
 			break;
 		    case GL_TEXTURE_MIN_FILTER:
-			params[0] = (float)Context.Texture.Current2D.MinFilter;
+			params[0] = Context.Texture.Current2D.MinFilter;
 			break;
 		    case GL_TEXTURE_WRAP_S:
-			params[0] = (float)Context.Texture.Current2D.WrapS;
+			params[0] = Context.Texture.Current2D.WrapS;
 			break;
 		    case GL_TEXTURE_WRAP_T:
-			params[0] = (float)Context.Texture.Current2D.WrapT;
+			params[0] = Context.Texture.Current2D.WrapT;
 			break;
 		    case GL_TEXTURE_WRAP_R:
-			params[0] = (float)Context.Texture.Current2D.WrapR;
+			params[0] = Context.Texture.Current2D.WrapR;
 			break;
 		    case GL_TEXTURE_BORDER_COLOR:
-			params[0] = ((float)Context.Texture.Current2D.BorderColor[0])/(255.0f);
-			params[1] = ((float)Context.Texture.Current2D.BorderColor[1])/(255.0f);
-			params[2] = ((float)Context.Texture.Current2D.BorderColor[2])/(255.0f);
-			params[3] = ((float)Context.Texture.Current2D.BorderColor[3])/(255.0f);
+			params[0] = Context.Texture.Current2D.BorderColor[0]/(255.0f);
+			params[1] = Context.Texture.Current2D.BorderColor[1]/(255.0f);
+			params[2] = Context.Texture.Current2D.BorderColor[2]/(255.0f);
+			params[3] = Context.Texture.Current2D.BorderColor[3]/(255.0f);
 		    	break;
 		    default:
 		    	CC.gl_error (GL_INVALID_ENUM, "glGetTexParameterfv(pname)");
@@ -4934,25 +4925,25 @@ public class GL {
 	    case GL_TEXTURE_3D:
 		switch (pname) {
 		    case GL_TEXTURE_MAG_FILTER:
-			params[0] = (float)Context.Texture.Current3D.MagFilter;
+			params[0] = Context.Texture.Current3D.MagFilter;
 			break;
 		    case GL_TEXTURE_MIN_FILTER:
-			params[0] = (float)Context.Texture.Current3D.MinFilter;
+			params[0] = Context.Texture.Current3D.MinFilter;
 			break;
 		    case GL_TEXTURE_WRAP_S:
-			params[0] = (float)Context.Texture.Current3D.WrapS;
+			params[0] = Context.Texture.Current3D.WrapS;
 			break;
 		    case GL_TEXTURE_WRAP_T:
-			params[0] = (float)Context.Texture.Current3D.WrapT;
+			params[0] = Context.Texture.Current3D.WrapT;
 			break;
 		    case GL_TEXTURE_WRAP_R:
-			params[0] = (float)Context.Texture.Current3D.WrapR;
+			params[0] = Context.Texture.Current3D.WrapR;
 			break;
 		    case GL_TEXTURE_BORDER_COLOR:
-			params[0] = ((float)Context.Texture.Current3D.BorderColor[0])/(255.0f);
-			params[1] = ((float)Context.Texture.Current3D.BorderColor[1])/(255.0f);
-			params[2] = ((float)Context.Texture.Current3D.BorderColor[2])/(255.0f);
-			params[3] = ((float)Context.Texture.Current3D.BorderColor[3])/(255.0f);
+			params[0] = Context.Texture.Current3D.BorderColor[0]/(255.0f);
+			params[1] = Context.Texture.Current3D.BorderColor[1]/(255.0f);
+			params[2] = Context.Texture.Current3D.BorderColor[2]/(255.0f);
+			params[3] = Context.Texture.Current3D.BorderColor[3]/(255.0f);
 		    	break;
 		    default:
 		    	CC.gl_error (GL_INVALID_ENUM, "glGetTexParameterfv(pname)");
@@ -5643,7 +5634,7 @@ public class GL {
 	    CC.gl_error (GL_INVALID_VALUE, "glMap1d(u1 or u2)");
 	    return;
 	}
-	if (order < 1 || order > Context.MAX_EVAL_ORDER) {
+	if (order < 1 || order > gl_context.MAX_EVAL_ORDER) {
 	    CC.gl_error (GL_INVALID_VALUE, "glMap1d(order)");
 	    return;
 	}
@@ -5701,7 +5692,7 @@ public class GL {
 	    CC.gl_error (GL_INVALID_VALUE, "glMap1f(u1 or u2)");
 	    return;
 	}
-	if (order < 1 || order > Context.MAX_EVAL_ORDER) {
+	if (order < 1 || order > gl_context.MAX_EVAL_ORDER) {
 	    CC.gl_error (GL_INVALID_VALUE, "glMap1f(order)");
 	    return;
 	}
@@ -5753,11 +5744,11 @@ public class GL {
 	    CC.gl_error (GL_INVALID_VALUE, "glMap2d(v1 or v2)");
 	    return;
 	}
-	if (uorder < 1 || uorder > Context.MAX_EVAL_ORDER) {
+	if (uorder < 1 || uorder > gl_context.MAX_EVAL_ORDER) {
 	    CC.gl_error (GL_INVALID_VALUE, "glMap2d(uorder)");
 	    return;
 	}
-	if (vorder < 1 || vorder > Context.MAX_EVAL_ORDER) {
+	if (vorder < 1 || vorder > gl_context.MAX_EVAL_ORDER) {
 	    CC.gl_error (GL_INVALID_VALUE, "glMap2d(vorder)");
 	    return;
 	}
@@ -5832,11 +5823,11 @@ public class GL {
 	    CC.gl_error (GL_INVALID_VALUE, "glMap2f(v1 or v2)");
 	    return;
 	}
-	if (uorder < 1 || uorder > Context.MAX_EVAL_ORDER) {
+	if (uorder < 1 || uorder > gl_context.MAX_EVAL_ORDER) {
 	    CC.gl_error (GL_INVALID_VALUE, "glMap2f(uorder)");
 	    return;
 	}
-	if (vorder < 1 || vorder > Context.MAX_EVAL_ORDER) {
+	if (vorder < 1 || vorder > gl_context.MAX_EVAL_ORDER) {
 	    CC.gl_error (GL_INVALID_VALUE, "glMap2f(vorder)");
 	    return;
 	}
@@ -5956,8 +5947,8 @@ public class GL {
 	    CC.gl_error (GL_INVALID_VALUE, "glMapGrid2d(vn)");
 	    return;
 	}
-//	CC.gl_map_grid_2 (un, (float)u1, (float)u2, 
-	Context.gl_map_grid_2 (un, (float)u1, (float)u2, 
+//	CC.gl_map_grid_2 (un, (float)u1, (float)u2,
+	Context.gl_map_grid_2 (un, (float)u1, (float)u2,
 			       vn, (float)v1, (float)v2);
     }
 
@@ -6121,80 +6112,82 @@ public class GL {
 
     /**
      * GLX Functions
-     *     Java is not X-Window system, the following functions are just 
+     *     Java is not X-Window system, the following functions are just
      *     like GLX functions not the same.
      */
 
     /** Because this is for Java, use true color and double buffer default */
-    /** Bool glXMakeCurrent (Display *dpy, GLXDrawable drawable, GLXcontext ctx) */
-//    public boolean glXMakeCurrent (Applet o, int x, int y) {
-    public boolean glXMakeCurrent (Component o, int x, int y) {
-//	JavaApplet = o;
-	JavaComponent = o;
-	StartX = x;
-	StartY = y;
-//	Context.gl_initialize_context (o.getSize().width, o.getSize().height);
-	glViewport (x, y, o.getSize().width, o.getSize().height);
-	Context.gl_initialize_context ();
-	return GL_TRUE;
+
+    //Bool glXMakeCurrent (Display *dpy, GLXDrawable drawable, GLXcontext ctx)
+    /**
+     * Init the screen with 640x480 size
+     */
+    public boolean glXMakeCurrent(Object o, int x, int y) {
+    	return glXMakeCurrent(o, x, y, 640, 480);
     }
 
-    /** void glXSwapBuffers (Display *dpy, GLXDrawable drawable) */
-//    public void glXSwapBuffers (Graphics g, Applet o) {
-    public void glXSwapBuffers (Graphics g, ImageObserver o) {
-//	if (JavaImage != null) g.drawImage (JavaImage, StartX, StartY, o);
-	g.drawImage (JavaImage, StartX, StartY, o);
-
-//	if (Context.RenderMode != GL_RENDER) { return; }
-//	int i, j, k = 0;
-//	for (i = StartY; i < Context.Viewport.Height; i++) {
-//	    for (j = StartX; j < Context.Viewport.Width; j++) {
-//		g.setColor(new Color (Context.ColorBuffer.Buffer[k++]));
-//		g.drawLine(j, i, j, i);
-//	    }
-//	}
-
-	// add for Java2D
-	// Graphics2D g2 = (Graphics2D) g;
-	// g2.drawImage (JavaImage, 0, 0, o);
-
-//	System.out.println ("call draw image");
+    /**
+     * Init the screen
+     */
+    public boolean glXMakeCurrent(Object o, int x, int y, int width, int height) {
+    	JavaComponent = o;
+    	StartX = x;
+    	StartY = y;
+    	glViewport (x, y, width, height);
+    	Context.gl_initialize_context ();
+    	return GL_TRUE;
     }
 
-    public void glXSwapBuffers (Graphics g, Applet o) {
-	glXSwapBuffers (g, (ImageObserver)o);
+    /**
+     * void glXSwapBuffers (Display *dpy, GLXDrawable drawable)
+     */
+    public void glXSwapBuffers (Object g, Object o) {
+    	// No-op in non-AWT version
     }
 
-/*
-    public void glJViewport (int x, int y, int width, int height) {
-	glViewport (x, y, width, height);
-	JavaImageSource = new MemoryImageSource (Context.Viewport.Width, Context.Viewport.Height,
-						 Context.ColorBuffer.Buffer, 0, Context.Viewport.Width);
-	JavaImageSource.setAnimated (true);
-	JavaImageSource.setFullBufferUpdates (true);
-	JavaImage = JavaComponent.createImage (JavaImageSource);
+    // the following functions are only for developpers
+
+    public Object glJGetComponent() {
+    	return JavaComponent;
     }
 
-    public void glJFlush () {
-    	if (Context.RenderMode != GL_RENDER) { return; }
-	JavaImageSource.newPixels();
-    }
-*/
-
-    /** the following functions are only for developpers **/
-    public MemoryImageSource glJGetImageSource () {
-	return new MemoryImageSource(Context.Viewport.Width, Context.Viewport.Height,
-				     Context.ColorBuffer.Buffer, 0, Context.Viewport.Width);
+    /**
+     * Get the screen image buffer as an int array.
+     * You can use it to render the result of OpenGL operations.
+     * @return Screen image buffer
+     */
+    public int[] getImageBuffer() {
+    	return Context.ColorBuffer.Buffer;
     }
 
-    public Image glJGetImage (MemoryImageSource imagesource) {
-	return JavaComponent.createImage (imagesource);
+    /**
+     * Get current JGLLogger
+     * @return Current JGLLogger
+     */
+    public JGLLogger getLogger() {
+		return logger;
+	}
+
+    /**
+     * Set new JGLLogger
+     * @param logger New JGLLogger
+     */
+	public void setLogger(JGLLogger logger) {
+		this.logger = logger;
+	}
+
+	/**
+	 * Default constructor. Any error messages are sent to System.err.
+	 */
+	public GL () {
+    	this.logger = new JGLSysErrLogger();
     }
 
-    public Component glJGetComponent () {
-	return JavaComponent;
+	/**
+	 * Constructor with logger parameter.
+	 * @param logger JGLLogger you want to use
+	 */
+    public GL(JGLLogger logger) {
+    	this.logger = logger;
     }
-
-    public GL () {}
-
 }

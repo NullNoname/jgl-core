@@ -17,8 +17,9 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glu;
+package com.github.nullnoname.jgl.core.glu;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 
 /**
@@ -28,9 +29,10 @@ import java.lang.reflect.Method;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class GLUquadricObj {
+public class GLUquadricObj implements Serializable {
 
-    public int DrawStyle;	/* GLU_FILL, LINE, SILHOUETTE, or POINT */
+    private static final long serialVersionUID = -9012942332466779266L;
+	public int DrawStyle;	/* GLU_FILL, LINE, SILHOUETTE, or POINT */
     public int Orientation;	/* GLU_INSIDE or GLU_OUTSIDE */
     public boolean TextureFlag;	/* Generate texture coords? */
     public int Normals;		/* GLU_NONE, GLU_FLAT, or GLU_SMOOTH */

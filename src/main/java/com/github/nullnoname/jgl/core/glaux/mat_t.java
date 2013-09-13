@@ -17,7 +17,9 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glaux;
+package com.github.nullnoname.jgl.core.glaux;
+
+import java.io.Serializable;
 
 /**
  * mat_t is one of the AUX class of JavaGL 1.1.
@@ -26,9 +28,10 @@ package jgl.glaux;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class mat_t {
+public class mat_t implements Serializable {
 
-    public double mat [][] = new double [4][4];
+    private static final long serialVersionUID = -2058081168098660421L;
+	public double mat [][] = new double [4][4];
     public double norm [][] = new double [3][3];
 
     public mat_t (double m11, double m12, double m13, double m14,

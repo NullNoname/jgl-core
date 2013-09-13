@@ -17,11 +17,11 @@
  * Lesser General Public License for more details.
  */
 
-package jgl;
+package com.github.nullnoname.jgl.core;
 
-import jgl.GL;
-import jgl.gle.*;
-import jgl.context.gl_object;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.gle.gle_context;
 
 /**
  * GLE is the extension class of jGL 2.5.
@@ -30,9 +30,10 @@ import jgl.context.gl_object;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class GLE extends GL {
+public class GLE extends GL implements Serializable {
+	private static final long serialVersionUID = -8034438906011482145L;
 
-    /* Constant of GLE */
+	/* Constant of GLE */
     public static final int GL_PHONG = GL_SMOOTH+1;
 
     public void glShadeModel (int mode) {
@@ -42,14 +43,16 @@ public class GLE extends GL {
 
     public GLE (GL myGL) {
 	Context = new gle_context ();
-	CC = (gl_object)Context;
+	CC = Context;
 	myGL.Context = Context;
 	myGL.CC = CC;
 	List = myGL.List;
 	JavaComponent = myGL.JavaComponent;
-	JavaImage = myGL.JavaImage;
+	//JavaComponent = myGL.JavaComponent;
+	//JavaImage = myGL.JavaImage;
 	StartX = myGL.StartX;
 	StartY = myGL.StartY;
+	logger = myGL.logger;
     }
 
 }

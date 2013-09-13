@@ -17,11 +17,13 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.clipping;
+package com.github.nullnoname.jgl.core.context.clipping;
 
-import jgl.context.gl_context;
-import jgl.context.gl_vertex;
-import jgl.context.gl_polygon;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_polygon;
+import com.github.nullnoname.jgl.core.context.gl_vertex;
 
 /**
  * gl_cp_clipping is the clipping class for clipping plane of JavaGL 2.1.
@@ -30,11 +32,13 @@ import jgl.context.gl_polygon;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_cp_clipping extends gl_clipping {
+public class gl_cp_clipping extends gl_clipping implements Serializable {
 
 //    protected gl_nf_clipping nf_clipping;
 
-    private float mulMatrix11 (float a [], float b []) {
+    private static final long serialVersionUID = -1534291624636876947L;
+
+	private float mulMatrix11 (float a [], float b []) {
     	return (a[0]*b[0]+a[1]*b[1]+a[2]*b[2]+a[3]*b[3]);
     }
 

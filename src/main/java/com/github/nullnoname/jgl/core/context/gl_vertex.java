@@ -17,7 +17,9 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context;
+package com.github.nullnoname.jgl.core.context;
+
+import java.io.Serializable;
 
 /**
  * gl_vertex is the Vertex class of JavaGL 2.0.
@@ -26,9 +28,10 @@ package jgl.context;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_vertex {
+public class gl_vertex implements Serializable {
 
-    public float Vertex [] = new float [4];	/* Vertex Position */
+    private static final long serialVersionUID = -8337979193256991157L;
+	public float Vertex [] = new float [4];	/* Vertex Position */
     public int Color [];			/* Vertex Color */
     public float TexCoord [];			/* Texture Coord */
 

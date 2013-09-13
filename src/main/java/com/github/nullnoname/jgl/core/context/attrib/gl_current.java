@@ -17,12 +17,11 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib;
+package com.github.nullnoname.jgl.core.context.attrib;
 
-import java.lang.System;
+import java.io.Serializable;
 
-// import jgl.context.gl_list_item;
-import jgl.context.gl_util;
+import com.github.nullnoname.jgl.core.context.gl_util;
 
 /**
  * gl_current is the current values and associated data class of jGL 2.4.
@@ -31,9 +30,11 @@ import jgl.context.gl_util;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_current {
+public class gl_current implements Serializable {
 
-    /** GL_CURRENT_COLOR: Current Color */
+    private static final long serialVersionUID = 3058277619662916603L;
+
+	/** GL_CURRENT_COLOR: Current Color */
     public float Color [] = {1, 1, 1, 1};
 
     /* The color in int for Java format */
@@ -136,7 +137,7 @@ public class gl_current {
 	this.RasterPosValid = cc.RasterPosValid;
 	this.EdgeFlag       = cc.EdgeFlag;
     }
-    
+
     public gl_current () {};
 
 }

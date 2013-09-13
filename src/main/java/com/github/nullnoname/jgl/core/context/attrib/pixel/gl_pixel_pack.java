@@ -17,7 +17,9 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib.pixel;
+package com.github.nullnoname.jgl.core.context.attrib.pixel;
+
+import java.io.Serializable;
 
 /**
  * gl_pixel_pack is the pixel pack and unpack class of jGL 2.4.
@@ -26,9 +28,11 @@ package jgl.context.attrib.pixel;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_pixel_pack {
+public class gl_pixel_pack implements Serializable {
 
-    /** GL_xxPACK_SWAP_BYTES: Value of GL_xxPACK_SWAP_BYTES */
+    private static final long serialVersionUID = -7290148552773182496L;
+
+	/** GL_xxPACK_SWAP_BYTES: Value of GL_xxPACK_SWAP_BYTES */
     public boolean SwapBytes = false;
 
     /** GL_xxPACK_LSB_FIRST: Value of GL_xxPACK_LSB_FIRST */

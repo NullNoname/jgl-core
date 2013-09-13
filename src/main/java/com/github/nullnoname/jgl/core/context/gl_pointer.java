@@ -17,12 +17,42 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context;
+package com.github.nullnoname.jgl.core.context;
 
-import jgl.context.clipping.*;
-import jgl.context.geometry.*;
-import jgl.context.render.*;
-import jgl.context.render.pixel.*;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.clipping.gl_clipping;
+import com.github.nullnoname.jgl.core.context.clipping.gl_cp_clipping;
+import com.github.nullnoname.jgl.core.context.clipping.gl_cp_color_clipping;
+import com.github.nullnoname.jgl.core.context.clipping.gl_cp_lit_tex_clipping;
+import com.github.nullnoname.jgl.core.context.clipping.gl_cp_tex_clipping;
+import com.github.nullnoname.jgl.core.context.clipping.gl_vp_clipping;
+import com.github.nullnoname.jgl.core.context.clipping.gl_vp_color_clipping;
+import com.github.nullnoname.jgl.core.context.clipping.gl_vp_lit_tex_clipping;
+import com.github.nullnoname.jgl.core.context.clipping.gl_vp_tex_clipping;
+import com.github.nullnoname.jgl.core.context.geometry.gl_depth_geo;
+import com.github.nullnoname.jgl.core.context.geometry.gl_geometry;
+import com.github.nullnoname.jgl.core.context.geometry.gl_lit_tex_geo;
+import com.github.nullnoname.jgl.core.context.geometry.gl_lit_tex_z_geo;
+import com.github.nullnoname.jgl.core.context.geometry.gl_smooth_geo;
+import com.github.nullnoname.jgl.core.context.geometry.gl_smooth_z_geo;
+import com.github.nullnoname.jgl.core.context.geometry.gl_tex_geo;
+import com.github.nullnoname.jgl.core.context.geometry.gl_tex_z_geo;
+import com.github.nullnoname.jgl.core.context.render.gl_depth;
+import com.github.nullnoname.jgl.core.context.render.gl_lit_tex;
+import com.github.nullnoname.jgl.core.context.render.gl_lit_tex_z;
+import com.github.nullnoname.jgl.core.context.render.gl_render;
+import com.github.nullnoname.jgl.core.context.render.gl_select_render;
+import com.github.nullnoname.jgl.core.context.render.gl_smooth;
+import com.github.nullnoname.jgl.core.context.render.gl_smooth_z;
+import com.github.nullnoname.jgl.core.context.render.gl_tex;
+import com.github.nullnoname.jgl.core.context.render.gl_tex_z;
+import com.github.nullnoname.jgl.core.context.render.pixel.gl_blend_pixel;
+import com.github.nullnoname.jgl.core.context.render.pixel.gl_render_pixel;
+import com.github.nullnoname.jgl.core.context.render.pixel.gl_render_point;
+import com.github.nullnoname.jgl.core.context.render.pixel.gl_select_pixel;
+import com.github.nullnoname.jgl.core.context.render.pixel.gl_stipple_line_pixel;
+import com.github.nullnoname.jgl.core.context.render.pixel.gl_stipple_poly_pixel;
 
 /**
  * gl_pointer is the class points to all current instants of jGL 2.4.
@@ -31,9 +61,11 @@ import jgl.context.render.pixel.*;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_pointer {
+public class gl_pointer implements Serializable {
 
-    protected gl_context CC;
+    private static final long serialVersionUID = -728973535593620922L;
+
+	protected gl_context CC;
 
     protected int status = 4; // default state "000100"
 
@@ -70,17 +102,17 @@ public class gl_pointer {
 
     // set to default state, no depth, smooth shading, no texturing, no clipping,
     // no selection, no stipple
-    public gl_clipping     clipping;   
+    public gl_clipping     clipping;
     public gl_vp_clipping  vp_clipping;
 
-    public gl_geometry     geometry;   
-    public gl_render       render;     
-    public gl_render       line;       
+    public gl_geometry     geometry;
+    public gl_render       render;
+    public gl_render       line;
 
     public gl_render_pixel basic_pixel;
-    public gl_render_pixel pixel;      
-    public gl_render_pixel line_pixel; 
-    public gl_render_pixel poly_pixel; 
+    public gl_render_pixel pixel;
+    public gl_render_pixel line_pixel;
+    public gl_render_pixel poly_pixel;
 
     public void gl_stipple_line (boolean state) {
 	if (state) { line_pixel = new gl_stipple_line_pixel (CC, this);
@@ -478,7 +510,7 @@ else {
 	    }
 	}
     }
-    
+
     public void gl_lighting (boolean state) {
 	if (state) {
 	    if ((status & 0x00000008) != 0) {
@@ -532,7 +564,7 @@ else {
 	    line.set_pixel (basic_pixel);
 	}
     }
-    
+
     public gl_pointer (gl_context cc) {
 	CC = cc;
 //	clipping    = new gl_nf_color_clipping (CC);

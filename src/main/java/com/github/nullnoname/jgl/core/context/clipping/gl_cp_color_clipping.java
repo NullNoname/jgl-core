@@ -17,22 +17,26 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.clipping;
+package com.github.nullnoname.jgl.core.context.clipping;
 
-import jgl.context.gl_context;
-import jgl.context.gl_vertex;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_vertex;
 
 /**
- * gl_cp_color_clipping is the clipping class for clipping plane with 
+ * gl_cp_color_clipping is the clipping class for clipping plane with
  * color of JavaGL 2.1.
  *
  * @version 	0.4, 3 Dev 1999
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_cp_color_clipping extends gl_cp_clipping {
+public class gl_cp_color_clipping extends gl_cp_clipping implements Serializable {
 
-    protected gl_vertex inter_point (gl_vertex v1, gl_vertex v2, int i, int j) {
+    private static final long serialVersionUID = 3884444841577783196L;
+
+	protected gl_vertex inter_point (gl_vertex v1, gl_vertex v2, int i, int j) {
 	gl_vertex temp = super.inter_point (v1, v2, i, j);
 	temp.Color = inter_color (v1, v2);
 	return temp;

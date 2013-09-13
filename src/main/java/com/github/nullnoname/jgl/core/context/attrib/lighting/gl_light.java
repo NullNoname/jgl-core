@@ -17,10 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib.lighting;
+package com.github.nullnoname.jgl.core.context.attrib.lighting;
 
-import jgl.GL;
-import jgl.context.gl_util;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.GL;
+import com.github.nullnoname.jgl.core.context.gl_util;
 
 /**
  * gl_light is the lighting light class of jGL 2.4.
@@ -29,9 +31,11 @@ import jgl.context.gl_util;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_light {
+public class gl_light implements Serializable {
 
-    /** GL_AMBIENT: Ambient intensity of light i */
+    private static final long serialVersionUID = -7002479119935947106L;
+
+	/** GL_AMBIENT: Ambient intensity of light i */
     public float Ambient [] = {0, 0, 0, 1};
 
     /** GL_DIFFUSE: Diffuse intensity of light i */
@@ -106,7 +110,7 @@ public class gl_light {
 	}
 	return temp;
     }
-    
+
     public gl_light (gl_light cc) {
     	System.arraycopy(cc.Ambient,       0, this.Ambient,       0, 4);
     	System.arraycopy(cc.Diffuse,       0, this.Diffuse,       0, 4);

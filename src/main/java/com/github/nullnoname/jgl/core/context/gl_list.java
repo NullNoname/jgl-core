@@ -17,12 +17,13 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context;
+package com.github.nullnoname.jgl.core.context;
 
-import java.lang.Object;
+import java.io.Serializable;
 import java.util.Vector;
 
-import jgl.GL;
+import com.github.nullnoname.jgl.core.GL;
+
 
 /**
  * gl_list is the list class of jGL 2.4.
@@ -31,26 +32,27 @@ import jgl.GL;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_list extends gl_object {
+public class gl_list extends gl_object implements Serializable {
 
-    /** Constant of List of JavaGL */
-    private static final int NODE_ACCUM			= 0;
-    private static final int NODE_ALPHA_FUNC		= 1;
+    private static final long serialVersionUID = -4030704896986361765L;
+	/** Constant of List of JavaGL */
+    //private static final int NODE_ACCUM			= 0;
+    //private static final int NODE_ALPHA_FUNC		= 1;
     private static final int NODE_BEGIN			= 2;
-    private static final int NODE_BITMAP		= 3;
-    private static final int NODE_BLEND_COLOR		= 4;
-    private static final int NODE_BLEND_EQUATION	= 5;
+    //private static final int NODE_BITMAP		= 3;
+    //private static final int NODE_BLEND_COLOR		= 4;
+    //private static final int NODE_BLEND_EQUATION	= 5;
     private static final int NODE_BLEND_FUNC		= 6;
     private static final int NODE_CALL_LIST		= 7;
 //    private static final int NODE_CALL_LIST_OFFSET	= 8;
     private static final int NODE_CALL_OFFSET		= 9;
 //    private static final int NODE_CLEAR		= 10;
-    private static final int NODE_CLEAR_ACCUM		= 11;
+    //private static final int NODE_CLEAR_ACCUM		= 11;
     private static final int NODE_CLEAR_COLOR		= 12;
     private static final int NODE_CLEAR_COLOR_BUFFER	= 13;
     private static final int NODE_CLEAR_DEPTH		= 14;
     private static final int NODE_CLEAR_DEPTH_BUFFER	= 15;
-    private static final int NODE_CLEAR_INDEX		= 16;
+    //private static final int NODE_CLEAR_INDEX		= 16;
     private static final int NODE_CLEAR_STENCIL		= 17;
     private static final int NODE_CLEAR_STENCIL_BUFFER	= 95;
     private static final int NODE_CLIP_PLANE		= 18;
@@ -65,14 +67,14 @@ public class gl_list extends gl_object {
     private static final int NODE_DEPTH_FUNC		= 26;
     private static final int NODE_DEPTH_MASK		= 27;
     private static final int NODE_DEPTH_RANGE		= 28;
-    private static final int NODE_DISABLE		= 29;
-    private static final int NODE_DRAW_BUFFER		= 30;
+    //private static final int NODE_DISABLE		= 29;
+    //private static final int NODE_DRAW_BUFFER		= 30;
 //    private static final int NODE_DRAW_PIXELS		= 31;
     private static final int NODE_DRAW_INDEX_PIXELS	= 31;
     private static final int NODE_DRAW_COLOR_PIXELS	= 32;
     private static final int NODE_DRAW_STENCIL_PIXELS	= 33;
     private static final int NODE_DRAW_DEPTH_PIXELS	= 34;
-    private static final int NODE_EDGE_FLAG		= 35;
+    //private static final int NODE_EDGE_FLAG		= 35;
     private static final int NODE_ENABLE		= 36;
     private static final int NODE_END			= 37;
 /*
@@ -83,20 +85,20 @@ public class gl_list extends gl_object {
     private static final int NODE_EVAL_POINT_1		= 37;
     private static final int NODE_EVAL_POINT_2		= 38;
 */
-    private static final int NODE_FOG			= 39;
+    //private static final int NODE_FOG			= 39;
     private static final int NODE_FRONT_FACE		= 40;
-    private static final int NODE_HINT			= 41;
+    //private static final int NODE_HINT			= 41;
     private static final int NODE_INDEX			= 42;
-    private static final int NODE_INDEX_MASK		= 43;
+    //private static final int NODE_INDEX_MASK		= 43;
     private static final int NODE_INIT_NAMES		= 44;
     private static final int NODE_LIGHT			= 45;
     private static final int NODE_LIGHT_MODEL		= 46;
     private static final int NODE_LINE_STIPPLE		= 47;
-    private static final int NODE_LINE_WIDTH		= 48; 
+    private static final int NODE_LINE_WIDTH		= 48;
     private static final int NODE_LIST_BASE		= 49;
     private static final int NODE_LOAD_MATRIX		= 50;
     private static final int NODE_LOAD_NAME		= 51;
-    private static final int NODE_LOGIC_OP		= 52;
+    //private static final int NODE_LOGIC_OP		= 52;
 /*
     private static final int NODE_MAP_1			= 53;
     private static final int NODE_MAP_2			= 54;
@@ -108,23 +110,23 @@ public class gl_list extends gl_object {
     private static final int NODE_MULT_MATRIX		= 59;
     private static final int NODE_NORMAL		= 60;
     private static final int NODE_PASS_THROUGH		= 61;
-    private static final int NODE_PIXEL_MAP		= 62;
-    private static final int NODE_PIXEL_TRANSFER	= 63;
-    private static final int NODE_PIXEL_ZOOM		= 64;
+    //private static final int NODE_PIXEL_MAP		= 62;
+    //private static final int NODE_PIXEL_TRANSFER	= 63;
+    //private static final int NODE_PIXEL_ZOOM		= 64;
     private static final int NODE_POINT_SIZE		= 65;
     private static final int NODE_POLYGON_MODE		= 66;
     private static final int NODE_POLYGON_STIPPLE	= 67;
-    private static final int NODE_POLYGON_OFFSET	= 68;
-    private static final int NODE_POP_ATTRIB		= 69;
+    //private static final int NODE_POLYGON_OFFSET	= 68;
+    //private static final int NODE_POP_ATTRIB		= 69;
     private static final int NODE_POP_MATRIX		= 70;
     private static final int NODE_POP_NAME		= 71;
-    private static final int NODE_PUSH_ATTRIB		= 72;
+    //private static final int NODE_PUSH_ATTRIB		= 72;
     private static final int NODE_PUSH_MATRIX		= 73;
     private static final int NODE_PUSH_NAME		= 74;
     private static final int NODE_RASTER_POS		= 75;
-    private static final int NODE_READ_BUFFER		= 76;
-    private static final int NODE_SCALE			= 77;
-    private static final int NODE_SCISSOR		= 78;
+    //private static final int NODE_READ_BUFFER		= 76;
+    //private static final int NODE_SCALE			= 77;
+    //private static final int NODE_SCISSOR		= 78;
     private static final int NODE_SHADE_MODEL		= 79;
     private static final int NODE_STENCIL_FUNC		= 80;
     private static final int NODE_STENCIL_MASK		= 81;
@@ -144,7 +146,7 @@ public class gl_list extends gl_object {
     private static final int NODE_TEX_SUB_IMAGE_1D	= 97;
     private static final int NODE_TEX_SUB_IMAGE_2D	= 98;
     private static final int NODE_TEX_SUB_IMAGE_3D	= 99;
-    private static final int NODE_TRANSLATE		= 92;
+    //private static final int NODE_TRANSLATE		= 92;
     private static final int NODE_VERTEX		= 93;
     private static final int NODE_VIEWPORT		= 94;
 
@@ -158,7 +160,7 @@ public class gl_list extends gl_object {
     	int i;
 
 	for (i = 0; i < ThisList.size (); i++) {
-	    ListItem = (gl_list_item)ThisList.elementAt (i);
+	    ListItem = ThisList.elementAt (i);
 	    switch (ListItem.NodeKind) {
 	    	case NODE_CLEAR_COLOR:
 		    CC.gl_clear_color (ListItem.FloatPtr[0],
@@ -541,7 +543,7 @@ public class gl_list extends gl_object {
 	ListItem.FloatPtr = new float [4];
 	ListItem.FloatPtr [0] = red;
 	ListItem.FloatPtr [1] = green;
-	ListItem.FloatPtr [2] = blue; 
+	ListItem.FloatPtr [2] = blue;
 	ListItem.FloatPtr [3] = alpha;
     	ThisList.addElement (ListItem);
 	if (ExecuteFlag) { Context.gl_clear_color (red, green, blue, alpha); }
@@ -558,20 +560,20 @@ public class gl_list extends gl_object {
     	ThisList.addElement (ListItem);
 	if (ExecuteFlag) { Context.gl_clear_color_buffer (); }
     }
-    
+
     public void gl_clear_stencil_buffer () {
     	ListItem = new gl_list_item (NODE_CLEAR_STENCIL_BUFFER);
     	ThisList.addElement (ListItem);
 	if (ExecuteFlag) { Context.gl_clear_stencil_buffer (); }
     }
-    
+
     public void gl_color_mask (boolean red, boolean green,
 			       boolean blue, boolean alpha) {
     	ListItem = new gl_list_item (NODE_COLOR_MASK);
 	ListItem.BoolPtr = new boolean [4];
 	ListItem.BoolPtr [0] = red;
 	ListItem.BoolPtr [1] = green;
-	ListItem.BoolPtr [2] = blue; 
+	ListItem.BoolPtr [2] = blue;
 	ListItem.BoolPtr [3] = alpha;
     	ThisList.addElement (ListItem);
 	if (ExecuteFlag) { Context.gl_color_mask (red, green, blue, alpha); }
@@ -585,7 +587,7 @@ public class gl_list extends gl_object {
     	ThisList.addElement (ListItem);
 	if (ExecuteFlag) { Context.gl_blend_func (sfactor, dfactor); }
     }
-    
+
     public void gl_cull_face (int mode) {
     	ListItem = new gl_list_item (NODE_CULL_FACE);
 	ListItem.IntPtr = new int [1];
@@ -622,7 +624,7 @@ public class gl_list extends gl_object {
     	ListItem = new gl_list_item (NODE_LINE_STIPPLE);
 	ListItem.IntPtr = new int [2];
 	ListItem.IntPtr [0] = factor;
-	ListItem.IntPtr [1] = (int)(pattern & 0x0000ffff);
+	ListItem.IntPtr [1] = (pattern & 0x0000ffff);
     	ThisList.addElement (ListItem);
 	if (ExecuteFlag) { Context.gl_line_stipple (factor, pattern); }
     }
@@ -638,7 +640,7 @@ public class gl_list extends gl_object {
 
     public void gl_polygon_stipple (byte mask []) {
     	ListItem = new gl_list_item (NODE_POLYGON_STIPPLE);
-	ListItem.ObjPtr = (Object)mask;
+	ListItem.ObjPtr = mask;
     	ThisList.addElement (ListItem);
 	if (ExecuteFlag) { Context.gl_polygon_stipple (mask); }
     }
@@ -689,7 +691,7 @@ public class gl_list extends gl_object {
     	ThisList.addElement (ListItem);
 	if (ExecuteFlag) { Context.gl_depth_func (func); }
     }
-    
+
     public void gl_depth_mask (boolean flag) {
     	ListItem = new gl_list_item (NODE_DEPTH_MASK);
 	ListItem.BoolPtr = new boolean [1];
@@ -844,7 +846,7 @@ public class gl_list extends gl_object {
     	ThisList.addElement (ListItem);
 	if (ExecuteFlag) { Context.gl_normal (x, y, z); }
     }
-    
+
     public void gl_index (int c) {
     	ListItem = new gl_list_item (NODE_INDEX);
 	ListItem.IntPtr = new int [1];
@@ -858,7 +860,7 @@ public class gl_list extends gl_object {
 	ListItem.FloatPtr = new float [4];
 	ListItem.FloatPtr [0] = red;
 	ListItem.FloatPtr [1] = green;
-	ListItem.FloatPtr [2] = blue; 
+	ListItem.FloatPtr [2] = blue;
 	ListItem.FloatPtr [3] = alpha;
     	ThisList.addElement (ListItem);
 	if (ExecuteFlag) { Context.gl_color (red, green, blue, alpha); }
@@ -869,7 +871,7 @@ public class gl_list extends gl_object {
 	ListItem.FloatPtr = new float [4];
 	ListItem.FloatPtr [0] = s;
 	ListItem.FloatPtr [1] = t;
-	ListItem.FloatPtr [2] = r; 
+	ListItem.FloatPtr [2] = r;
 	ListItem.FloatPtr [3] = q;
     	ThisList.addElement (ListItem);
 	if (ExecuteFlag) { Context.gl_tex_coord (s, t, r, q); }
@@ -880,7 +882,7 @@ public class gl_list extends gl_object {
 	ListItem.FloatPtr = new float [4];
 	ListItem.FloatPtr [0] = x;
 	ListItem.FloatPtr [1] = y;
-	ListItem.FloatPtr [2] = z; 
+	ListItem.FloatPtr [2] = z;
 	ListItem.FloatPtr [3] = w;
     	ThisList.addElement (ListItem);
 	if (ExecuteFlag) { Context.gl_raster_pos (x, y, z, w); }
@@ -1130,7 +1132,7 @@ public class gl_list extends gl_object {
 	ListItem.IntPtr = new int [2];
 	ListItem.IntPtr [0] = target;
 	ListItem.IntPtr [1] = pname;
-	ListItem.ObjPtr = (Object)params;
+	ListItem.ObjPtr = params;
     	ThisList.addElement (ListItem);
 	if (ExecuteFlag) { Context.gl_tex_parameter (target, pname, params); }
     }
@@ -1195,7 +1197,7 @@ public class gl_list extends gl_object {
 						    width, height, depth, border,
 						    format, size, pixels); }
     }
- 
+
     public void gl_bind_texture (int target, int texture) {
     	ListItem = new gl_list_item (NODE_BIND_TEXTURE);
 	ListItem.IntPtr = new int [2];
@@ -1271,7 +1273,7 @@ public class gl_list extends gl_object {
 							format, size, pixels); }
     }
 
- /*   
+ /*
     public int gl_map_1 (int target, float u1, float u2, int  stride, int  order,
     			 float points [][]) {
     	ListItem = new gl_list_item (NODE_MAP_1);
@@ -1308,7 +1310,7 @@ public class gl_list extends gl_object {
     					     points); }
     	return dim;
     }
-    
+
     public int gl_map_2 (int target, float u1, float u2, int ustride, int uorder,
 				     float v1, float v2, int vstride, int vorder,
 			 float points [][][]) {
@@ -1352,7 +1354,7 @@ public class gl_list extends gl_object {
     					     points); }
     	return dim;
     }
-    
+
     public void gl_eval_coord_1 (float u) {
 	ListItem = new gl_list_item (NODE_EVAL_COORD_1);
 	ListItem.FloatPtr = new float [1];
@@ -1395,7 +1397,7 @@ public class gl_list extends gl_object {
     	ThisList.addElement (ListItem);
     	if (ExecuteFlag) { Context.gl_map_grid_2 (un, u1, u2, vn, v1, v2); }
     }
-    
+
     public void gl_eval_point_1 (int i) {
 	ListItem = new gl_list_item (NODE_EVAL_POINT_1);
 	ListItem.IntPtr = new int [1];

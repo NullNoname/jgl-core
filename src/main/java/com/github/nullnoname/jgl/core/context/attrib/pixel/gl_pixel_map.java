@@ -17,7 +17,9 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib.pixel;
+package com.github.nullnoname.jgl.core.context.attrib.pixel;
+
+import java.io.Serializable;
 
 /**
  * gl_pixel_map is the pixel map class of JavaGL 2.1.
@@ -26,9 +28,11 @@ package jgl.context.attrib.pixel;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_pixel_map {
+public class gl_pixel_map implements Serializable {
 
-    /** GL_x: glPixelMap() translation tables */
+    private static final long serialVersionUID = -6044484506823113960L;
+
+	/** GL_x: glPixelMap() translation tables */
     public float Table [] = new float [256]; // MAX_PIXEL_MAP_TABLE = 256
 
     /** GL_x_SIZE: Size of table x */

@@ -17,11 +17,13 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.clipping;
+package com.github.nullnoname.jgl.core.context.clipping;
 
-import jgl.context.gl_context;
-import jgl.context.gl_vertex;
-import jgl.context.gl_polygon;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_polygon;
+import com.github.nullnoname.jgl.core.context.gl_vertex;
 
 /**
  * gl_clipping is the clipping class of jGL 2.4.
@@ -30,9 +32,10 @@ import jgl.context.gl_polygon;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_clipping {
+public class gl_clipping implements Serializable {
 
-    protected gl_context CC;
+    private static final long serialVersionUID = 7167034879777901240L;
+	protected gl_context CC;
     protected float t;		/* use for interpolate aux data */
 
     protected gl_vertex inter_point_pos (gl_vertex v1, gl_vertex v2, int xy) {
@@ -42,7 +45,7 @@ public class gl_clipping {
     protected gl_vertex inter_point_neg (gl_vertex v1, gl_vertex v2, int xy) {
 	return null;
     }
-    
+
     protected gl_vertex inter_point  (gl_vertex v1, gl_vertex v2, int i, int j){
 	if (j == 0) { return inter_point_neg (v1, v2, i); }
 	return inter_point_pos (v1, v2, i);	// j == 1
@@ -52,10 +55,10 @@ public class gl_clipping {
         // point v1 is out, point v2 is in....
         int tempColor [] = new int [4];
 
-        tempColor[0]=v2.Color[0]+(int)(t*(float)(v1.Color[0]-v2.Color[0]));
-        tempColor[1]=v2.Color[1]+(int)(t*(float)(v1.Color[1]-v2.Color[1]));
-        tempColor[2]=v2.Color[2]+(int)(t*(float)(v1.Color[2]-v2.Color[2]));
-        tempColor[3]=v2.Color[3]+(int)(t*(float)(v1.Color[3]-v2.Color[3]));
+        tempColor[0]=v2.Color[0]+(int)(t*(v1.Color[0]-v2.Color[0]));
+        tempColor[1]=v2.Color[1]+(int)(t*(v1.Color[1]-v2.Color[1]));
+        tempColor[2]=v2.Color[2]+(int)(t*(v1.Color[2]-v2.Color[2]));
+        tempColor[3]=v2.Color[3]+(int)(t*(v1.Color[3]-v2.Color[3]));
         return tempColor;
     }
 
@@ -91,7 +94,7 @@ public class gl_clipping {
 	if (IsInside(temp[0].Vertex,i,j)) {
 	    if (!IsInside(temp[1].Vertex,i,j)) {
 	        temp[1]=inter_point(temp[1],temp[0],i,j);
-	    } 
+	    }
 	} else {
 	    if (IsInside(temp[1].Vertex,i,j)) {
 	        temp[0]=inter_point(temp[0],temp[1],i,j);
@@ -170,7 +173,7 @@ public class gl_clipping {
 	}
 	return outlist;
     }
- 
+
     protected gl_polygon clip_polygon (gl_polygon inlist, int i) {
     	for (int j = 0; j < 2; j++) { inlist = clip_polygon (inlist, i, j); }
 	return inlist;

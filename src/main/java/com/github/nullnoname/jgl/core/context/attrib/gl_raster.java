@@ -17,11 +17,13 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib;
+package com.github.nullnoname.jgl.core.context.attrib;
 
-import jgl.GL;
-import jgl.context.gl_list_item;
-import jgl.context.gl_util;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.GL;
+import com.github.nullnoname.jgl.core.context.gl_list_item;
+import com.github.nullnoname.jgl.core.context.gl_util;
 
 /**
  * gl_raster is the rasterization class of jGL 2.4.
@@ -30,9 +32,11 @@ import jgl.context.gl_util;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_raster {
+public class gl_raster implements Serializable {
 
-    /** GL_POINT_SIZE: Point size */
+    private static final long serialVersionUID = 9168435600870011258L;
+
+	/** GL_POINT_SIZE: Point size */
     public float PointSize = 1;
 
     /** GL_POINT_SMOOTH: Point antialiasing on */

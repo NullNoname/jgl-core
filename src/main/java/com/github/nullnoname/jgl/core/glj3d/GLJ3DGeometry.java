@@ -17,9 +17,9 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glj3d;
+package com.github.nullnoname.jgl.core.glj3d;
 
-import jgl.GL;
+import com.github.nullnoname.jgl.core.GL;
 
 /**
  * GLJ3DGeometry is the Java3d geometry like class of JavaGL 2.2.

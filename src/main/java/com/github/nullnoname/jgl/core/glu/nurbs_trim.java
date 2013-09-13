@@ -17,7 +17,9 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glu;
+package com.github.nullnoname.jgl.core.glu;
+
+import java.io.Serializable;
 
 /**
  * nurbs_trim is one of the GLU class of JavaGL 2.1.
@@ -26,9 +28,10 @@ package jgl.glu;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class nurbs_trim {
+public class nurbs_trim implements Serializable {
 
-    public trim_list trim_loop;
+    private static final long serialVersionUID = -4748445392121420052L;
+	public trim_list trim_loop;
     public trim_segments segments;
     public nurbs_trim next;
 

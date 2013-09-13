@@ -17,10 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.clipping;
+package com.github.nullnoname.jgl.core.context.clipping;
 
-import jgl.context.gl_vertex;
-import jgl.context.gl_polygon;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_polygon;
+import com.github.nullnoname.jgl.core.context.gl_vertex;
 
 /**
  * gl_2d_clipping is the clipping class for frame buffer of JavaGL 2.1.
@@ -29,9 +31,10 @@ import jgl.context.gl_polygon;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_2d_clipping extends gl_clipping {
+public class gl_2d_clipping extends gl_clipping implements Serializable {
 
-    private int bound [];
+    private static final long serialVersionUID = 5842568607946922014L;
+	private int bound [];
 
     private gl_vertex my_inter_point(gl_vertex v1, gl_vertex v2, int xy, int v){
     	// point v1 is out, point v2 is in....
@@ -43,7 +46,7 @@ public class gl_2d_clipping extends gl_clipping {
 	dvertex[2]=v1.Vertex[2]-v2.Vertex[2];
 	dvertex[3]=v1.Vertex[3]-v2.Vertex[3];
 	if (dvertex[xy] == 0) { t = 0; }
-	else { t = ((float)v - v2.Vertex[xy])/dvertex[xy]; }
+	else { t = (v - v2.Vertex[xy])/dvertex[xy]; }
 	temp.Vertex[0]=v2.Vertex[0]+t*dvertex[0];
 	temp.Vertex[1]=v2.Vertex[1]+t*dvertex[1];
 	temp.Vertex[2]=v2.Vertex[2]+t*dvertex[2];

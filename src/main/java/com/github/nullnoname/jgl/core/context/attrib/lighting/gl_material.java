@@ -17,9 +17,11 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib.lighting;
+package com.github.nullnoname.jgl.core.context.attrib.lighting;
 
-import jgl.GL;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.GL;
 
 /**
  * gl_material is the lighting masterial color class of jGL 2.4.
@@ -28,9 +30,11 @@ import jgl.GL;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_material {
+public class gl_material implements Serializable {
 
-    /** GL_AMBIENT: Ambient material color */
+    private static final long serialVersionUID = -3735311287540564310L;
+
+	/** GL_AMBIENT: Ambient material color */
     public float Ambient [] = {0.2f, 0.2f, 0.2f, 1};
 
     /** GL_DEFFUSE: Diffuse material color */
@@ -100,7 +104,7 @@ public class gl_material {
 	this.ColorIndexDiffuse  = cc.ColorIndexDiffuse;
 	this.ColorIndexSpecular = cc.ColorIndexSpecular;
     }
-    
+
     public gl_material () {};
 
 }

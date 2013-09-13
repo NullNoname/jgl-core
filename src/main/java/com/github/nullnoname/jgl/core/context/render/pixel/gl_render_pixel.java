@@ -17,10 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.render.pixel;
+package com.github.nullnoname.jgl.core.context.render.pixel;
 
-import jgl.context.gl_context;
-import jgl.context.gl_util;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_util;
 
 /**
  * gl_render_pixel is the basic pixel rendering class of jGL 2.3.
@@ -29,9 +31,10 @@ import jgl.context.gl_util;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_render_pixel {
+public class gl_render_pixel implements Serializable {
 
-    protected gl_context CC;
+    private static final long serialVersionUID = -8595152318583294812L;
+	protected gl_context CC;
 
     /** Put a pixel in the Color Buffer */
     public void put_pixel_by_index (int index, int color) {
@@ -164,9 +167,9 @@ public class gl_render_pixel {
 
     protected int light_pixel (int t, int c[]) {
 	int tex [] = gl_util.ItoRGB(t);
-	tex[0] = (int)((float)tex[0] * gl_util.ItoF(c[0]));
-	tex[1] = (int)((float)tex[1] * gl_util.ItoF(c[1]));
-	tex[2] = (int)((float)tex[2] * gl_util.ItoF(c[2]));
+	tex[0] = (int)(tex[0] * gl_util.ItoF(c[0]));
+	tex[1] = (int)(tex[1] * gl_util.ItoF(c[1]));
+	tex[2] = (int)(tex[2] * gl_util.ItoF(c[2]));
 	return gl_util.RGBtoI(tex[0], tex[1], tex[2]);
     }
 

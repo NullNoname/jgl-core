@@ -17,14 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.attrib;
+package com.github.nullnoname.jgl.core.context.attrib;
 
-import java.lang.Object;
+import java.io.Serializable;
 
-import jgl.GL;
-import jgl.context.gl_context;
-// import jgl.context.gl_list_item;
-// import jgl.context.gl_util;
+import com.github.nullnoname.jgl.core.GL;
+import com.github.nullnoname.jgl.core.context.gl_context;
 
 /**
  * gl_stencilbuffer is the stenciling buffer class of jGL 2.4.
@@ -33,9 +31,11 @@ import jgl.context.gl_context;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_stencilbuffer {
-	
-    private gl_context CC;
+public class gl_stencilbuffer implements Serializable {
+
+    private static final long serialVersionUID = -168397098530483478L;
+
+	private gl_context CC;
 
     /** GL_STENCIL_TEST: Stenciling buffer enabled */
     public boolean Enable = false;
@@ -106,15 +106,15 @@ public class gl_stencilbuffer {
     }
 
     private void set_pixel (int x, int y, float pixels [][], int value) {
-	pixels[x][y] = (float)value;
+	pixels[x][y] = value;
     }
 
     private int get_pixel (int x, int y, byte pixels [][]) {
-	return (int)(pixels[x][y] & 0x000000ff);
+	return (pixels[x][y] & 0x000000ff);
     }
 
     private int get_pixel (int x, int y, short pixels [][]) {
-	return (int)(pixels[x][y] & 0x0000ffff);
+	return (pixels[x][y] & 0x0000ffff);
     }
 
     private int get_pixel (int x, int y, int pixels [][]) {
@@ -182,6 +182,8 @@ public class gl_stencilbuffer {
     }
 
     public void copy_pixels (int x, int y, int width, int height) {
+// Unused?
+/*
 	int i, j, PosR = x+CC.Viewport.Width*y, PosW = 0;
 
 	for (i = 0; i < height; i++) {
@@ -191,6 +193,7 @@ public class gl_stencilbuffer {
 		Buffer[PosW++] = Buffer[PosR++];
 	    }
 	}
+*/
     }
 
     public gl_stencilbuffer (gl_stencilbuffer cc) {

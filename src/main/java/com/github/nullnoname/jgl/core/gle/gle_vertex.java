@@ -17,9 +17,11 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.gle;
+package com.github.nullnoname.jgl.core.gle;
 
-import jgl.context.gl_vertex;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_vertex;
 
 /**
  * gle_vertex is the extension Vertex class of jGL 2.5.
@@ -28,9 +30,10 @@ import jgl.context.gl_vertex;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gle_vertex extends gl_vertex {
+public class gle_vertex extends gl_vertex implements Serializable {
 
-    public float Normal [];			/* Vertex Normal */
+    private static final long serialVersionUID = -7268681827387822733L;
+	public float Normal [];			/* Vertex Normal */
 
     public gle_vertex (gl_vertex v) {
 	Vertex   = v.Vertex;

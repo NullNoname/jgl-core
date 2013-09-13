@@ -17,14 +17,16 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.geometry;
+package com.github.nullnoname.jgl.core.context.geometry;
 
-import jgl.GL;
+import java.io.Serializable;
 
-import jgl.context.gl_context;
-import jgl.context.gl_pointer;
-import jgl.context.gl_vertex;
-import jgl.context.gl_polygon;
+import com.github.nullnoname.jgl.core.GL;
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_pointer;
+import com.github.nullnoname.jgl.core.context.gl_polygon;
+import com.github.nullnoname.jgl.core.context.gl_vertex;
+
 
 /**
  * gl_geometry is the basic geometry class of jGL 2.4.
@@ -33,9 +35,10 @@ import jgl.context.gl_polygon;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_geometry {
+public class gl_geometry implements Serializable {
 
-    protected gl_context CC;
+    private static final long serialVersionUID = 3961827371618070669L;
+	protected gl_context CC;
     protected gl_pointer CR;
 
     /** Data Members */
@@ -147,7 +150,7 @@ public class gl_geometry {
     protected void extend_array () {
 	VertexSize += 5;
 	float tempArray [][] = new float [VertexSize][4];
-	System.arraycopy (VertexArray, 0, tempArray, 0, VertexSize-5); 
+	System.arraycopy (VertexArray, 0, tempArray, 0, VertexSize-5);
 	VertexArray = tempArray;
     }
 

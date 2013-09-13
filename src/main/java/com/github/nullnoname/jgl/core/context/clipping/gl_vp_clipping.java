@@ -17,10 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.clipping;
+package com.github.nullnoname.jgl.core.context.clipping;
 
-import jgl.context.gl_context;
-import jgl.context.gl_vertex;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_vertex;
 
 /**
  * gl_vp_clipping is the clipping class for viewport of JavaGL 2.1.
@@ -29,9 +31,11 @@ import jgl.context.gl_vertex;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_vp_clipping extends gl_clipping {
+public class gl_vp_clipping extends gl_clipping implements Serializable {
 
-    protected gl_vertex inter_point_pos (gl_vertex v1, gl_vertex v2, int xy) {
+    private static final long serialVersionUID = 8364641432761265833L;
+
+	protected gl_vertex inter_point_pos (gl_vertex v1, gl_vertex v2, int xy) {
     	// point v1 is out, point v2 is in....
 	float dvertex [] = new float [4];
 	gl_vertex temp = new gl_vertex ();

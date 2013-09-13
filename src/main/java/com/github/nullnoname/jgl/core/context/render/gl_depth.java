@@ -17,10 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.render;
+package com.github.nullnoname.jgl.core.context.render;
 
-import jgl.context.gl_context;
-import jgl.context.gl_vertex;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_vertex;
 
 /**
  * gl_depth is the rendering class for depth of JavaGL 2.1.
@@ -29,9 +31,10 @@ import jgl.context.gl_vertex;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_depth extends gl_render {
+public class gl_depth extends gl_render implements Serializable {
 
-    // Members for Line
+    private static final long serialVersionUID = -8382390108646712303L;
+	// Members for Line
     protected float LineZ [] = new float [2];
     protected float z;
     protected float dzdx = 0, dzdy = 0;
@@ -56,11 +59,11 @@ public class gl_depth extends gl_render {
     }
 
     protected void init_z_dx (int dx) {
-	dzdx = (LineZ [1] - LineZ [0])/(float)dx;
+	dzdx = (LineZ [1] - LineZ [0])/dx;
     }
 
     protected void init_z_dy (int dy) {
-	dzdy = (LineZ [1] - LineZ [0])/(float)dy;
+	dzdy = (LineZ [1] - LineZ [0])/dy;
     }
 
     protected void init_dx (int dx) {
@@ -131,7 +134,7 @@ public class gl_depth extends gl_render {
     }
 
     protected void init_z_other (boolean delta, int dy) {
-	dzdxy = dzdx * (float)dy + dzdy;
+	dzdxy = dzdx * dy + dzdy;
 	if (delta) { dzdyy = dzdxy - dzdx; } else { dzdyy = dzdxy + dzdx; }
     }
 

@@ -17,9 +17,11 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.render.pixel;
+package com.github.nullnoname.jgl.core.context.render.pixel;
 
-import jgl.context.gl_context;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
 
 /**
  * gl_stipple_poly_pixel is pixel class for stippled polygon of JavaGL 2.1.
@@ -28,9 +30,11 @@ import jgl.context.gl_context;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_stipple_poly_pixel extends gl_stipple_pixel {
+public class gl_stipple_poly_pixel extends gl_stipple_pixel implements Serializable {
 
-    /** Initial the stippled line parameters */
+    private static final long serialVersionUID = 2767617641555291830L;
+
+	/** Initial the stippled line parameters */
     private boolean test (int x, int y) {
 	int shift  = x - ((x >> 5) << 5);
 	int yindex = y - ((y >> 5) << 5);

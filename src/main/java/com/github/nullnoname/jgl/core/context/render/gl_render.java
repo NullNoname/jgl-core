@@ -17,17 +17,16 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.render;
+package com.github.nullnoname.jgl.core.context.render;
 
-import jgl.GL;
-import jgl.context.gl_context;
-import jgl.context.gl_pointer;
-import jgl.context.gl_vertex;
-import jgl.context.gl_polygon;
+import java.io.Serializable;
 
-import jgl.context.gl_util;
+import com.github.nullnoname.jgl.core.GL;
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_polygon;
+import com.github.nullnoname.jgl.core.context.gl_vertex;
+import com.github.nullnoname.jgl.core.context.render.pixel.gl_render_pixel;
 
-import jgl.context.render.pixel.gl_render_pixel;
 
 /**
  * gl_render is the basic rendering class of JavaGL 2.1.
@@ -36,9 +35,10 @@ import jgl.context.render.pixel.gl_render_pixel;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_render {
+public class gl_render implements Serializable {
 
-    protected gl_context CC;
+    private static final long serialVersionUID = 1874604649506110992L;
+	protected gl_context CC;
     protected gl_render_pixel pixel;
 
     // Members for Line
@@ -74,7 +74,7 @@ public class gl_render {
 	if (dx != 0) { init_dx (dx); }
 	init_dy (dy);			// dy must not be equal to 0
     }
-    
+
     protected void x_inc_x () { x++; }
     protected void x_dec_x () { x--; }
     protected void y_inc_y () { y++; }
@@ -85,7 +85,7 @@ public class gl_render {
 
     protected void inc_x_inc_y () { inc_x (); inc_y (); }
     protected void dec_x_inc_y () { dec_x (); inc_y (); }
- 
+
     protected void put_pixel () {
 	pixel.put_pixel (x, y, color);
     }
@@ -93,17 +93,17 @@ public class gl_render {
     protected void put_pixel_by_index () {
 	pixel.put_pixel_by_index (x, color);
     }
-    
+
     protected void draw_point (gl_vertex v) {
 	CC.CR.pixel.put_pixel ((int)(v.Vertex[0]+(float)0.5),
 			       (int)(v.Vertex[1]+(float)0.5), color);
     }
-    
+
     protected void draw_point (gl_vertex v, int color) {
 	this.color = color;
 	draw_point (v);
     }
-			   
+
     /** Draw a flat horizontal line in the Color Buffer,
     	assume that x1 is in the left side of x2 */
     protected void draw_horizontal_line (int x1, int x2, int y) {
@@ -345,7 +345,7 @@ public class gl_render {
 	    } else {
 		Down = 1;
 		if (TriXY [0][1] < TriXY [2][1]) {
-		    Top = 0; Mid = 2; 
+		    Top = 0; Mid = 2;
 		    facing = true;
 		} else {
 		    Top = 2; Mid = 0;
@@ -396,7 +396,7 @@ public class gl_render {
 	}
 
 	facing = facing ^ (area > 0) ^ (CC.Raster.FrontFace == GL.GL_CW);
-	
+
 	if (CC.Raster.CullFace) {
 	    if (CC.Raster.CullFaceMode == GL.GL_FRONT_AND_BACK) return;
 	    if (facing & (CC.Raster.CullFaceMode == GL.GL_FRONT)) return;
@@ -487,7 +487,7 @@ public class gl_render {
 
     public void draw_polygon (gl_polygon p) {
     	if (p.n == 0) { return; }
-    	
+
 	for (int i = 2; i < p.n; i++) {
 	    draw_triangle (p.Polygon[0],p.Polygon[i-1],p.Polygon[i]);
 	}

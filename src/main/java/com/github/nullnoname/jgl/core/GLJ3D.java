@@ -17,11 +17,13 @@
  * Lesser General Public License for more details.
  */
 
-package jgl;
+package com.github.nullnoname.jgl.core;
 
-import jgl.glaux.MODELPTR;
+import java.io.Serializable;
 
-import jgl.glj3d.*;
+import com.github.nullnoname.jgl.core.glaux.MODELPTR;
+import com.github.nullnoname.jgl.core.glj3d.GLJ3DGeometry;
+
 
 /**
  * GLJ3D is the Java3d like class of JavaGL 2.2.
@@ -30,9 +32,10 @@ import jgl.glj3d.*;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class GLJ3D {
+public class GLJ3D implements Serializable {
+	private static final long serialVersionUID = 180512806351912843L;
 
-    /** Constants of J3D */
+	/** Constants of J3D */
     private static final int COLORCUBE = 0;
 
     /** Private Data Members */
@@ -108,8 +111,11 @@ public class GLJ3D {
 	}
     }
 
+    /**
+     * Dummy constructor. Please call new GLJ3D (yourGL).
+     */
     public GLJ3D () {
-    	System.out.println ("Please call new GLJ3D (yourGL)");
+    	//System.out.println ("Please call new GLJ3D (yourGL)");
     }
 
     public GLJ3D (GL myGL) {

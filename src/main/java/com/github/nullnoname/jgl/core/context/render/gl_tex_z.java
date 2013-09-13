@@ -17,10 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.render;
+package com.github.nullnoname.jgl.core.context.render;
 
-import jgl.context.gl_context;
-import jgl.context.gl_vertex;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_vertex;
 
 /**
  * gl_tex_z is the rendering class for texturing with depth of JavaGL 2.1.
@@ -29,9 +31,11 @@ import jgl.context.gl_vertex;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_tex_z extends gl_tex {
+public class gl_tex_z extends gl_tex implements Serializable {
 
-    protected void init (gl_vertex v1, gl_vertex v2) {
+    private static final long serialVersionUID = -5318925312816024637L;
+
+	protected void init (gl_vertex v1, gl_vertex v2) {
 	super.init (v1, v2);
 	init_z (v1, v2);
     }

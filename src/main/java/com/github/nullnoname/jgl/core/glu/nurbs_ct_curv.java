@@ -17,9 +17,11 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glu;
+package com.github.nullnoname.jgl.core.glu;
 
-import jgl.GL;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.GL;
 
 /**
  * nurbs_ct_curv is one of the GLU NURBS class of JavaGL 2.1.
@@ -28,16 +30,17 @@ import jgl.GL;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class nurbs_ct_curv {
+public class nurbs_ct_curv implements Serializable {
 
-    public float ctrl [][] = null;
+    private static final long serialVersionUID = 8849479433614178327L;
+	public float ctrl [][] = null;
     public int   stride;
     public float offsets [][][] = null;
     public int   pt_cnt;
 
     public void draw (GL JavaGL, nurbs_curve curv, int i) {
 	JavaGL.glMap1f (curv.type, 0, 1, stride, curv.c.order, offsets[i]);
-    } 
+    }
 
     public void augment (int s, nurbs_curve curv) {
 	int i, j;

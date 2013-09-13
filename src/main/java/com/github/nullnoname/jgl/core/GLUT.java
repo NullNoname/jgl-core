@@ -17,40 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl;
+package com.github.nullnoname.jgl.core;
 
-import java.applet.Applet;
-import java.awt.AWTEvent;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.event.ComponentEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.image.ImageObserver;
-import java.lang.Character;
-import java.lang.Class;
-import java.lang.IllegalAccessException;
-import java.lang.Integer;
-import java.lang.InterruptedException;
-import java.lang.Math;
-import java.lang.NoSuchMethodException;
-import java.lang.NullPointerException;
-import java.lang.Object;
-import java.lang.Runnable;
-import java.lang.String;
-import java.lang.System;
-import java.lang.Thread;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.Vector;
+import java.io.Serializable;
 
-import jgl.glu.GLUquadricObj;
-import jgl.glaux.teapot;
-
-import jgl.glut.*;
+import com.github.nullnoname.jgl.core.glaux.teapot;
+import com.github.nullnoname.jgl.core.glu.GLUquadricObj;
 
 /**
  * GLUT is the glut class of jGL 2.4.
@@ -58,8 +30,8 @@ import jgl.glut.*;
  * @version 	0.3, 10 May 2003
  * @author 	Robin Bing-Yu Chen
  */
-
-public class GLUT implements Runnable {
+public class GLUT implements Serializable {
+	private static final long serialVersionUID = 6238214816724252116L;
 
     /**
      * glut Functions
@@ -67,7 +39,7 @@ public class GLUT implements Runnable {
      *     can be implemented, only implement some useful functions.
      */
 
-    /** Constants of glut */
+	/** Constants of glut */
     /* Mouse buttons. */
     public static final int GLUT_LEFT_BUTTON			= 0;
     public static final int GLUT_MIDDLE_BUTTON			= 1;
@@ -76,7 +48,7 @@ public class GLUT implements Runnable {
     /* Mouse button  state. */
     public static final int GLUT_DOWN				= 0;
     public static final int GLUT_UP				= 1;
-    
+
     /* glutGetModifiers return mask. */
     public static final int GLUT_ACTIVE_SHIFT			= 1;
     public static final int GLUT_ACTIVE_CTRL			= 2;
@@ -110,32 +82,7 @@ public class GLUT implements Runnable {
     /** Private Data Members */
     private GL JavaGL;
     private GLU JavaGLU;
-//    private GLCanvas JavaCanvas;
-
-    private int WindowX = 0;
-    private int WindowY = 0;
-    private int WindowWidth = 300;
-    private int WindowHeight = 300;
-
     private GLUquadricObj quadObj;
-
-    private Method reshapeMethod = null;
-    private Method mouseMethod = null;
-    private Method motionMethod = null;
-    private Method keyMethod = null;
-    private Method keyUpMethod = null;
-    private Method specialKeyMethod = null;
-    private Method specialKeyUpMethod = null;
-    private Method displayMethod = null;
-    private Method idleMethod = null;
-    private Thread JavaThread = null;
-    private Component JavaComponent = null;
-
-    private Vector<glut_menu> JavaMenus = null;
-    private int JavaMenuSize = 0;
-    private glut_menu currentMenu = null;
-    private int JavaMenuButton = -1;
-    private int keyModifiers = 0;
 
     /** Private Member Functions */
 /*
@@ -158,7 +105,7 @@ public class GLUT implements Runnable {
 	p[1] = v1[2]*v2[0] - v2[2]*v1[0];
 	p[2] = v1[0]*v2[1] - v2[0]*v1[1];
 	prod[0] = p[0]; prod[1] = p[1]; prod[2] = p[2];
-    } 
+    }
 
     private void normalize (double v[]) {
 	double d;
@@ -172,7 +119,7 @@ public class GLUT implements Runnable {
 	v[0] *= d; v[1] *= d; v[2] *= d;
     }
 
-    private void m_xformpt (double pin [], double pout [], 
+    private void m_xformpt (double pin [], double pout [],
 			    double nin [], double nout []) {
 	int i;
 	double ptemp [] = new double [3];
@@ -187,9 +134,9 @@ public class GLUT implements Runnable {
 	    return;
 	}
 	for (i = 0; i < 3; i++) {
-	    ptemp [i] = pin [0] * m.mat [0][i] + 
+	    ptemp [i] = pin [0] * m.mat [0][i] +
 	    		pin [1] * m.mat [1][i] +
-			pin [2] * m.mat [2][i] + 
+			pin [2] * m.mat [2][i] +
 			m.mat[3][i];
 	    ntemp [i] = nin [0] * m.norm [0][i] +
                    	nin [1] * m.norm [1][i] +
@@ -235,7 +182,7 @@ public class GLUT implements Runnable {
 	int i;
 
 	for (i = 0; i < 3; i++) {
-	     p1[i] = n1[i]*radius + center[i]; 
+	     p1[i] = n1[i]*radius + center[i];
 	     p2[i] = n2[i]*radius + center[i];
 	     p3[i] = n3[i]*radius + center[i];
 	}
@@ -400,68 +347,38 @@ public class GLUT implements Runnable {
     }
 
     /**
-     * GLUT initialization sub-API. 
+     * GLUT initialization sub-API.
      */
 
     /** void glutInitWindowPosition (int x, int y) */
     public void glutInitWindowPosition (int x, int y) {
-    	WindowX = x;		WindowY = y;
+    	//WindowX = x;		WindowY = y;
     }
 
     /** void glutInitWindowSize (int width, int height) */
     public void glutInitWindowSize (int width, int height) {
-	WindowWidth = width;	WindowHeight = height;
+    	//WindowWidth = width;	WindowHeight = height;
     }
 
     /** void glutMainLoop () */
     public void glutMainLoop () {
-	if (displayMethod != null) {
-	    try {
-		displayMethod.invoke(JavaComponent, (Object [])null);
-	    } catch (IllegalAccessException e) {
-		System.out.println("IllegalAccessException while DisplayFunc");
-	    } catch (InvocationTargetException e) {
-		System.out.println("InvocationTargetException while DisplayFunc");
-	    }
-	}
     }
 
     /**
-     * GLUT window sub-API. 
+     * GLUT window sub-API.
      */
-   
-    /** int glutCreateWindow (const char *title) */
-    public void glutCreateWindow (Component o) {
-	o.setSize (WindowWidth, WindowHeight);
-	JavaGL.glXMakeCurrent (o, WindowX, WindowY);
-	JavaComponent = o;
+
+    /**
+     * int glutCreateWindow (const char *title)
+     */
+    public void glutCreateWindow (Object o) {
     }
 
-    public void glutCreateWindow (Applet o) {
-	glutCreateWindow ((Component)o);
-    }
-    
     /** void glutPostRedisplay () */
     public void glutPostRedisplay () {
-	try {
-	    displayMethod.invoke(JavaComponent, (Object [])null);
-	} catch (IllegalAccessException e) {
-	    System.out.println("IllegalAccessException while DisplayFunc");
-	} catch (InvocationTargetException e) {
-	    System.out.println("InvocationTargetException while DisplayFunc");
-	} catch (NullPointerException ee) {
-	    // ignore
-	}
-	JavaComponent.repaint ();
     }
 
-    /** void glutSwapBuffers () */
-    public void glutSwapBuffers (Graphics g, ImageObserver o) {
-    	JavaGL.glXSwapBuffers (g, o);
-    }
-
-    public void glutSwapBuffers (Graphics g, Applet o) {
-	glutSwapBuffers (g, (ImageObserver)o);
+    public void glutSwapBuffers (Object graphics, Object observer) {
     }
 
     private void QUAD_OBJ_INIT () {
@@ -564,519 +481,19 @@ public class GLUT implements Runnable {
     	teapot.Teapot (JavaGL, 14, (float)scale, GL.GL_FILL);
     }
 
-    /**
-     * GLUT menu sub-API.
+    /*
+     * GLUT menu sub-API and window callback sub-API are removed.
      */
 
-    /** int glutCreateMenu (void (*)(int)) */
-    public int glutCreateMenu (String func) {
-    	if (JavaMenus == null) JavaMenus = new Vector<glut_menu> ();
-	currentMenu = new glut_menu (func, JavaMenus.size(), JavaComponent);
-	JavaMenus.addElement (currentMenu);
-	JavaMenuSize++;
-	return JavaMenus.size()-1;
-    }
-
-    /** void glutDestroyMenu (int menu) */
-    public void glutDestroyMenu (int menu) {
-	((glut_menu)JavaMenus.elementAt(menu)).glutDestroyMenu();
-	if ((JavaMenuSize--) == 0) JavaMenus =null;
-    }
-
-    /** int glutGetMenu (void) */
-    public int glutGetMenu () {
-    	if (currentMenu == null) return -1;
-	else return currentMenu.glutGetMenuID ();
-    }
-
-    /** void glutSetMenu (int menu) */
-    public void glutSetMenu (int menu) {
-    	JavaComponent.remove (currentMenu.glutGetMenu());
-	currentMenu = (glut_menu)JavaMenus.elementAt(menu);
-	JavaComponent.add (currentMenu.glutGetMenu());
-    }
-
-    /** void glutAddMenuEntry (const char *label, int value) */
-    public void glutAddMenuEntry (String label, int value) {
-	currentMenu.glutAddMenuEntry (label, value);
-    }
-    
-    /** void glutAddSubMenu (const char *label, int submenu) */
-    public void glutAddSubMenu (String label, int submenu) {
-	glut_menu subMenu = (glut_menu)JavaMenus.elementAt(submenu);
-	if ((subMenu.glutGetMenu().getLabel() == null) ||
-	    (subMenu.glutGetMenu().getLabel().length() == 0)) {
-	    currentMenu.glutAddSubMenu (label, subMenu);
-	} else {
-	    glut_menu newSubMenu = subMenu.glutDupMenu();
-	    newSubMenu.glutSetMenuID (JavaMenus.size());
-	    JavaMenus.addElement (newSubMenu);
-	    JavaMenuSize++;
-	    currentMenu.glutAddSubMenu (label, newSubMenu);
-	}
-    }
-    
-    /** void glutChangeToMenuEntry (int item, const char *label, int value) */
-    public void glutChangeToMenuEntry (int item, String label, int value) {
-	currentMenu.glutChangeToMenuEntry (item-1, label, value);
-    }
-
-    /** void glutChangeToSubMenu (int item, const char *label, int submenu) */
-    public void glutChangeToSubMenu (int item, String label, int submenu) {
-	glut_menu subMenu = (glut_menu)JavaMenus.elementAt(submenu);
-	if ((subMenu.glutGetMenu().getLabel() == null) ||
-	    (subMenu.glutGetMenu().getLabel().length() == 0)) {
-	    currentMenu.glutChangeToSubMenu (item-1, label, subMenu);
-	} else {
-	    glut_menu newSubMenu = subMenu.glutDupMenu();
-	    newSubMenu.glutSetMenuID (JavaMenus.size());
-	    JavaMenus.addElement (newSubMenu);
-	    JavaMenuSize++;
-	    currentMenu.glutChangeToSubMenu (item-1, label, newSubMenu);
-	}
-    }
-
-    /** void glutRemoveMenuItem (int item) */
-    public void glutRemoveMenuItem (int item) {
-	currentMenu.glutRemoveMenuItem (item-1);
-    }
-    
-    /** void glutAttachMenu (int button) */
-    public void glutAttachMenu (int button) {
-    	JavaComponent.add (currentMenu.glutGetMenu());
-    	// in Java, the menu can only attach on right button
-    	JavaMenuButton = button;
-    	glut_enable_events (AWTEvent.MOUSE_EVENT_MASK, true);
-    }
-
-    /** void glutDetachMenu (int button) */
-    public void glutDetachMenu (int button) {
-    	// in Java, the menu can only attach on right button
-    	if (JavaMenuButton == button) {
-	    if (mouseMethod == null)
-		glut_enable_events (AWTEvent.MOUSE_EVENT_MASK, false);
-	    JavaMenuButton = -1;
-	}
-    	JavaComponent.remove (currentMenu.glutGetMenu());
-    }
-
     /**
-     * GLUT window callback sub-API.
+     * Dummy constructor. Please call new GLUT (yourGL).
      */
-
-    public void processEvent (AWTEvent e) {
-	if (e instanceof MouseEvent) {
-            switch(e.getID()) {
-              case MouseEvent.MOUSE_PRESSED:
-              case MouseEvent.MOUSE_RELEASED:
-              case MouseEvent.MOUSE_CLICKED:
-              case MouseEvent.MOUSE_ENTERED:
-              case MouseEvent.MOUSE_EXITED:
-                processMouseEvent((MouseEvent)e);
-                break;
-              case MouseEvent.MOUSE_MOVED:
-              case MouseEvent.MOUSE_DRAGGED:
-                processMouseMotionEvent((MouseEvent)e);
-                break;
-            }
-
-        } else if (e instanceof KeyEvent) {
-            processKeyEvent((KeyEvent)e);
-
-        } else if (e instanceof ComponentEvent) {
-            processComponentEvent((ComponentEvent)e);
-	}
-    }
-
-    public void processComponentEvent (ComponentEvent e) {
-	int id = e.getID();
-	switch (id) {
-	    case ComponentEvent.COMPONENT_RESIZED:
-		Object[] arguments = new Object[] { new Integer(JavaComponent.getSize ().width),
-						    new Integer(JavaComponent.getSize ().height) };
-		try {
-		    reshapeMethod.invoke(JavaComponent, arguments);
-		    try {
-			displayMethod.invoke(JavaComponent, (Object [])null);
-		    } catch (IllegalAccessException ee) {
-			System.out.println("IllegalAccessException while DisplayFunc");
-		    } catch (InvocationTargetException ee) {
-			System.out.println("InvocationTargetException while DisplayFunc");
-		    } catch (NullPointerException ee) {
-			// ignore
-		    }
-		} catch (IllegalAccessException ee) {
-		    System.out.println("IllegalAccessException while ReshapeFunc");
-		} catch (InvocationTargetException ee) {
-		    System.out.println("InvocationTargetException while ReshapeFunc");
-		} catch (NullPointerException ee) {
-		    // ignore
-		}
-		break;
-	}
-    }
-
-    private void processKeyModifiers (int mod) {
-	keyModifiers = 0;
-	if ((mod & InputEvent.ALT_MASK)   != 0) keyModifiers |= GLUT_ACTIVE_ALT;
-	if ((mod & InputEvent.CTRL_MASK)  != 0) keyModifiers |= GLUT_ACTIVE_CTRL;
-	if ((mod & InputEvent.SHIFT_MASK) != 0) keyModifiers |= GLUT_ACTIVE_SHIFT;
-    }
-
-    private void invokeKeyMethod (Method met, char ret) {
-	Object[] arguments = new Object[] { new Character(ret),
-					    new Integer(0),
-					    new Integer(0) };
-	try {
-	    met.invoke(JavaComponent, arguments);
-	} catch (IllegalAccessException ee) {
-	    System.out.println("IllegalAccessException while Calling Keyboard Related Functions");
-	} catch (InvocationTargetException ee) {
-	    System.out.println("InvocationTargetException while Calling Keyboard Related Functions");
-	} catch (NullPointerException ee) {
-	    // ignore
-	}
-    }
-
-    private void processKey (Method met, char key) {
-	if ((key < 128) && (key != 0)) invokeKeyMethod (met, key);
-    }
-
-    private void processSpecialKey (Method met, int code) {
-	switch (code) {
-	    case KeyEvent.VK_PAGE_UP:   invokeKeyMethod (met, (char)GLUT_KEY_PAGE_UP); break;
-	    case KeyEvent.VK_PAGE_DOWN: invokeKeyMethod (met, (char)GLUT_KEY_PAGE_DOWN); break;
-	    case KeyEvent.VK_END:       invokeKeyMethod (met, (char)GLUT_KEY_END); break;
-	    case KeyEvent.VK_HOME:      invokeKeyMethod (met, (char)GLUT_KEY_HOME); break;
-	    case KeyEvent.VK_LEFT:      invokeKeyMethod (met, (char)GLUT_KEY_LEFT); break;
-	    case KeyEvent.VK_UP:        invokeKeyMethod (met, (char)GLUT_KEY_UP); break;
-	    case KeyEvent.VK_RIGHT:     invokeKeyMethod (met, (char)GLUT_KEY_RIGHT); break;
-	    case KeyEvent.VK_DOWN:      invokeKeyMethod (met, (char)GLUT_KEY_DOWN); break;
-	    case KeyEvent.VK_INSERT:    invokeKeyMethod (met, (char)GLUT_KEY_INSERT); break;
-	    default:
-		if ((code >= KeyEvent.VK_F1) && (code <= KeyEvent.VK_F12))
-		    invokeKeyMethod (met, (char)(code-KeyEvent.VK_F1+GLUT_KEY_F1));
-		break;
-	}
-    }
-
-    public void processKeyEvent (KeyEvent e) {
-	switch (e.getID()) {
-	    case KeyEvent.KEY_PRESSED:
-		processKeyModifiers (e.getModifiers());
-		if (keyMethod != null) processKey (keyMethod, (char)e.getKeyChar());
-		if (specialKeyMethod != null) processSpecialKey (specialKeyMethod, e.getKeyCode());
-		break;
-	    case KeyEvent.KEY_RELEASED:
-		processKeyModifiers (e.getModifiers());
-		if (keyUpMethod != null) processKey (keyUpMethod, (char)e.getKeyChar());
-		if (specialKeyUpMethod != null) processSpecialKey (specialKeyUpMethod, e.getKeyCode());
-		break;
-/*
-	    case KeyEvent.KEY_TYPED:
-		invokeKeyMethod (keyMethod, (char)e.getKeyChar());
-		break;
-*/
-	}
-    }
-
-    public void processMouseEvent (MouseEvent e) {
-	int id = e.getID();
-	int button = -1;
-	int state = -1;
-
-	if (e.isPopupTrigger() && (JavaMenuButton != -1)) {
-	    currentMenu.glutGetMenu().show (e.getComponent (), e.getX (), e.getY ());
-	    return;
-	}
-
-	switch (id) {
-	    case MouseEvent.MOUSE_PRESSED:
-		state = GLUT_DOWN;
-		break;
-	    case MouseEvent.MOUSE_RELEASED:
-		state = GLUT_UP;
-		break;
-	}
-	if ((e.getModifiers() & InputEvent.BUTTON1_MASK) != 0)
-	    button = GLUT_LEFT_BUTTON;
-	else if ((e.getModifiers() & InputEvent.BUTTON2_MASK) != 0)
-	    button = GLUT_MIDDLE_BUTTON;
-	else if ((e.getModifiers() & InputEvent.BUTTON3_MASK) != 0)
-	    button = GLUT_RIGHT_BUTTON;
-	if ((button != -1) && (state != -1)) {
-//	    if ((button == JavaMenuButton) && (state == GLUT_DOWN)) {
-//		JavaMenu.show (e.getComponent (), e.getX (), e.getY ());
-//	    } else {
-		Object[] arguments = new Object[] { new Integer(button),
-						    new Integer(state),
-						    new Integer(e.getX()),
-						    new Integer(e.getY()) };
-		try {
-		    mouseMethod.invoke(JavaComponent, arguments);
-		} catch (IllegalAccessException ee) {
-		    System.out.println("IllegalAccessException while MouseFunc");
-		} catch (InvocationTargetException ee) {
-		    System.out.println("InvocationTargetException while MouseFunc");
-		} catch (NullPointerException ee) {
-		    // ignore
-		}
-	    }
-//	}
-    }
-
-    public void processMouseMotionEvent (MouseEvent e) {
-	int id = e.getID();
-	switch (id) {
-	    case MouseEvent.MOUSE_MOVED:
-	    case MouseEvent.MOUSE_DRAGGED:
-		Object[] arguments = new Object[] { new Integer(e.getX()),
-						    new Integer(e.getY()) };
-		try {
-		    motionMethod.invoke(JavaComponent, arguments);
-		} catch (IllegalAccessException ee) {
-		    System.out.println("IllegalAccessException while MouseMotionFunc");
-		} catch (InvocationTargetException ee) {
-		    System.out.println("InvocationTargetException while MouseMotionFunc");
-		} catch (NullPointerException ee) {
-		    // ignore
-		}
-		break;
-	}
-    }
-
-    private void glut_enable_events (long cap, boolean state) {
-	if (JavaComponent instanceof GLCanvas) {
-	    ((GLCanvas)JavaComponent).glut_enable_events (cap, state);
-	} else if (JavaComponent instanceof GLApplet) {
-	    ((GLApplet)JavaComponent).glut_enable_events (cap, state);
-	}
-    }
-
-    /** void glutDisplayFunc (void (*func)(void)) */
-    public void glutDisplayFunc (String func) {
-	if (func != null) {
-	    try {
-		displayMethod = JavaComponent.getClass().getMethod(func, (Class[])null);
-	    } catch (NoSuchMethodException e) {
-		System.out.println ("No method named "+func);
-	    }
-	} else {
-	    displayMethod = null;
-	}
-    }
-
-    /** void glutReshapeFunc (void (*func)(int width, int height)) */
-//    public void glutReshapeFunc (String func) { JavaCanvas.glJReshapeFunc (func); }
-    public void glutReshapeFunc (String func) {
-	if (func != null) {
-	    Class[] parameterTypes = new Class[] { int.class, int.class };
-	    Object[] arguments = new Object[] { new Integer(JavaComponent.getSize ().width),
-						new Integer(JavaComponent.getSize ().height) };
-	    try {
-		reshapeMethod = JavaComponent.getClass().getMethod(func, parameterTypes);
-		reshapeMethod.invoke(JavaComponent, arguments);
-		glut_enable_events (AWTEvent.COMPONENT_EVENT_MASK, true);
-	    } catch (NoSuchMethodException e) {
-		System.out.println ("No method named "+func);
-	    } catch (IllegalAccessException e) {
-		System.out.println("IllegalAccessException while ReshapeFunc");
-	    } catch (InvocationTargetException e) {
-		System.out.println("InvocationTargetException while ReshapeFunc");
-	    }
-	} else {
-	    glut_enable_events (AWTEvent.COMPONENT_EVENT_MASK, false);
-	    reshapeMethod = null;
-	}
-    }
-
-    /** void glutKeyboardFunc (void (*func)(unsigned char key, int x, int y)) */
-//    public void glutKeyboardFunc (String func) { JavaCanvas.glJKeyFunc (func); }
-    public void glutKeyboardFunc (String func) {
-	if (func != null) {
-	    Class[] parameterTypes = new Class[] { char.class, int.class, int.class };
-	    try {
-		keyMethod = JavaComponent.getClass().getMethod(func, parameterTypes);
-		glut_enable_events (AWTEvent.KEY_EVENT_MASK, true);
-	    } catch (NoSuchMethodException e) {
-		System.out.println ("No method named "+func);
-	    }
-	} else {
-	    if ((keyUpMethod == null) && (specialKeyMethod == null) && (specialKeyUpMethod == null))
-		glut_enable_events (AWTEvent.KEY_EVENT_MASK, false);
-	    keyMethod = null;
-	}
-    }
-
-    /** void glutKeyboardUpFunc (void (*func)(unsigned char key, int x, int y)) */
-    public void glutKeyboardUpFunc (String func) {
-	if (func != null) {
-	    Class[] parameterTypes = new Class[] { char.class, int.class, int.class };
-	    try {
-		keyUpMethod = JavaComponent.getClass().getMethod(func, parameterTypes);
-		glut_enable_events (AWTEvent.KEY_EVENT_MASK, true);
-	    } catch (NoSuchMethodException e) {
-		System.out.println ("No method named "+func);
-	    }
-	} else {
-	    if ((keyMethod == null) && (specialKeyMethod == null) && (specialKeyUpMethod == null))
-	    	glut_enable_events (AWTEvent.KEY_EVENT_MASK, false);
-	    keyUpMethod = null;
-	}
-    }
-
-    public void glutSpecialFunc (String func) {
-	if (func != null) {
-	    Class[] parameterTypes = new Class[] { char.class, int.class, int.class };
-	    try {
-		specialKeyMethod = JavaComponent.getClass().getMethod(func, parameterTypes);
-		glut_enable_events (AWTEvent.KEY_EVENT_MASK, true);
-	    } catch (NoSuchMethodException e) {
-		System.out.println ("No method named "+func);
-	    }
-	} else {
-	    if ((keyMethod == null) && (keyUpMethod == null) && (specialKeyUpMethod == null))
-	    	glut_enable_events (AWTEvent.KEY_EVENT_MASK, false);
-	    specialKeyMethod = null;
-	}
-    }
-
-    /** void glutSpecialUpFunc (void (*func)(unsigned char key, int x, int y)) */
-    public void glutSpecialUpFunc (String func) {
-	if (func != null) {
-	    Class[] parameterTypes = new Class[] { char.class, int.class, int.class };
-	    try {
-		specialKeyUpMethod = JavaComponent.getClass().getMethod(func, parameterTypes);
-		glut_enable_events (AWTEvent.KEY_EVENT_MASK, true);
-	    } catch (NoSuchMethodException e) {
-		System.out.println ("No method named "+func);
-	    }
-	} else {
-	    if ((keyMethod == null) && (keyUpMethod == null) && (specialKeyMethod == null))
-	    	glut_enable_events (AWTEvent.KEY_EVENT_MASK, false);
-	    specialKeyUpMethod = null;
-	}
-    }
-
-    /** void glutMouseFunc (void (*func)(int button, int state, int x, int y)) */
-//    public void glutMouseFunc (String func) { JavaCanvas.glJMouseFunc (func); }
-    public void glutMouseFunc (String func) {
-    	if (func != null) {
-	    Class[] parameterTypes = new Class[] { int.class, int.class, int.class, int.class };
-	    try {
-		mouseMethod = JavaComponent.getClass().getMethod(func, parameterTypes);
-		glut_enable_events (AWTEvent.MOUSE_EVENT_MASK, true);
-	    } catch (NoSuchMethodException e) {
-		System.out.println ("No method named "+func);
-	    }
-	} else {
-	    if (JavaMenuButton == -1)
-		glut_enable_events (AWTEvent.MOUSE_EVENT_MASK, false);
-	    mouseMethod = null;
-	}
-    }
-
-    /** void glutMotionFunc (void (*func)(int x, int y)) */
-//    public void glutMotionFunc (String func) { JavaCanvas.glJMotionFunc (func); }
-    public void glutMotionFunc (String func) {
-    	if (func != null) {
-	    Class[] parameterTypes = new Class[] { int.class, int.class };
-	    try {
-		motionMethod = JavaComponent.getClass().getMethod(func, parameterTypes);
-		glut_enable_events (AWTEvent.MOUSE_MOTION_EVENT_MASK, true);
-	    } catch (NoSuchMethodException e) {
-		System.out.println ("No method named "+func);
-	    }
-	} else {
-	    glut_enable_events (AWTEvent.MOUSE_MOTION_EVENT_MASK, false);
-	    motionMethod = null;
-	}
-    }
-
-    /** void glutPassiveMotionFunc (void (*func)(int x, int y)) */
-    /** void glutEntryFunc (void (*func)(int state)) */
-    /** void glutVisibilityFunc (void (*func)(int state)) */
-    
-    /** void glutIdleFunc (void (*func)(void)) */
-    public void glutIdleFunc (String func) {
-    	if (func != null) {
-	    try {
-		idleMethod = JavaComponent.getClass().getMethod(func, (Class [])null);
-		if (JavaThread == null || !JavaThread.isAlive()) {
-		    JavaThread = new Thread (this);
-		    JavaThread.start ();
-		}
-	    } catch (NoSuchMethodException e) {
-		System.out.println ("No method named "+func);
-	    }
-	} else {
-	    JavaThread = null;
-	    idleMethod = null;
-	}
-    }
-
-    public void run () {
-    	Thread myThread = Thread.currentThread();
-    	while (JavaThread == myThread) {
-	    try {
-		idleMethod.invoke(JavaComponent, (Object [])null);
-		try {
-		    Thread.sleep(200);
-		} catch (InterruptedException e) {
-		    System.out.println(e);
-		}
-	    } catch (IllegalAccessException e) {
-		System.out.println("IllegalAccessException while IdleFunc");
-	    } catch (InvocationTargetException e) {
-		System.out.println("InvocationTargetException while IdleFunc");
-	    }
-	}
-    }
-
-    /** void glutTimerFunc (unsigned int millis, void (*func)(int value), int value) */
-    public void glutTimerFunc (int millis, final String func, int value) {
-	if (func != null) {
-	    final Class[] parameterTypes = new Class[] { int.class };
-	    final Object [] timerValue = new Object [] { new Integer (value) };
-	    Timer JavaTimer = new Timer ();
-	    JavaTimer.schedule (new TimerTask() {
-		public void run() {
-		    try {
-			JavaComponent.getClass().getMethod(func, parameterTypes).invoke(JavaComponent, timerValue);
-		    } catch (NoSuchMethodException e) {
-			System.out.println ("No method named "+func);
-		    } catch (IllegalAccessException e) {
-			System.out.println("IllegalAccessException while calling "+func);
-		    } catch (InvocationTargetException e) {
-			System.out.println("InvocationTargetException while calling "+func);
-		    }
-		}
-	    }, millis);
-	}
-    }
-
-    /** void glutMenuStateFunc (void (*func)(int state)) */
-
-    /* GLUT state retrieval sub-API. */
-    /** int glutGetModifiers (void) */
-    public int glutGetModifiers () {
-	return keyModifiers;
-    }
-
     public GLUT () {
-    	System.out.println ("Please call new GLUT (yourGL)");
+    	//System.out.println ("Please call new GLUT (yourGL)");
     }
 
     public GLUT (GL myGL) {
-    	JavaGL = myGL;
-	JavaGLU = new GLU (JavaGL);
+		JavaGL = myGL;
+    	JavaGLU = new GLU (JavaGL);
     }
-
-/*
-    public GLUT (GL myGL, GLCanvas myCanvas) {
-	this (myGL);
-	JavaCanvas = myCanvas;
-    }
-*/
-
 }

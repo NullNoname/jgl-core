@@ -17,7 +17,9 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glaux;
+package com.github.nullnoname.jgl.core.glaux;
+
+import java.io.Serializable;
 
 /**
  * MODELPTR is one of the AUX class of JavaGL 1.1.
@@ -27,9 +29,10 @@ package jgl.glaux;
  */
 
 /** structure for each geometric object */
-public class MODELPTR {
+public class MODELPTR implements Serializable {
 
-    public int list;		/*  display list to render object	*/
+    private static final long serialVersionUID = -3821550038657942217L;
+	public int list;		/*  display list to render object	*/
     public MODELPTR ptr;	/*  pointer to next object		*/
     public int numParam;	/*  # of parameters			*/
     public double params [];	/*  array with parameters		*/

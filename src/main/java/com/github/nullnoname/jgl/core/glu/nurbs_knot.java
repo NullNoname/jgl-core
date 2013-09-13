@@ -17,9 +17,11 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glu;
+package com.github.nullnoname.jgl.core.glu;
 
-import jgl.GLU;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.GLU;
 
 /**
  * nurbs_knot is one of the GLU NURBS class of JavaGL 2.1.
@@ -28,9 +30,10 @@ import jgl.GLU;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class nurbs_knot {
+public class nurbs_knot implements Serializable {
 
-    public float   knot [];
+    private static final long serialVersionUID = 840532944764878012L;
+	public float   knot [];
     public int     nknots = 0;
     public float   unified_knot [];
     public int     unified_nknots = 0;
@@ -48,7 +51,7 @@ public class nurbs_knot {
     private void swap (float a [], int i, int j) {
 	float T;
 
-	T = a[i]; a[i] = a[j]; a[j] = T; 
+	T = a[i]; a[i] = a[j]; a[j] = T;
     }
 
     private void quicksort (float a [], int lo0, int hi0) {

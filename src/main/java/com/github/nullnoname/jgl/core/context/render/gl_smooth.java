@@ -17,10 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.render;
+package com.github.nullnoname.jgl.core.context.render;
 
-import jgl.context.gl_context;
-import jgl.context.gl_vertex;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_vertex;
 
 /**
  * gl_smooth is the rendering class with smooth shading of jGL 2.4.
@@ -29,9 +31,11 @@ import jgl.context.gl_vertex;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_smooth extends gl_depth {
+public class gl_smooth extends gl_depth implements Serializable {
 
-    // Members for Line
+    private static final long serialVersionUID = -7937265924915595380L;
+
+	// Members for Line
     private int dxy, dxy2;
 
     private int LineRGB [][] = new int [2][4];

@@ -17,9 +17,11 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.gle;
+package com.github.nullnoname.jgl.core.gle;
 
-import jgl.context.gl_context;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
 
 /**
  * gle_context is the extension context class of jGL 2.5.
@@ -28,9 +30,11 @@ import jgl.context.gl_context;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gle_context extends gl_context {
+public class gle_context extends gl_context implements Serializable {
 
-    public int ColorTransformation (float coord [], float normal []) {
+    private static final long serialVersionUID = -5364417714886768635L;
+
+	public int ColorTransformation (float coord [], float normal []) {
 	if (Lighting.Enable) {
 	    return (Lighting.color_vertex (coord, normal));
 	} else {
@@ -42,7 +46,7 @@ public class gle_context extends gl_context {
     	Lighting.ShadeModel = mode;
 	((gle_pointer)CR).gl_phong ();
     }
-    
+
     public gle_context () {
 	CR = new gle_pointer (this);
     }

@@ -16,12 +16,14 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  */
-package jgl.gle.render;
+package com.github.nullnoname.jgl.core.gle.render;
 
-import jgl.context.gl_vertex;
-import jgl.context.render.gl_depth;
-import jgl.gle.gle_context;
-import jgl.gle.gle_vertex;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_vertex;
+import com.github.nullnoname.jgl.core.context.render.gl_depth;
+import com.github.nullnoname.jgl.core.gle.gle_context;
+import com.github.nullnoname.jgl.core.gle.gle_vertex;
 
 /**
  * gle_phong is the rendering class for phong shading as an extension of jGL 2.5.
@@ -30,10 +32,11 @@ import jgl.gle.gle_vertex;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gle_phong extends gl_depth {
+public class gle_phong extends gl_depth implements Serializable {
     // Use TexCoord field for storing positions
 
-    // Members for Line
+    private static final long serialVersionUID = 8894379487396449564L;
+	// Members for Line
     private float LineN [][] = new float [2][3];
     private float LineP [][] = new float [2][3];
     protected float nx, ny, nz;
@@ -76,21 +79,21 @@ public class gle_phong extends gl_depth {
     }
 
     protected void init_phong_dx (int dx) {
-	dnxdx = (LineN[1][0] - LineN[0][0])/(float)dx;
-	dnydx = (LineN[1][1] - LineN[0][1])/(float)dx;
-	dnzdx = (LineN[1][2] - LineN[0][2])/(float)dx;
-	dpxdx = (LineP[1][0] - LineP[0][0])/(float)dx;
-	dpydx = (LineP[1][1] - LineP[0][1])/(float)dx;
-	dpzdx = (LineP[1][2] - LineP[0][2])/(float)dx;
+	dnxdx = (LineN[1][0] - LineN[0][0])/dx;
+	dnydx = (LineN[1][1] - LineN[0][1])/dx;
+	dnzdx = (LineN[1][2] - LineN[0][2])/dx;
+	dpxdx = (LineP[1][0] - LineP[0][0])/dx;
+	dpydx = (LineP[1][1] - LineP[0][1])/dx;
+	dpzdx = (LineP[1][2] - LineP[0][2])/dx;
     }
 
     protected void init_phong_dy (int dy) {
-	dnxdy = (LineN[1][0] - LineN[0][0])/(float)dy;
-	dnydy = (LineN[1][1] - LineN[0][1])/(float)dy;
-	dnzdy = (LineN[1][2] - LineN[0][2])/(float)dy;
-	dpxdy = (LineP[1][0] - LineP[0][0])/(float)dy;
-	dpydy = (LineP[1][1] - LineP[0][1])/(float)dy;
-	dpzdy = (LineP[1][2] - LineP[0][2])/(float)dy;
+	dnxdy = (LineN[1][0] - LineN[0][0])/dy;
+	dnydy = (LineN[1][1] - LineN[0][1])/dy;
+	dnzdy = (LineN[1][2] - LineN[0][2])/dy;
+	dpxdy = (LineP[1][0] - LineP[0][0])/dy;
+	dpydy = (LineP[1][1] - LineP[0][1])/dy;
+	dpzdy = (LineP[1][2] - LineP[0][2])/dy;
     }
 
     protected void init_dx (int dx) {
@@ -222,17 +225,17 @@ public class gle_phong extends gl_depth {
     }
 
     protected void init_phong_other (boolean delta, int dy) {
-	dnxdxy = dnxdx * (float)dy + dnxdy;
+	dnxdxy = dnxdx * dy + dnxdy;
 	if (delta) { dnxdyy = dnxdxy - dnxdx; } else { dnxdyy = dnxdxy+dnxdx; }
-	dnydxy = dnydx * (float)dy + dnydy;
+	dnydxy = dnydx * dy + dnydy;
 	if (delta) { dnydyy = dnydxy - dnydx; } else { dnydyy = dnydxy+dnydx; }
-	dnzdxy = dnzdx * (float)dy + dnzdy;
+	dnzdxy = dnzdx * dy + dnzdy;
 	if (delta) { dnzdyy = dnzdxy - dnzdx; } else { dnzdyy = dnzdxy+dnzdx; }
-	dpxdxy = dpxdx * (float)dy + dpxdy;
+	dpxdxy = dpxdx * dy + dpxdy;
 	if (delta) { dpxdyy = dpxdxy - dpxdx; } else { dpxdyy = dpxdxy+dpxdx; }
-	dpydxy = dpydx * (float)dy + dpydy;
+	dpydxy = dpydx * dy + dpydy;
 	if (delta) { dpydyy = dpydxy - dpydx; } else { dpydyy = dpydxy+dpydx; }
-	dpzdxy = dpzdx * (float)dy + dpzdy;
+	dpzdxy = dpzdx * dy + dpzdy;
 	if (delta) { dpzdyy = dpzdxy - dpzdx; } else { dpzdyy = dpzdxy+dpzdx; }
     }
 

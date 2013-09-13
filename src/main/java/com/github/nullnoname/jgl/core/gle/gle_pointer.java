@@ -17,15 +17,16 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.gle;
+package com.github.nullnoname.jgl.core.gle;
 
-import jgl.context.gl_context;
-import jgl.context.gl_pointer;
-import jgl.context.render.gl_render;
-import jgl.context.render.gl_depth;
-import jgl.context.render.pixel.gl_render_point;
-import jgl.gle.geometry.*;
-import jgl.gle.render.*;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_pointer;
+import com.github.nullnoname.jgl.core.context.render.gl_depth;
+import com.github.nullnoname.jgl.core.context.render.gl_render;
+import com.github.nullnoname.jgl.core.context.render.pixel.gl_render_point;
+import com.github.nullnoname.jgl.core.gle.geometry.*;
+import com.github.nullnoname.jgl.core.gle.render.*;
 
 /**
  * gle_pointer is the class points to all current extension instants of jGL 2.5.
@@ -34,9 +35,10 @@ import jgl.gle.render.*;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gle_pointer extends gl_pointer {
+public class gle_pointer extends gl_pointer implements Serializable {
 
-    private int gle_status = 0; // default state
+    private static final long serialVersionUID = -8892745644229895602L;
+	private int gle_status = 0; // default state
 
     /**
      *
@@ -71,7 +73,7 @@ public class gle_pointer extends gl_pointer {
 	    super.gl_depth (state);
 	    return;
 	}
-	
+
 	if (state) {
 	    if ((status & 0x00000002) == 0) {		// test for depth
 		if (gle_status == 1) {			// test for phong shading

@@ -17,10 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.render;
+package com.github.nullnoname.jgl.core.context.render;
 
-import jgl.context.gl_context;
-import jgl.context.gl_vertex;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_vertex;
 
 /**
  * gl_lit_tex is the rendering class for texturing with lighting of jGL 2.4.
@@ -29,9 +31,10 @@ import jgl.context.gl_vertex;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_lit_tex extends gl_smooth {
+public class gl_lit_tex extends gl_smooth implements Serializable {
 
-    // Members for Line
+    private static final long serialVersionUID = 7638910010331514232L;
+	// Members for Line
     protected float LineW []   = new float [2];
     protected float LineST[][] = new float [2][3];
     protected float w, dwdx = 0, dwdy = 0;
@@ -54,7 +57,7 @@ public class gl_lit_tex extends gl_smooth {
 	super.init (v1, v2);
 	init_tex (v1, v2);
     }
-    
+
     protected void set_first_tex () {
 	w = LineW[0]; s = LineST[0][0]; t = LineST[0][1]; r = LineST[0][2];
     }
@@ -65,17 +68,17 @@ public class gl_lit_tex extends gl_smooth {
     }
 
     protected void init_tex_dx (int dx) {
-	dwdx =  (LineW[1]    -  LineW[0])   /(float)dx;
-	dsdx = (LineST[1][0] - LineST[0][0])/(float)dx;
-	dtdx = (LineST[1][1] - LineST[0][1])/(float)dx;
-	drdx = (LineST[1][2] - LineST[0][2])/(float)dx;
+	dwdx =  (LineW[1]    -  LineW[0])   /dx;
+	dsdx = (LineST[1][0] - LineST[0][0])/dx;
+	dtdx = (LineST[1][1] - LineST[0][1])/dx;
+	drdx = (LineST[1][2] - LineST[0][2])/dx;
     }
 
     protected void init_tex_dy (int dy) {
-	dwdy =  (LineW[1]    -  LineW[0])   /(float)dy;
-	dsdy = (LineST[1][0] - LineST[0][0])/(float)dy;
-	dtdy = (LineST[1][1] - LineST[0][1])/(float)dy;
-	drdy = (LineST[1][2] - LineST[0][2])/(float)dy;
+	dwdy =  (LineW[1]    -  LineW[0])   /dy;
+	dsdy = (LineST[1][0] - LineST[0][0])/dy;
+	dtdy = (LineST[1][1] - LineST[0][1])/dy;
+	drdy = (LineST[1][2] - LineST[0][2])/dy;
     }
 
     protected void init_dx (int dx) {
@@ -110,7 +113,7 @@ public class gl_lit_tex extends gl_smooth {
     protected void put_pixel_by_index () {
 	pixel.put_pixel_by_index (x, w, s/w, t/w, r/w, dsdx, dsdy, dtdx, dtdy, drdx, drdy, rgb);
     }
-    
+
     protected void draw_horizontal_line (int   x1, int rgb1 [],
 					 int   x2, int rgb2 [], int y,
 					 float w1, float s1, float t1, float r1) {
@@ -186,13 +189,13 @@ public class gl_lit_tex extends gl_smooth {
     }
 
     protected void init_tex_other (boolean delta, int dy) {
-	dwdxy = dwdx * (float)dy + dwdy;
+	dwdxy = dwdx * dy + dwdy;
 	if (delta) { dwdyy = dwdxy - dwdx; } else { dwdyy = dwdxy + dwdx; }
-	dsdxy = dsdx * (float)dy + dsdy;
+	dsdxy = dsdx * dy + dsdy;
 	if (delta) { dsdyy = dsdxy - dsdx; } else { dsdyy = dsdxy + dsdx; }
-	dtdxy = dtdx * (float)dy + dtdy;
+	dtdxy = dtdx * dy + dtdy;
 	if (delta) { dtdyy = dtdxy - dtdx; } else { dtdyy = dtdxy + dtdx; }
-	drdxy = drdx * (float)dy + drdy;
+	drdxy = drdx * dy + drdy;
 	if (delta) { drdyy = drdxy - drdx; } else { drdyy = drdxy + drdx; }
     }
 
@@ -224,7 +227,7 @@ public class gl_lit_tex extends gl_smooth {
 
     protected void draw_horizontal_line (int y) {
 	draw_horizontal_line (LeftPoint,  LeftPointRGB,
-			      RightPoint, RightPointRGB, y, 
+			      RightPoint, RightPointRGB, y,
 			      LeftPointW, LeftPointS, LeftPointT, LeftPointR);
     }
 

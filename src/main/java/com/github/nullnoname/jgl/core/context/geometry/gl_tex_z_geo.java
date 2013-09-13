@@ -17,10 +17,12 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.geometry;
+package com.github.nullnoname.jgl.core.context.geometry;
 
-import jgl.context.gl_context;
-import jgl.context.gl_pointer;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_pointer;
 
 /**
  * gl_tex_z_geo is the geometry class for texturing with depth value of JavaGL 2.1.
@@ -29,9 +31,11 @@ import jgl.context.gl_pointer;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_tex_z_geo extends gl_tex_geo {
+public class gl_tex_z_geo extends gl_tex_geo implements Serializable {
 
-    protected void draw_point (float p [], int i) {
+    private static final long serialVersionUID = -4338527087547778981L;
+
+	protected void draw_point (float p [], int i) {
 	CR.pixel.put_pixel ((int)(p[0]+(float)0.5), (int)(p[1]+(float)0.5), p[2],
 			    TexCoord [i][0], TexCoord[i][1], TexCoord[i][2]);
     }

@@ -1,8 +1,8 @@
 /*
- * @(#)gl_list_item.java 0.2 01/02/10
+ * @(#)JGLLogger.java 0.1 13/09/13
  *
  * jGL 3-D graphics library for Java
- * Copyright (c) 2001 Robin Bing-Yu Chen (robin@is.s.u-tokyo.ac.jp)
+ * Copyright (c) 1996-2003 Robin Bing-Yu Chen (robin@nis-lab.is.s.u-tokyo.ac.jp)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,28 +16,23 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  */
-
-package com.github.nullnoname.jgl.core.context;
-
-import java.io.Serializable;
-
+package com.github.nullnoname.jgl.core.logging;
 
 /**
- * gl_list_item is the List Item class of jGL 2.3.
- *
- * @version 	0.2, 10 Feb 2001
- * @author 	Robin Bing-Yu Chen
+ * Logger interface that handles jGL-related errors.
+ * @author NullNoname
  */
+public interface JGLLogger {
+	/**
+	 * Log an error message
+	 * @param msg Error Message
+	 */
+	public void logError(String msg);
 
-public class gl_list_item implements Serializable {
-
-    private static final long serialVersionUID = -5925213888667099219L;
-	public int NodeKind;
-    public int IntPtr [];
-    public float FloatPtr [];
-    public boolean BoolPtr [];
-    public Object ObjPtr;
-
-    public gl_list_item (int node) { NodeKind = node; }
-
+	/**
+	 * Log an error message with an accompanying throwable
+	 * @param msg Error Message
+	 * @param t Throwable
+	 */
+	public void logError(String msg, Throwable t);
 }

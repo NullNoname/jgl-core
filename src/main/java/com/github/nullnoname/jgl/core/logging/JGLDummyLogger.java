@@ -1,8 +1,8 @@
 /*
- * @(#)gl_list_item.java 0.2 01/02/10
+ * @(#)JGLDummyLogger.java 0.1 13/09/13
  *
  * jGL 3-D graphics library for Java
- * Copyright (c) 2001 Robin Bing-Yu Chen (robin@is.s.u-tokyo.ac.jp)
+ * Copyright (c) 1996-2003 Robin Bing-Yu Chen (robin@nis-lab.is.s.u-tokyo.ac.jp)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,28 +16,20 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  */
-
-package com.github.nullnoname.jgl.core.context;
+package com.github.nullnoname.jgl.core.logging;
 
 import java.io.Serializable;
 
-
 /**
- * gl_list_item is the List Item class of jGL 2.3.
- *
- * @version 	0.2, 10 Feb 2001
- * @author 	Robin Bing-Yu Chen
+ * Dummy logger that does nothing.
+ * @author NullNoname
  */
+public class JGLDummyLogger implements JGLLogger, Serializable {
+	private static final long serialVersionUID = -1080272134030274629L;
 
-public class gl_list_item implements Serializable {
+	public void logError(String msg) {
+	}
 
-    private static final long serialVersionUID = -5925213888667099219L;
-	public int NodeKind;
-    public int IntPtr [];
-    public float FloatPtr [];
-    public boolean BoolPtr [];
-    public Object ObjPtr;
-
-    public gl_list_item (int node) { NodeKind = node; }
-
+	public void logError(String msg, Throwable t) {
+	}
 }

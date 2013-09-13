@@ -17,12 +17,14 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context.geometry;
+package com.github.nullnoname.jgl.core.context.geometry;
 
-import jgl.context.gl_context;
-import jgl.context.gl_pointer;
-import jgl.context.gl_vertex;
-import jgl.context.gl_polygon;
+import java.io.Serializable;
+
+import com.github.nullnoname.jgl.core.context.gl_context;
+import com.github.nullnoname.jgl.core.context.gl_pointer;
+import com.github.nullnoname.jgl.core.context.gl_polygon;
+import com.github.nullnoname.jgl.core.context.gl_vertex;
 
 /**
  * gl_lit_tex_geo is geometry class for texturing with lighting of jGL 2.4.
@@ -31,9 +33,10 @@ import jgl.context.gl_polygon;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_lit_tex_geo extends gl_smooth_geo {
+public class gl_lit_tex_geo extends gl_smooth_geo implements Serializable {
 
-    /** Data Members */
+    private static final long serialVersionUID = -4836934040268111876L;
+	/** Data Members */
     protected float TexCoord [][];
 
     protected void draw_point (float p [], int i) {
@@ -48,9 +51,12 @@ public class gl_lit_tex_geo extends gl_smooth_geo {
 	return temp;
     }
 
-    private void draw_line (gl_vertex v[]) {
+    // Unused
+    /*
+	private void draw_line (gl_vertex v[]) {
 	CR.render.draw_line (v[0], v[1]);
     }
+	*/
 
     protected gl_polygon pack_polygon (int size) {
 	gl_polygon tpoly = super.pack_polygon (size);
@@ -60,9 +66,12 @@ public class gl_lit_tex_geo extends gl_smooth_geo {
 	return tpoly;
     }
 
-    private void draw_polygon (gl_polygon p) {
+    // Unused
+    /*
+	private void draw_polygon (gl_polygon p) {
 	CR.render.draw_polygon (p);
     }
+	*/
 
     protected void set_vertex (int i) {
 	super.set_vertex (i);
@@ -95,7 +104,7 @@ public class gl_lit_tex_geo extends gl_smooth_geo {
 	super.gl_begin ();
 	TexCoord = new float [VertexSize][3];
     }
-    
+
     public gl_lit_tex_geo (gl_context cc, gl_pointer cr) {
 	super (cc, cr);
     }

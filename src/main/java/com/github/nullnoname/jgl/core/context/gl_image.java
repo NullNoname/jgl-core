@@ -17,12 +17,13 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.context;
+package com.github.nullnoname.jgl.core.context;
 
-import java.lang.Object;
+import java.io.Serializable;
 
-import jgl.GL;
-import jgl.context.attrib.pixel.gl_pixel_pack;
+import com.github.nullnoname.jgl.core.GL;
+import com.github.nullnoname.jgl.core.context.attrib.pixel.gl_pixel_pack;
+
 
 /**
  * gl_image the Image class of jGL 2.4.
@@ -31,9 +32,10 @@ import jgl.context.attrib.pixel.gl_pixel_pack;
  * @author 	Robin Bing-Yu Chen
  */
 
-public class gl_image {
+public class gl_image implements Serializable {
 
-    public int Width = 0;
+    private static final long serialVersionUID = -3584733412893519980L;
+	public int Width = 0;
     public int Height = 0;
     public int Depth = 0;
     public byte ImageData [][][][];		/* Image data */
@@ -45,7 +47,7 @@ public class gl_image {
     private byte get_data (int x, int i, short data [][]) {
     	return (byte)data[x][i];
     }
-    
+
     private byte get_data (int x, int i, int data [][]) {
     	return (byte)data[x][i];
     }
@@ -61,7 +63,7 @@ public class gl_image {
     	if (s == 64) return get_data (x, i, (float[][])data);
     	return 0;
     }
-    
+
     private byte get_data (int x, int y, int i, byte data [][][]) {
     	return data[x][y][i];
     }
@@ -69,7 +71,7 @@ public class gl_image {
     private byte get_data (int x, int y, int i, short data [][][]) {
     	return (byte)data[x][y][i];
     }
-    
+
     private byte get_data (int x, int y, int i, int data [][][]) {
     	return (byte)data[x][y][i];
     }
@@ -93,7 +95,7 @@ public class gl_image {
     private byte get_data (int x, int y, int z, int i, short data [][][][]) {
     	return (byte)data[x][y][z][i];
     }
-    
+
     private byte get_data (int x, int y, int z, int i, int data [][][][]) {
     	return (byte)data[x][y][z][i];
     }
@@ -110,7 +112,7 @@ public class gl_image {
     	return 0;
     }
 
-/*    
+/*
     private boolean is_need_scale (gl_pixel_pack p) {
 	if ((p.Red.Scale   != 1) || (p.Red.Bias   != 0) ||
 	    (p.Green.Scale != 1) || (p.Green.Bias != 0) ||
@@ -127,6 +129,7 @@ public class gl_image {
 		break;
 	    case GL.GL_RGBA:
 		pixel[3] = data[3];
+	    //$FALL-THROUGH$
 	    case GL.GL_RGB:
 		pixel[0] = data[0];
 		pixel[1] = data[1];
@@ -134,6 +137,7 @@ public class gl_image {
 		break;
 	    case GL.GL_LUMINANCE_ALPHA:
 		pixel[1] = data[3];
+		//$FALL-THROUGH$
 	    case GL.GL_LUMINANCE:
 	    case GL.GL_RED:
 		pixel[0] = data[0];
@@ -156,6 +160,7 @@ public class gl_image {
 		break;
 	    case GL.GL_RGBA:
 		pixel[3] = data[3];
+		//$FALL-THROUGH$
 	    case GL.GL_RGB:
 		pixel[0] = data[0];
 		pixel[1] = data[1];
@@ -163,6 +168,7 @@ public class gl_image {
 		break;
 	    case GL.GL_LUMINANCE_ALPHA:
 		pixel[1] = data[3];
+		//$FALL-THROUGH$
 	    case GL.GL_LUMINANCE:
 	    case GL.GL_RED:
 		pixel[0] = data[0];
@@ -185,6 +191,7 @@ public class gl_image {
 		break;
 	    case GL.GL_RGBA:
 		pixel[3] = data[3];
+		//$FALL-THROUGH$
 	    case GL.GL_RGB:
 		pixel[0] = data[0];
 		pixel[1] = data[1];
@@ -192,6 +199,7 @@ public class gl_image {
 		break;
 	    case GL.GL_LUMINANCE_ALPHA:
 		pixel[1] = data[3];
+		//$FALL-THROUGH$
 	    case GL.GL_LUMINANCE:
 	    case GL.GL_RED:
 		pixel[0] = data[0];
@@ -214,26 +222,28 @@ public class gl_image {
 	    case GL.GL_COLOR_INDEX:
 		break;
 	    case GL.GL_RGBA:
-		pixel[3] = (float)data[3] / 255.0f;
+		pixel[3] = data[3] / 255.0f;
+		//$FALL-THROUGH$
 	    case GL.GL_RGB:
-		pixel[0] = (float)data[0] / 255.0f;
-		pixel[1] = (float)data[1] / 255.0f;
-		pixel[2] = (float)data[2] / 255.0f;
+		pixel[0] = data[0] / 255.0f;
+		pixel[1] = data[1] / 255.0f;
+		pixel[2] = data[2] / 255.0f;
 		break;
 	    case GL.GL_LUMINANCE_ALPHA:
-		pixel[1] = (float)data[3] / 255.0f;
+		pixel[1] = data[3] / 255.0f;
+		//$FALL-THROUGH$
 	    case GL.GL_LUMINANCE:
 	    case GL.GL_RED:
-		pixel[0] = (float)data[0] / 255.0f;
+		pixel[0] = data[0] / 255.0f;
 		break;
 	    case GL.GL_GREEN:
-		pixel[0] = (float)data[1] / 255.0f;
+		pixel[0] = data[1] / 255.0f;
 		break;
 	    case GL.GL_BLUE:
-		pixel[0] = (float)data[2] / 255.0f;
+		pixel[0] = data[2] / 255.0f;
 		break;
 	    case GL.GL_ALPHA:
-		pixel[0] = (float)data[3] / 255.0f;
+		pixel[0] = data[3] / 255.0f;
 		break;
 	}
     }
@@ -481,7 +491,7 @@ public class gl_image {
 
     public void set_sub_image (int x, int y, int z, int w, int h, int d, int f, int s,
 			       gl_pixel_pack p, Object data) {
-	int i, j, k, si, sj, sk;
+	int i, j, si, sj;
 	byte r = (byte)0;
 	byte g = (byte)0;
 	byte b = (byte)0;
@@ -596,7 +606,7 @@ public class gl_image {
 	ImageData = new byte [Width][1][1][4];
 
 //	boolean need_scale = is_need_scale(p);
-	    
+
     	if (s == 0) {	// data is GL_BITMAP
 	} else {
 	    si = p.SkipPixels;
@@ -691,7 +701,7 @@ public class gl_image {
 	    }
 	}
     }
-    
+
 //    public gl_image (int w, int h, int c, int f, int t,
 //		     gl_pixel_pack p, byte data [][][]) {
     public gl_image (int w, int h, int c, int f, int s,
@@ -708,7 +718,7 @@ public class gl_image {
 	ImageData = new byte [Width][Height][1][4];
 
 //	boolean need_scale = is_need_scale(p);
-	    
+
     	if (s == 0) {	// data is GL_BITMAP
 	} else {
 	    si = p.SkipPixels;
@@ -822,7 +832,7 @@ public class gl_image {
 	ImageData = new byte [Width][Height][Depth][4];
 
 //	boolean need_scale = is_need_scale(p);
-	    
+
     	if (s == 0) {	// data is GL_BITMAP
 	} else {
 	    si = p.SkipPixels;

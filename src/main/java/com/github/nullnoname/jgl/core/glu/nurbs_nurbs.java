@@ -17,7 +17,9 @@
  * Lesser General Public License for more details.
  */
 
-package jgl.glu;
+package com.github.nullnoname.jgl.core.glu;
+
+import java.io.Serializable;
 
 /**
  * nurbs_nurbs is the super class of curve and surface of GLU NURBS of JavaGL 2.1.
@@ -26,9 +28,10 @@ package jgl.glu;
  * @author 	Robin Bing-Yu Chen
  */
 
-public abstract class nurbs_nurbs {
+public abstract class nurbs_nurbs implements Serializable {
 
-    public int dim;
+    private static final long serialVersionUID = 6428313484684245341L;
+	public int dim;
     public int type;
 
 }
