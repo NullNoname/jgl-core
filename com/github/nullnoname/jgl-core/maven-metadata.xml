@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.github.nullnoname</groupId>
+  <artifactId>jgl-core</artifactId>
+  <versioning>
+    <versions>
+      <version>2.4.4-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20130913142824</lastUpdated>
+  </versioning>
+</metadata>
