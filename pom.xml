@@ -100,6 +100,7 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<!-- Deploying on github: http://stackoverflow.com/a/14013645 -->
 				<groupId>com.github.github</groupId>
 				<artifactId>site-maven-plugin</artifactId>
 				<version>0.11</version>
@@ -114,7 +115,7 @@
 					<merge>true</merge> <!-- Don't overwrite previous artifact -->
 					<repositoryName>jgl-core</repositoryName> <!-- github repo name -->
 					<repositoryOwner>NullNoname</repositoryOwner> <!-- github username  -->
-					<dryRun>true</dryRun>
+					<dryRun>false</dryRun>
 				</configuration>
 				<executions>
 					<!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
