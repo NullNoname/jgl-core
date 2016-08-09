@@ -18,9 +18,9 @@ This fork removes all AWT dependencies and most of GUI-related GLUT functions.
 This change makes it possible to use jGL under the places where AWT is missing
 such as text-consoles or Android***.
 
-This fork is compilable with 6u45 with Java 1.5 target.
-I think it's still compatible with real Java 1.5 SDKs,
-as this fork doesn't use any new features from Java 1.6.
+This fork is compilable with 6u45 with Java 1.4 target.
+I think it's still compatible with real Java 1.4 SDKs,
+because this fork doesn't use any new features from Java 1.5 or 1.6.
 
 jGL Unofficial (jgl-core) is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public License as
@@ -42,6 +42,9 @@ MAIN CHANGES
  They are removed because of heavy AWT dependencies.
 
 *GUI related functions are removed, mainly from GLUT.
+
+*To initialize the screen you can use glXMakeCurrent:
+     myGL.glXMakeCurrent(null, 0, 0, width, height);
 
 *GL.getImageBuffer() is added in order to access the screen buffer.
  You can create MemoryImageSource by using it:

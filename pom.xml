@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.nullnoname</groupId>
 	<artifactId>jgl-core</artifactId>
-	<version>2.4.5-SNAPSHOT</version>
+	<version>2.4.5</version>
 	<name>jGL Unofficial</name>
 	<description>An unofficial fork of jGL, a 3D graphics library. It removes all AWT dependencies and most of GUI-related GLUT functions.</description>
 
