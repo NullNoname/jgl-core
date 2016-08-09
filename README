@@ -5,6 +5,10 @@ Copyright (C) 1996-2006 Robin Bing-Yu Chen
 
 Original README file is available as "README.original" in the root directory.
 
+GET THIS LIBRARY FROM JITPACK
+=============================
+https://jitpack.io/#NullNoname/jgl-core
+
 INTRODUCTION
 ============
 jGL Unofficial (jgl-core) is an unofficial fork of jGL, a 3D graphics library
