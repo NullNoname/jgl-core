@@ -615,7 +615,7 @@ public class GLU implements Serializable {
     if (JavaGL.glJGetComponent() == null) {
     	JavaGL.getLogger().logError("gluQuadricCallback: Callback class is null");
     } else if (qobj != null && which == GLU_ERROR) {
-	    Class<?>[] parameterTypes = new Class<?>[] { int.class };
+	    Class[] parameterTypes = new Class[] { int.class };
 	    try {
 		qobj.ErrorFunc = JavaGL.glJGetComponent().getClass().getMethod(fn, parameterTypes);
 	    } catch (NoSuchMethodException e) {

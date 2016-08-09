@@ -154,13 +154,13 @@ public class gl_list extends gl_object implements Serializable {
     private gl_context Context;
     private gl_list_item ListItem;
     private boolean ExecuteFlag;
-    private Vector<gl_list_item> ThisList = new Vector<gl_list_item> ();
+    private Vector ThisList = new Vector();
 
     public void gl_exec_list (gl_context CC) {
     	int i;
 
 	for (i = 0; i < ThisList.size (); i++) {
-	    ListItem = ThisList.elementAt (i);
+	    ListItem = (gl_list_item) ThisList.elementAt (i);
 	    switch (ListItem.NodeKind) {
 	    	case NODE_CLEAR_COLOR:
 		    CC.gl_clear_color (ListItem.FloatPtr[0],

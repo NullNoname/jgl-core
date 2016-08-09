@@ -96,7 +96,7 @@ public class gl_context extends gl_object implements Serializable {
     public boolean ModelViewInvValid = true;	/* Is inverse matrix valid? */
 
     /** GL_MODELVIEW_STACK_DEPTH: Modelview matrix stack pointer */
-    public Stack<float []> ModelViewStack = new Stack<float []> ();
+    public Stack ModelViewStack = new Stack ();
 
     /** GL_PROJECTION_MATRIX: Projection matrix stack */
     public float ProjectionMatrix [] = {1, 0, 0, 0,
@@ -105,7 +105,7 @@ public class gl_context extends gl_object implements Serializable {
 					0, 0, 0, 1};
 
     /** GL_PROJECTION_STACK_DEPTH: Projection matrix stack pointer */
-    public Stack<float []> ProjectionStack = new Stack<float []> ();
+    public Stack ProjectionStack = new Stack ();
 
     /** GL_TEXTURE_MATRIX: Texture matrix stack */
     public float TextureMatrix [] = {1, 0, 0, 0,
@@ -116,7 +116,7 @@ public class gl_context extends gl_object implements Serializable {
     public boolean IdentityTexMat = true;   /* Is TextureMatrix Identity? */
 
     /** GL_TEXTURE_STACK_DEPTH: Texture matrix stack pointer */
-    public Stack<float []> TextureStack = new Stack<float []> ();
+    public Stack TextureStack = new Stack ();
 
     /** All other classes for state variables */
     public gl_current       Current       = new gl_current ();
@@ -138,7 +138,7 @@ public class gl_context extends gl_object implements Serializable {
     public gl_feedback      Feedback      = new gl_feedback ();
 
     /** Attrib stack */
-    public Stack<gl_list_item> AttribStack = new Stack<gl_list_item> ();
+    public Stack AttribStack = new Stack ();
 
     /** Current pointer to clipping, geometry, rendering classes */
     public gl_pointer CR = new gl_pointer (this);
@@ -157,10 +157,10 @@ public class gl_context extends gl_object implements Serializable {
     public int ListMode = 0;
 
     /** the vector of display list group */
-    public Vector<gl_list> ListGroup = new Vector<gl_list> ();
+    public Vector ListGroup = new Vector ();
 
     /** the vector of texture list */
-    public Vector<gl_texture_obj> TexList = new Vector<gl_texture_obj> ();
+    public Vector TexList = new Vector ();
 
     public gl_context () {
     	RenderMode = GL.GL_RENDER;
@@ -789,10 +789,10 @@ public class gl_context extends gl_object implements Serializable {
 	gl_list_item AttribItem;
 	int i, mask_number;
 
-	AttribItem = AttribStack.pop ();
+	AttribItem = (gl_list_item) AttribStack.pop ();
 	mask_number = AttribItem.NodeKind;
 	for (i = 0; i < mask_number; i++) {
-	    AttribItem = AttribStack.pop ();
+	    AttribItem = (gl_list_item) AttribStack.pop ();
 	    switch (AttribItem.NodeKind) {
 		case GL.GL_ACCUM_BUFFER_BIT:
 		    break;
@@ -963,14 +963,14 @@ public class gl_context extends gl_object implements Serializable {
     public void gl_pop_matrix () {
     	switch (Transform.MatrixMode) {
 	    case GL.GL_MODELVIEW:
-	    	ModelViewMatrix = ModelViewStack.pop ();
+	    	ModelViewMatrix = (float[]) ModelViewStack.pop ();
 		ModelViewInvValid = false;
 	    	break;
 	    case GL.GL_PROJECTION:
-	    	ProjectionMatrix = ProjectionStack.pop ();
+	    	ProjectionMatrix = (float[]) ProjectionStack.pop ();
 	    	break;
 	    case GL.GL_TEXTURE:
-	    	TextureMatrix = TextureStack.pop ();
+	    	TextureMatrix = (float[]) TextureStack.pop ();
 	    	break;
 	}
     }
@@ -1061,11 +1061,11 @@ public class gl_context extends gl_object implements Serializable {
     }
 
     public void gl_call_list (int list) {
-	(ListGroup.elementAt (list)).gl_exec_list (this);
+	((gl_list) ListGroup.elementAt (list)).gl_exec_list (this);
     }
 
     public void gl_call_offset (int offset) {
-    	(ListGroup.elementAt (ListBase + offset)).gl_exec_list(this);
+    	((gl_list) ListGroup.elementAt (ListBase + offset)).gl_exec_list(this);
     }
 
     public void gl_list_base (int base) {
@@ -1312,7 +1312,7 @@ public class gl_context extends gl_object implements Serializable {
 
     public void gl_bind_texture (int target, int texture) {
 	if (texture >= TexList.size ()) return;
-	gl_texture_obj tex_obj = TexList.elementAt (texture);
+	gl_texture_obj tex_obj = (gl_texture_obj) TexList.elementAt (texture);
 	if (tex_obj == null) return;
 	Texture.bind_texture (target, tex_obj);
     }

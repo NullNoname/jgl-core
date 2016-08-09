@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.nullnoname</groupId>
 	<artifactId>jgl-core</artifactId>
-	<version>2.4.4-SNAPSHOT</version>
+	<version>2.4.5-SNAPSHOT</version>
 	<name>jGL Unofficial</name>
 	<description>An unofficial fork of jGL, a 3D graphics library. It removes all AWT dependencies and most of GUI-related GLUT functions.</description>
 
@@ -56,8 +56,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.4</source>
+					<target>1.4</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -67,6 +67,25 @@
 				<executions>
 					<execution>
 						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.4</version>
+				<configuration>
+					<additionalJOptions>
+						<!-- This option makes sure that the Javadoc pages are generated in English -->
+						<additionalJOption>-J-Duser.language=en_US </additionalJOption>
+					</additionalJOptions>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
 						<goals>
 							<goal>jar</goal>
 						</goals>

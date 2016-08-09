@@ -127,7 +127,6 @@ public class GLAUX implements Serializable {
 	v[0] *= d; v[1] *= d; v[2] *= d;
     }
 
-    @SuppressWarnings("unused")
 	private void m_xformpt (double pin [], double pout [],
 			    double nin [], double nout []) {
 	int i;
@@ -159,7 +158,8 @@ public class GLAUX implements Serializable {
 	normalize(nout);
     }
 
-    @SuppressWarnings("unused")
+    // Unused
+/*
 	private void m_xformptonly (double pin[], double pout[]) {
 	int i;
 	double	ptemp[] = new double [3];
@@ -180,6 +180,7 @@ public class GLAUX implements Serializable {
 	    pout[i] = ptemp[i];
 	}
     }
+*/
 
     // Unused
     /*

@@ -876,7 +876,6 @@ public class GL implements Serializable {
      * @see         #glClearColor(float, float, float, float)
      * @see         #glClearDepth(double)
      * @see         #glClearStencil(int)
-     * @see         #glClearAccum(float, float, float, float)
      */
     /* GLvoid glClear (GLbitfield mask) */
     public void glClear (int mask) {
